@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+    <ApplicationIcon>ChampollionGUI_V2_Logo.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="ChampollionGUI_V2_Logo.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.WindowsAPICodePack">
+      <HintPath>..\..\..\..\..\..\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\WindowsAPIpack\binaries\Microsoft.WindowsAPICodePack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell">
+      <HintPath>..\..\..\..\..\..\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\WindowsAPIpack\binaries\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
