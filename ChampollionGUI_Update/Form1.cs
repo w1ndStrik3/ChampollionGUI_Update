@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Net.Mime.MediaTypeNames;
 using System.Xml.Linq;
-using Microsoft.WindowsAPICodePack.Dialogs;
+//--using Microsoft.WindowsAPICodePack.Dialogs;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 
@@ -23,46 +23,59 @@ namespace ChampollionGUI_Update
         private IContainer components;
         private Button btnHelp;
         private Button btnAbout;
-        private GroupBox groupBox1;
-        private TableLayoutPanel tableLayoutPanel1;
-        private Label label1;
+        private GroupBox groupBoxParams;
+        //private FolderBrowserDialog folderBrowserDialog1;
+        //--private CommonOpenFileDialog folderDiag;
+        private FolderBrowserDialog folderDiag;
+        private GroupBox groupBoxProgress;
+        private ProgressBar pbProgress;
+        private Button btnRun;
+        private Label labelCreatedBy;
+        private LinkLabel linkLabelAuthorOriginal;
+        private Label labelUpdatedBy;
+        private LinkLabel linkLabelAuthorRevision;
+        private Label labelScriptsFolder;
         private TextBox txtScriptsPEXPath;
+        private CheckBox chkOutputAssemblyDiffLocation;
         private Button btnScriptsPathBrowse;
-        private Label label2;
+        private CheckBox chkGenerateAssembly;
+        private Label labelAssemblyDestination;
+        private Label labelSourceDestination;
+        private Button btnSourceDestinationBrowse;
+        private CheckBox chkGenerateComments;
+        private TextBox txtAssemblyPath;
         private CheckBox chkUseDifferentDirectoryForSource;
         private TextBox txtSourcePath;
-        private Button btnSourceDestinationBrowse;
-        private CheckBox chkGenerateAssembly;
-        private CheckBox chkOutputAssemblyDiffLocation;
-        private Label label3;
-        private TextBox txtAssemblyPath;
         private Button btnAssemblyPathBrowse;
-        private CheckBox chkGenerateComments;
-        //private FolderBrowserDialog folderBrowserDialog1;
-        private CommonOpenFileDialog folderDiag;
-        private GroupBox groupBox2;
-        private ProgressBar pbProgress;
-        private TableLayoutPanel tableLayoutPanel2;
-        private Button btnRun;
-        private Label label4;
-        private Label label5;
-        private LinkLabel linkLabel1;
-        private Label label6;
-        private LinkLabel linkLabel2;
+        private LinkLabel linkLabelEndorse;
+        private Label labelVersion;
         private Button btnExit;
 
         #endregion
 
+        private readonly String WarningMessage;
+
         public Form1()
         {
             this.InitializeComponent();
+
+            this.WarningMessage = "You have selected to use a custom directory for the " +
+                                  "{0} files, but you have not specified the desired " +
+                                  "directory. " +
+                                  "\r\n\r\nWould you like to use the default directory? " +
+                                  "\r\n\tSelect \"Yes\" to continue with the default directory " +
+                                  "\r\n\tSelect \"No\" to cancel." +
+                                  "\r\n\r\nDefault directory is: %Scripts Folder%\\{0}";
+
             this.WireEvents();
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing && components != null)
+            {
                 components.Dispose();
+            }
             base.Dispose(disposing);
         }
 
@@ -71,42 +84,39 @@ namespace ChampollionGUI_Update
             ComponentResourceManager resources = new ComponentResourceManager(typeof(Form1));
             btnHelp = new Button();
             btnAbout = new Button();
-            groupBox1 = new GroupBox();
-            tableLayoutPanel1 = new TableLayoutPanel();
-            label1 = new Label();
+            groupBoxParams = new GroupBox();
+            linkLabelEndorse = new LinkLabel();
+            labelScriptsFolder = new Label();
             txtScriptsPEXPath = new TextBox();
+            chkOutputAssemblyDiffLocation = new CheckBox();
             btnScriptsPathBrowse = new Button();
-            label2 = new Label();
+            chkGenerateAssembly = new CheckBox();
+            labelAssemblyDestination = new Label();
+            labelSourceDestination = new Label();
+            btnSourceDestinationBrowse = new Button();
+            chkGenerateComments = new CheckBox();
+            txtAssemblyPath = new TextBox();
             chkUseDifferentDirectoryForSource = new CheckBox();
             txtSourcePath = new TextBox();
-            btnSourceDestinationBrowse = new Button();
-            chkGenerateAssembly = new CheckBox();
-            chkOutputAssemblyDiffLocation = new CheckBox();
-            label3 = new Label();
-            txtAssemblyPath = new TextBox();
             btnAssemblyPathBrowse = new Button();
-            chkGenerateComments = new CheckBox();
-            label4 = new Label();
-            groupBox2 = new GroupBox();
+            groupBoxProgress = new GroupBox();
             pbProgress = new ProgressBar();
-            tableLayoutPanel2 = new TableLayoutPanel();
             btnRun = new Button();
             btnExit = new Button();
-            label5 = new Label();
-            linkLabel1 = new LinkLabel();
-            label6 = new Label();
-            linkLabel2 = new LinkLabel();
-            folderDiag = new CommonOpenFileDialog();
-            groupBox1.SuspendLayout();
-            tableLayoutPanel1.SuspendLayout();
-            groupBox2.SuspendLayout();
-            tableLayoutPanel2.SuspendLayout();
+            labelCreatedBy = new Label();
+            linkLabelAuthorOriginal = new LinkLabel();
+            labelUpdatedBy = new Label();
+            linkLabelAuthorRevision = new LinkLabel();
+            folderDiag = new FolderBrowserDialog();
+            labelVersion = new Label();
+            groupBoxParams.SuspendLayout();
+            groupBoxProgress.SuspendLayout();
             SuspendLayout();
             // 
             // btnHelp
             // 
             btnHelp.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnHelp.Location = new Point(768, 17);
+            btnHelp.Location = new Point(763, 17);
             btnHelp.Margin = new Padding(4, 3, 4, 3);
             btnHelp.Name = "btnHelp";
             btnHelp.Size = new Size(88, 27);
@@ -117,7 +127,7 @@ namespace ChampollionGUI_Update
             // btnAbout
             // 
             btnAbout.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnAbout.Location = new Point(673, 17);
+            btnAbout.Location = new Point(668, 17);
             btnAbout.Margin = new Padding(4, 3, 4, 3);
             btnAbout.Name = "btnAbout";
             btnAbout.Size = new Size(88, 27);
@@ -125,273 +135,213 @@ namespace ChampollionGUI_Update
             btnAbout.Text = "About...";
             btnAbout.UseVisualStyleBackColor = true;
             // 
-            // groupBox1
+            // groupBoxParams
             // 
-            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            groupBox1.Controls.Add(tableLayoutPanel1);
-            groupBox1.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point);
-            groupBox1.Location = new Point(15, 51);
-            groupBox1.Margin = new Padding(4, 3, 4, 3);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Padding = new Padding(4, 3, 4, 3);
-            groupBox1.Size = new Size(840, 387);
-            groupBox1.TabIndex = 4;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "Parameters";
+            groupBoxParams.Controls.Add(linkLabelEndorse);
+            groupBoxParams.Controls.Add(labelScriptsFolder);
+            groupBoxParams.Controls.Add(txtScriptsPEXPath);
+            groupBoxParams.Controls.Add(chkOutputAssemblyDiffLocation);
+            groupBoxParams.Controls.Add(btnScriptsPathBrowse);
+            groupBoxParams.Controls.Add(chkGenerateAssembly);
+            groupBoxParams.Controls.Add(labelAssemblyDestination);
+            groupBoxParams.Controls.Add(labelSourceDestination);
+            groupBoxParams.Controls.Add(btnSourceDestinationBrowse);
+            groupBoxParams.Controls.Add(chkGenerateComments);
+            groupBoxParams.Controls.Add(txtAssemblyPath);
+            groupBoxParams.Controls.Add(chkUseDifferentDirectoryForSource);
+            groupBoxParams.Controls.Add(txtSourcePath);
+            groupBoxParams.Controls.Add(btnAssemblyPathBrowse);
+            groupBoxParams.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            groupBoxParams.Location = new Point(13, 51);
+            groupBoxParams.Margin = new Padding(4, 3, 4, 3);
+            groupBoxParams.Name = "groupBoxParams";
+            groupBoxParams.Padding = new Padding(4, 3, 4, 3);
+            groupBoxParams.Size = new Size(838, 261);
+            groupBoxParams.TabIndex = 4;
+            groupBoxParams.TabStop = false;
+            groupBoxParams.Text = "Parameters";
             // 
-            // tableLayoutPanel1
+            // linkLabelEndorse
             // 
-            tableLayoutPanel1.ColumnCount = 8;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
-            tableLayoutPanel1.Controls.Add(label1, 0, 0);
-            tableLayoutPanel1.Controls.Add(txtScriptsPEXPath, 2, 0);
-            tableLayoutPanel1.Controls.Add(btnScriptsPathBrowse, 7, 0);
-            tableLayoutPanel1.Controls.Add(label2, 0, 2);
-            tableLayoutPanel1.Controls.Add(chkUseDifferentDirectoryForSource, 0, 1);
-            tableLayoutPanel1.Controls.Add(txtSourcePath, 2, 2);
-            tableLayoutPanel1.Controls.Add(btnSourceDestinationBrowse, 7, 2);
-            tableLayoutPanel1.Controls.Add(chkGenerateAssembly, 0, 3);
-            tableLayoutPanel1.Controls.Add(chkOutputAssemblyDiffLocation, 2, 3);
-            tableLayoutPanel1.Controls.Add(label3, 0, 4);
-            tableLayoutPanel1.Controls.Add(txtAssemblyPath, 2, 4);
-            tableLayoutPanel1.Controls.Add(btnAssemblyPathBrowse, 7, 4);
-            tableLayoutPanel1.Controls.Add(chkGenerateComments, 0, 5);
-            tableLayoutPanel1.Controls.Add(label4, 4, 6);
-            tableLayoutPanel1.Location = new Point(7, 25);
-            tableLayoutPanel1.Margin = new Padding(4, 3, 4, 3);
-            tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 9;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 11.11111F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 11.11111F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 11.11111F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 11.11111F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 11.11111F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 11.11111F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 11.11111F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 11.11111F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 11.11111F));
-            tableLayoutPanel1.Size = new Size(825, 352);
-            tableLayoutPanel1.TabIndex = 0;
+            linkLabelEndorse.AutoSize = true;
+            linkLabelEndorse.Location = new Point(611, 146);
+            linkLabelEndorse.Name = "linkLabelEndorse";
+            linkLabelEndorse.Size = new Size(118, 20);
+            linkLabelEndorse.TabIndex = 28;
+            linkLabelEndorse.TabStop = true;
+            linkLabelEndorse.Text = "Please Endorse!";
+            linkLabelEndorse.LinkClicked += linkLabelEndorse_LinkClicked;
             // 
-            // label1
+            // labelScriptsFolder
             // 
-            label1.Anchor = AnchorStyles.Left;
-            label1.AutoSize = true;
-            tableLayoutPanel1.SetColumnSpan(label1, 2);
-            label1.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.Location = new Point(4, 12);
-            label1.Margin = new Padding(4, 0, 4, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(119, 15);
-            label1.TabIndex = 0;
-            label1.Text = "Scripts Folder (.pex):";
+            labelScriptsFolder.AutoSize = true;
+            labelScriptsFolder.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            labelScriptsFolder.Location = new Point(13, 29);
+            labelScriptsFolder.Margin = new Padding(4, 0, 4, 0);
+            labelScriptsFolder.Name = "labelScriptsFolder";
+            labelScriptsFolder.Size = new Size(114, 15);
+            labelScriptsFolder.TabIndex = 14;
+            labelScriptsFolder.Text = "Scripts Folder (.pex):";
             // 
             // txtScriptsPEXPath
             // 
             txtScriptsPEXPath.BackColor = SystemColors.ControlLightLight;
-            tableLayoutPanel1.SetColumnSpan(txtScriptsPEXPath, 5);
-            txtScriptsPEXPath.Location = new Point(210, 3);
+            txtScriptsPEXPath.Location = new Point(223, 23);
             txtScriptsPEXPath.Margin = new Padding(4, 3, 4, 3);
             txtScriptsPEXPath.Name = "txtScriptsPEXPath";
-            txtScriptsPEXPath.Size = new Size(506, 23);
-            txtScriptsPEXPath.TabIndex = 1;
+            txtScriptsPEXPath.Size = new Size(506, 27);
+            txtScriptsPEXPath.TabIndex = 15;
+            // 
+            // chkOutputAssemblyDiffLocation
+            // 
+            chkOutputAssemblyDiffLocation.AutoSize = true;
+            chkOutputAssemblyDiffLocation.Enabled = false;
+            chkOutputAssemblyDiffLocation.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chkOutputAssemblyDiffLocation.Location = new Point(223, 149);
+            chkOutputAssemblyDiffLocation.Margin = new Padding(4, 3, 4, 3);
+            chkOutputAssemblyDiffLocation.Name = "chkOutputAssemblyDiffLocation";
+            chkOutputAssemblyDiffLocation.Size = new Size(229, 19);
+            chkOutputAssemblyDiffLocation.TabIndex = 22;
+            chkOutputAssemblyDiffLocation.Text = "Output Assembly in Different Location";
+            chkOutputAssemblyDiffLocation.UseVisualStyleBackColor = true;
             // 
             // btnScriptsPathBrowse
             // 
-            btnScriptsPathBrowse.Font = new Font("Microsoft Sans Serif", 8.5F, FontStyle.Regular, GraphicsUnit.Point);
-            btnScriptsPathBrowse.Location = new Point(725, 3);
+            btnScriptsPathBrowse.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            btnScriptsPathBrowse.Location = new Point(734, 22);
             btnScriptsPathBrowse.Margin = new Padding(4, 3, 4, 3);
             btnScriptsPathBrowse.Name = "btnScriptsPathBrowse";
-            btnScriptsPathBrowse.Size = new Size(96, 23);
-            btnScriptsPathBrowse.TabIndex = 2;
+            btnScriptsPathBrowse.Size = new Size(96, 29);
+            btnScriptsPathBrowse.TabIndex = 16;
             btnScriptsPathBrowse.Text = "Browse";
             btnScriptsPathBrowse.UseVisualStyleBackColor = true;
             // 
-            // label2
+            // chkGenerateAssembly
             // 
-            label2.Anchor = AnchorStyles.Left;
-            label2.AutoSize = true;
-            tableLayoutPanel1.SetColumnSpan(label2, 2);
-            label2.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.Location = new Point(4, 90);
-            label2.Margin = new Padding(4, 0, 4, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(114, 15);
-            label2.TabIndex = 3;
-            label2.Text = "Source Destination:";
+            chkGenerateAssembly.AutoSize = true;
+            chkGenerateAssembly.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chkGenerateAssembly.Location = new Point(15, 149);
+            chkGenerateAssembly.Margin = new Padding(4, 3, 4, 3);
+            chkGenerateAssembly.Name = "chkGenerateAssembly";
+            chkGenerateAssembly.Size = new Size(127, 19);
+            chkGenerateAssembly.TabIndex = 21;
+            chkGenerateAssembly.Text = "Generate Assembly";
+            chkGenerateAssembly.UseVisualStyleBackColor = true;
+            // 
+            // labelAssemblyDestination
+            // 
+            labelAssemblyDestination.AutoSize = true;
+            labelAssemblyDestination.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            labelAssemblyDestination.Location = new Point(13, 189);
+            labelAssemblyDestination.Margin = new Padding(4, 0, 4, 0);
+            labelAssemblyDestination.Name = "labelAssemblyDestination";
+            labelAssemblyDestination.Size = new Size(124, 15);
+            labelAssemblyDestination.TabIndex = 23;
+            labelAssemblyDestination.Text = "Assembly Destination:";
+            // 
+            // labelSourceDestination
+            // 
+            labelSourceDestination.AutoSize = true;
+            labelSourceDestination.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            labelSourceDestination.Location = new Point(13, 109);
+            labelSourceDestination.Margin = new Padding(4, 0, 4, 0);
+            labelSourceDestination.Name = "labelSourceDestination";
+            labelSourceDestination.Size = new Size(109, 15);
+            labelSourceDestination.TabIndex = 17;
+            labelSourceDestination.Text = "Source Destination:";
+            // 
+            // btnSourceDestinationBrowse
+            // 
+            btnSourceDestinationBrowse.Enabled = false;
+            btnSourceDestinationBrowse.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            btnSourceDestinationBrowse.Location = new Point(734, 102);
+            btnSourceDestinationBrowse.Margin = new Padding(4, 3, 4, 3);
+            btnSourceDestinationBrowse.Name = "btnSourceDestinationBrowse";
+            btnSourceDestinationBrowse.Size = new Size(96, 29);
+            btnSourceDestinationBrowse.TabIndex = 20;
+            btnSourceDestinationBrowse.Text = "Browse";
+            btnSourceDestinationBrowse.UseVisualStyleBackColor = true;
+            // 
+            // chkGenerateComments
+            // 
+            chkGenerateComments.AutoSize = true;
+            chkGenerateComments.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chkGenerateComments.Location = new Point(15, 229);
+            chkGenerateComments.Margin = new Padding(4, 3, 4, 3);
+            chkGenerateComments.Name = "chkGenerateComments";
+            chkGenerateComments.Size = new Size(135, 19);
+            chkGenerateComments.TabIndex = 26;
+            chkGenerateComments.Text = "Generate Comments";
+            chkGenerateComments.UseVisualStyleBackColor = true;
+            // 
+            // txtAssemblyPath
+            // 
+            txtAssemblyPath.BackColor = SystemColors.ControlLightLight;
+            txtAssemblyPath.Enabled = false;
+            txtAssemblyPath.Location = new Point(223, 183);
+            txtAssemblyPath.Margin = new Padding(4, 3, 4, 3);
+            txtAssemblyPath.Name = "txtAssemblyPath";
+            txtAssemblyPath.Size = new Size(506, 27);
+            txtAssemblyPath.TabIndex = 24;
             // 
             // chkUseDifferentDirectoryForSource
             // 
-            chkUseDifferentDirectoryForSource.Anchor = AnchorStyles.Left;
             chkUseDifferentDirectoryForSource.AutoSize = true;
-            tableLayoutPanel1.SetColumnSpan(chkUseDifferentDirectoryForSource, 3);
-            chkUseDifferentDirectoryForSource.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            chkUseDifferentDirectoryForSource.Location = new Point(4, 49);
+            chkUseDifferentDirectoryForSource.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chkUseDifferentDirectoryForSource.Location = new Point(15, 69);
             chkUseDifferentDirectoryForSource.Margin = new Padding(4, 3, 4, 3);
             chkUseDifferentDirectoryForSource.Name = "chkUseDifferentDirectoryForSource";
-            chkUseDifferentDirectoryForSource.Size = new Size(216, 19);
-            chkUseDifferentDirectoryForSource.TabIndex = 4;
-            chkUseDifferentDirectoryForSource.Text = "Output Source in Different Location";
+            chkUseDifferentDirectoryForSource.Size = new Size(247, 19);
+            chkUseDifferentDirectoryForSource.TabIndex = 18;
+            chkUseDifferentDirectoryForSource.Text = "Use custom source (.psc) output directory";
             chkUseDifferentDirectoryForSource.UseVisualStyleBackColor = true;
             // 
             // txtSourcePath
             // 
             txtSourcePath.BackColor = SystemColors.ControlLightLight;
-            tableLayoutPanel1.SetColumnSpan(txtSourcePath, 5);
             txtSourcePath.Enabled = false;
-            txtSourcePath.Location = new Point(210, 81);
+            txtSourcePath.Location = new Point(223, 103);
             txtSourcePath.Margin = new Padding(4, 3, 4, 3);
             txtSourcePath.Name = "txtSourcePath";
-            txtSourcePath.Size = new Size(506, 23);
-            txtSourcePath.TabIndex = 5;
-            // 
-            // btnSourceDestinationBrowse
-            // 
-            btnSourceDestinationBrowse.Enabled = false;
-            btnSourceDestinationBrowse.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            btnSourceDestinationBrowse.Location = new Point(725, 81);
-            btnSourceDestinationBrowse.Margin = new Padding(4, 3, 4, 3);
-            btnSourceDestinationBrowse.Name = "btnSourceDestinationBrowse";
-            btnSourceDestinationBrowse.Size = new Size(96, 23);
-            btnSourceDestinationBrowse.TabIndex = 6;
-            btnSourceDestinationBrowse.Text = "Browse";
-            btnSourceDestinationBrowse.UseVisualStyleBackColor = true;
-            // 
-            // chkGenerateAssembly
-            // 
-            chkGenerateAssembly.Anchor = AnchorStyles.Left;
-            chkGenerateAssembly.AutoSize = true;
-            tableLayoutPanel1.SetColumnSpan(chkGenerateAssembly, 2);
-            chkGenerateAssembly.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            chkGenerateAssembly.Location = new Point(4, 127);
-            chkGenerateAssembly.Margin = new Padding(4, 3, 4, 3);
-            chkGenerateAssembly.Name = "chkGenerateAssembly";
-            chkGenerateAssembly.Size = new Size(132, 19);
-            chkGenerateAssembly.TabIndex = 7;
-            chkGenerateAssembly.Text = "Generate Assembly";
-            chkGenerateAssembly.UseVisualStyleBackColor = true;
-            // 
-            // chkOutputAssemblyDiffLocation
-            // 
-            chkOutputAssemblyDiffLocation.Anchor = AnchorStyles.Left;
-            chkOutputAssemblyDiffLocation.AutoSize = true;
-            tableLayoutPanel1.SetColumnSpan(chkOutputAssemblyDiffLocation, 3);
-            chkOutputAssemblyDiffLocation.Enabled = false;
-            chkOutputAssemblyDiffLocation.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            chkOutputAssemblyDiffLocation.Location = new Point(210, 127);
-            chkOutputAssemblyDiffLocation.Margin = new Padding(4, 3, 4, 3);
-            chkOutputAssemblyDiffLocation.Name = "chkOutputAssemblyDiffLocation";
-            chkOutputAssemblyDiffLocation.Size = new Size(229, 19);
-            chkOutputAssemblyDiffLocation.TabIndex = 8;
-            chkOutputAssemblyDiffLocation.Text = "Output Assembly in Different Location";
-            chkOutputAssemblyDiffLocation.UseVisualStyleBackColor = true;
-            // 
-            // label3
-            // 
-            label3.Anchor = AnchorStyles.Left;
-            label3.AutoSize = true;
-            tableLayoutPanel1.SetColumnSpan(label3, 2);
-            label3.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(4, 168);
-            label3.Margin = new Padding(4, 0, 4, 0);
-            label3.Name = "label3";
-            label3.Size = new Size(127, 15);
-            label3.TabIndex = 9;
-            label3.Text = "Assembly Destination:";
-            // 
-            // txtAssemblyPath
-            // 
-            txtAssemblyPath.BackColor = SystemColors.ControlLightLight;
-            tableLayoutPanel1.SetColumnSpan(txtAssemblyPath, 5);
-            txtAssemblyPath.Enabled = false;
-            txtAssemblyPath.Location = new Point(210, 159);
-            txtAssemblyPath.Margin = new Padding(4, 3, 4, 3);
-            txtAssemblyPath.Name = "txtAssemblyPath";
-            txtAssemblyPath.Size = new Size(506, 23);
-            txtAssemblyPath.TabIndex = 10;
+            txtSourcePath.Size = new Size(506, 27);
+            txtSourcePath.TabIndex = 19;
             // 
             // btnAssemblyPathBrowse
             // 
             btnAssemblyPathBrowse.Enabled = false;
-            btnAssemblyPathBrowse.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            btnAssemblyPathBrowse.Location = new Point(725, 159);
+            btnAssemblyPathBrowse.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            btnAssemblyPathBrowse.Location = new Point(734, 182);
             btnAssemblyPathBrowse.Margin = new Padding(4, 3, 4, 3);
             btnAssemblyPathBrowse.Name = "btnAssemblyPathBrowse";
-            btnAssemblyPathBrowse.Size = new Size(96, 23);
-            btnAssemblyPathBrowse.TabIndex = 11;
+            btnAssemblyPathBrowse.Size = new Size(96, 29);
+            btnAssemblyPathBrowse.TabIndex = 25;
             btnAssemblyPathBrowse.Text = "Browse";
             btnAssemblyPathBrowse.UseVisualStyleBackColor = true;
             // 
-            // chkGenerateComments
+            // groupBoxProgress
             // 
-            chkGenerateComments.Anchor = AnchorStyles.Left;
-            chkGenerateComments.AutoSize = true;
-            tableLayoutPanel1.SetColumnSpan(chkGenerateComments, 2);
-            chkGenerateComments.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            chkGenerateComments.Location = new Point(4, 205);
-            chkGenerateComments.Margin = new Padding(4, 3, 4, 3);
-            chkGenerateComments.Name = "chkGenerateComments";
-            chkGenerateComments.Size = new Size(140, 19);
-            chkGenerateComments.TabIndex = 12;
-            chkGenerateComments.Text = "Generate Comments";
-            chkGenerateComments.UseVisualStyleBackColor = true;
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(415, 234);
-            label4.Name = "label4";
-            label4.Size = new Size(72, 34);
-            label4.TabIndex = 13;
-            label4.Text = "Please Endorse!";
-            // 
-            // groupBox2
-            // 
-            groupBox2.Controls.Add(pbProgress);
-            groupBox2.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point);
-            groupBox2.Location = new Point(15, 444);
-            groupBox2.Margin = new Padding(4, 3, 4, 3);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Padding = new Padding(4, 3, 4, 3);
-            groupBox2.Size = new Size(840, 96);
-            groupBox2.TabIndex = 5;
-            groupBox2.TabStop = false;
-            groupBox2.Text = "Progress";
+            groupBoxProgress.Controls.Add(pbProgress);
+            groupBoxProgress.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            groupBoxProgress.Location = new Point(13, 318);
+            groupBoxProgress.Margin = new Padding(4, 3, 4, 3);
+            groupBoxProgress.Name = "groupBoxProgress";
+            groupBoxProgress.Padding = new Padding(4, 3, 4, 3);
+            groupBoxProgress.Size = new Size(838, 96);
+            groupBoxProgress.TabIndex = 5;
+            groupBoxProgress.TabStop = false;
+            groupBoxProgress.Text = "Progress";
             // 
             // pbProgress
             // 
             pbProgress.Location = new Point(7, 38);
             pbProgress.Margin = new Padding(4, 3, 4, 3);
             pbProgress.Name = "pbProgress";
-            pbProgress.Size = new Size(825, 27);
+            pbProgress.Size = new Size(823, 27);
             pbProgress.TabIndex = 0;
-            // 
-            // tableLayoutPanel2
-            // 
-            tableLayoutPanel2.ColumnCount = 2;
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.Controls.Add(btnRun, 0, 0);
-            tableLayoutPanel2.Controls.Add(btnExit, 1, 0);
-            tableLayoutPanel2.Location = new Point(321, 547);
-            tableLayoutPanel2.Margin = new Padding(4, 3, 4, 3);
-            tableLayoutPanel2.Name = "tableLayoutPanel2";
-            tableLayoutPanel2.RowCount = 1;
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.Size = new Size(233, 38);
-            tableLayoutPanel2.TabIndex = 6;
             // 
             // btnRun
             // 
-            btnRun.Anchor = AnchorStyles.None;
-            btnRun.Location = new Point(14, 5);
+            btnRun.Location = new Point(436, 423);
             btnRun.Margin = new Padding(4, 3, 4, 3);
             btnRun.Name = "btnRun";
             btnRun.Size = new Size(88, 27);
@@ -401,8 +351,7 @@ namespace ChampollionGUI_Update
             // 
             // btnExit
             // 
-            btnExit.Anchor = AnchorStyles.None;
-            btnExit.Location = new Point(130, 5);
+            btnExit.Location = new Point(339, 423);
             btnExit.Margin = new Padding(4, 3, 4, 3);
             btnExit.Name = "btnExit";
             btnExit.Size = new Size(88, 27);
@@ -410,69 +359,80 @@ namespace ChampollionGUI_Update
             btnExit.Text = "Exit";
             btnExit.UseVisualStyleBackColor = true;
             // 
-            // label5
+            // labelCreatedBy
             // 
-            label5.AutoSize = true;
-            label5.Location = new Point(12, 9);
-            label5.Name = "label5";
-            label5.Size = new Size(64, 15);
-            label5.TabIndex = 7;
-            label5.Text = "Created by";
+            labelCreatedBy.AutoSize = true;
+            labelCreatedBy.Location = new Point(12, 9);
+            labelCreatedBy.Name = "labelCreatedBy";
+            labelCreatedBy.Size = new Size(64, 15);
+            labelCreatedBy.TabIndex = 7;
+            labelCreatedBy.Text = "Created by";
             // 
-            // linkLabel1
+            // linkLabelAuthorOriginal
             // 
-            linkLabel1.AutoSize = true;
-            linkLabel1.Location = new Point(73, 9);
-            linkLabel1.Name = "linkLabel1";
-            linkLabel1.Size = new Size(93, 15);
-            linkLabel1.TabIndex = 8;
-            linkLabel1.TabStop = true;
-            linkLabel1.Text = "Arron Dominion";
-            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
+            linkLabelAuthorOriginal.AutoSize = true;
+            linkLabelAuthorOriginal.Location = new Point(73, 9);
+            linkLabelAuthorOriginal.Name = "linkLabelAuthorOriginal";
+            linkLabelAuthorOriginal.Size = new Size(93, 15);
+            linkLabelAuthorOriginal.TabIndex = 8;
+            linkLabelAuthorOriginal.TabStop = true;
+            linkLabelAuthorOriginal.Text = "Arron Dominion";
+            linkLabelAuthorOriginal.LinkClicked += linkLabelAuthorOriginal_LinkClicked;
             // 
-            // label6
+            // labelUpdatedBy
             // 
-            label6.AutoSize = true;
-            label6.Location = new Point(12, 29);
-            label6.Name = "label6";
-            label6.Size = new Size(146, 15);
-            label6.TabIndex = 9;
-            label6.Text = "Updated and enhanced by";
+            labelUpdatedBy.AutoSize = true;
+            labelUpdatedBy.Location = new Point(12, 29);
+            labelUpdatedBy.Name = "labelUpdatedBy";
+            labelUpdatedBy.Size = new Size(146, 15);
+            labelUpdatedBy.TabIndex = 9;
+            labelUpdatedBy.Text = "Updated and enhanced by";
             // 
-            // linkLabel2
+            // linkLabelAuthorRevision
             // 
-            linkLabel2.AutoSize = true;
-            linkLabel2.Location = new Point(154, 29);
-            linkLabel2.Name = "linkLabel2";
-            linkLabel2.Size = new Size(65, 15);
-            linkLabel2.TabIndex = 10;
-            linkLabel2.TabStop = true;
-            linkLabel2.Text = "w1ndStrik3";
-            linkLabel2.LinkClicked += linkLabel2_LinkClicked;
+            linkLabelAuthorRevision.AutoSize = true;
+            linkLabelAuthorRevision.Location = new Point(157, 29);
+            linkLabelAuthorRevision.Name = "linkLabelAuthorRevision";
+            linkLabelAuthorRevision.Size = new Size(65, 15);
+            linkLabelAuthorRevision.TabIndex = 10;
+            linkLabelAuthorRevision.TabStop = true;
+            linkLabelAuthorRevision.Text = "w1ndStrik3";
+            linkLabelAuthorRevision.LinkClicked += linkLabelAuthorRevision_LinkClicked;
+            // 
+            // labelVersion
+            // 
+            labelVersion.AutoSize = true;
+            labelVersion.ForeColor = Color.Gray;
+            labelVersion.Location = new Point(717, 433);
+            labelVersion.Name = "labelVersion";
+            labelVersion.Size = new Size(135, 15);
+            labelVersion.TabIndex = 11;
+            labelVersion.Text = "Version: 2.1 (29/11/2023)";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(869, 600);
-            Controls.Add(linkLabel2);
-            Controls.Add(label6);
-            Controls.Add(linkLabel1);
-            Controls.Add(label5);
-            Controls.Add(tableLayoutPanel2);
-            Controls.Add(groupBox2);
-            Controls.Add(groupBox1);
+            ClientSize = new Size(864, 457);
+            Controls.Add(labelVersion);
+            Controls.Add(btnRun);
+            Controls.Add(linkLabelAuthorRevision);
+            Controls.Add(labelUpdatedBy);
+            Controls.Add(btnExit);
+            Controls.Add(linkLabelAuthorOriginal);
+            Controls.Add(labelCreatedBy);
+            Controls.Add(groupBoxParams);
             Controls.Add(btnAbout);
             Controls.Add(btnHelp);
+            Controls.Add(groupBoxProgress);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4, 3, 4, 3);
             Name = "Form1";
             Text = "Champollion Interface";
-            groupBox1.ResumeLayout(false);
-            tableLayoutPanel1.ResumeLayout(false);
-            tableLayoutPanel1.PerformLayout();
-            groupBox2.ResumeLayout(false);
-            tableLayoutPanel2.ResumeLayout(false);
+            groupBoxParams.ResumeLayout(false);
+            groupBoxParams.PerformLayout();
+            groupBoxProgress.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -621,10 +581,12 @@ namespace ChampollionGUI_Update
         {
             String path = Directory.GetCurrentDirectory();
             folderDiag.InitialDirectory = path;
-            folderDiag.IsFolderPicker = true;
-            if (folderDiag.ShowDialog() == CommonFileDialogResult.Ok)
+            //--folderDiag.IsFolderPicker = true;
+            //--if (folderDiag.ShowDialog() == CommonFileDialogResult.Ok)
+            if (folderDiag.ShowDialog() == DialogResult.OK)
             {
-                path = folderDiag.FileName;
+                //--path = folderDiag.FileName;
+                path = folderDiag.SelectedPath;
             }
             else
             {
@@ -639,6 +601,7 @@ namespace ChampollionGUI_Update
             bool emptyDir = false;
             bool outputSource = false;
             bool outputAssembly = false;
+            bool breakProcess = false;
 
 
             if (Directory.GetFiles(txtScriptsPEXPath.Text, "*.pex").Length == 0)
@@ -686,18 +649,13 @@ namespace ChampollionGUI_Update
                 }
                 else
                 {
-                    String Warning = "You have selected to use a custom directory for the " +
-                                     "source files but have left the directory path field " +
-                                     "Would you like to use the default directory? Select " +
-                                     "\"Yes\" to continue with the default directory or " +
-                                     "select \"No\" to cancel.\r\nDefault directory is: " +
-                                     "%Scripts Folder%\\source";
-
-                    if (new MessageBox("Warning", Warning, true).ShowDialog() != DialogResult.OK)
-                    {
-                        return;
-                    }
+                    breakProcess = SendWarning("source");
                 }
+            }
+
+            if(breakProcess)
+            {
+                return;
             }
 
             if (chkGenerateAssembly.Checked)
@@ -708,21 +666,20 @@ namespace ChampollionGUI_Update
                     {
                         outputAssembly = true;
                     }
-                    String warning = "You have selected to use a custom directory for the " +
-                                     "assembly files but have left the directory path field " +
-                                     "Would you like to use the default directory? Select " +
-                                     "\"Yes\" to continue with the default directory or " +
-                                     "select \"No\" to cancel.\r\nDefault directory is: " +
-                                     "%Scripts Folder%\\assembly";
-
-                    if (new MessageBox("Warning", warning, true).ShowDialog() == DialogResult.OK)
+                    else
                     {
-                        return;
+                        breakProcess = SendWarning("assembly");
                     }
                 }
             }
-            else
+
+            if (breakProcess)
             {
+                return;
+            }
+
+            //else
+            //{
                 if (new MessageBox("Confirm Run", "Are you sure you want to run Champollion?", true).ShowDialog() != DialogResult.OK)
                 {
                     return;
@@ -730,10 +687,13 @@ namespace ChampollionGUI_Update
                 else //(!string.IsNullOrWhiteSpace(txtScriptsPEXPath.Text))
                 {
                     /*
-                    In the name of Christ and everything holy, that was the longest condition statement i have ever seen. Daymn.
+                    In the name of Christ and everything holy, that was the longest condition statement i have ever seen.
                     550 character long condition statement... No offense but I will make it look prettier.
                     This is not a criticism, just very surprised. Look, if it works, it works. Everything else is personal preference.
+                    The condition statement can be expressed in boolean algebra as "F=(A*B*C)+(C*D*E).
                     -w1ndStrik3
+
+
 
                     if (chkUseDifferentDirectoryForSource.Checked && string.IsNullOrWhiteSpace(txtSourcePath.Text) && new MessageBox("Confirm Continue Run", "Output Source is checked but destination is empty. \n Do you want to continue?", true).DialogResult == DialogResult.Cancel || chkGenerateAssembly.Checked && chkOutputAssemblyDiffLocation.Checked && string.IsNullOrWhiteSpace(txtAssemblyPath.Text) && new MessageBox("Confirm Continue Run", "Assembly Location is checked but destination is empty. \n Do you want to continue?", true).DialogResult == DialogResult.Cancel)
                     {
@@ -768,8 +728,10 @@ namespace ChampollionGUI_Update
                         {
                             try
                             {
-                                List<String> StringList = new List<String>();
-                                StringList.Add(String.Format("\"{0}\"", (object)pexFiles[index1]));
+                                List<String> StringList = new List<String>
+                                {
+                                    String.Format("\"{0}\"", (object)pexFiles[index1])
+                                };
 
                                 if (outputSource && !String.IsNullOrWhiteSpace(srcPath))
                                 {
@@ -825,7 +787,7 @@ namespace ChampollionGUI_Update
                                 }
                                 this.Invoke((Delegate)updateProgress);
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
                                 int num = (int)new MessageBox("Champollion Error", String.Format("An error has occurred during execution. \r\n" +
                                                                                                  "Was unable to process {0}. \n Aborting...",
@@ -836,20 +798,35 @@ namespace ChampollionGUI_Update
                         }
                     }));
                     task.Start();
-                    do
-                    {
-                        //wait
-                    }
-                    while (task.Status.Equals((object)TaskStatus.Running));
+                    //do
+                    //{
+                    //    //wait
+                    //}
+                    //while (task.Status.Equals((object)TaskStatus.Running));
 
                     if (encounteredError)
                     {
                         return;
                     }
-                    _ = new MessageBox("Champollion Run Complete", "Champollion has successfully processed all files. \r\n" +
-                                                                    "Verify your scripts. \n Note: Events will be listed as Functions ", false).ShowDialog();
+
+                    task.ContinueWith(task =>
+                    {
+                        _ = new MessageBox("Champollion Run Complete", "Champollion has successfully processed all files. \r\n" +
+                                                                        "Verify your scripts. \n Note: Events will be listed as Functions ", false).ShowDialog();
+                    }); 
                 }
+            //}
+        }
+
+
+        private bool SendWarning(String Type)
+        {
+            if (new MessageBox("Warning", String.Format(WarningMessage, Type), true).ShowDialog() != DialogResult.OK)
+            {
+                return true;
             }
+
+            return false;
         }
 
         private void btnHelp_Click(object sender, EventArgs e)
@@ -874,7 +851,7 @@ namespace ChampollionGUI_Update
         private void btnAbout_Click(object sender, EventArgs e)
         {
             StringBuilder StringBuilder = new StringBuilder();
-            StringBuilder.AppendLine("Champollion a PEX to Papyrus decompiler User Interface Version 2");
+            StringBuilder.AppendLine("Champollion a PEX to Papyrus decompiler Graphical User Interface Version 2.1");
             StringBuilder.AppendLine("");
             StringBuilder.AppendLine("by Arron Dominion (Updated by w1ndStrik3)");
             StringBuilder.AppendLine("");
@@ -884,22 +861,31 @@ namespace ChampollionGUI_Update
             _ = new MessageBox("About", StringBuilder.ToString(), false).ShowDialog();
         }
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void linkLabelAuthorOriginal_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             // Specify that the link was visited.
-            linkLabel1.LinkVisited = true;
+            linkLabelAuthorOriginal.LinkVisited = true;
 
             // Navigate to a URL.
             Process.Start("https://www.nexusmods.com/users/582310");
         }
 
-        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void linkLabelAuthorRevision_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             // Specify that the link was visited.
-            linkLabel2.LinkVisited = true;
+            linkLabelAuthorRevision.LinkVisited = true;
 
             // Navigate to a URL.
             Process.Start("https://www.nexusmods.com/users/39381905");
+        }
+
+        private void linkLabelEndorse_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            // Specify that the link was visited.
+            linkLabelEndorse.LinkVisited = true;
+
+            // Navigate to a URL.
+            Process.Start("https://www.nexusmods.com/skyrimspecialedition/mods/92452");
         }
     }
 }

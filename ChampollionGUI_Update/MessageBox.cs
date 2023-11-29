@@ -8,7 +8,7 @@ namespace ChampollionGUI_Update
     public class MessageBox : Form
     {
         private IContainer components;
-        private Label label1;
+        private Label labelMsgBoxText;
         private TableLayoutPanel tableLayoutPanel1;
         private Button btnOk;
         private PictureBox msgBoxIconField;
@@ -19,7 +19,7 @@ namespace ChampollionGUI_Update
         public MessageBox(String title, String message, bool showCancel) : this()
         {
             this.Text = title;
-            label1.Text = message;
+            labelMsgBoxText.Text = message;
             if (!showCancel)
             {
                 btnCancel.Visible = false;
@@ -39,7 +39,7 @@ namespace ChampollionGUI_Update
             switch (title)
             {
                 case "Run Error":
-                    msgBoxIconField.Image = new Bitmap(Dir+"error.jpg");
+                    msgBoxIconField.Image = new Bitmap(Dir + "error.jpg");
                     break;
                 case "Warning":
                     msgBoxIconField.Image = new Bitmap(Dir + "warning.jpg");
@@ -97,13 +97,15 @@ namespace ChampollionGUI_Update
         protected override void Dispose(bool disposing)
         {
             if (disposing && components != null)
+            {
                 components.Dispose();
+            }
             base.Dispose(disposing);
         }
 
         private void InitializeComponent()
         {
-            label1 = new Label();
+            labelMsgBoxText = new Label();
             tableLayoutPanel1 = new TableLayoutPanel();
             btnOk = new Button();
             btnCancel = new Button();
@@ -112,17 +114,16 @@ namespace ChampollionGUI_Update
             ((ISupportInitialize)msgBoxIconField).BeginInit();
             SuspendLayout();
             // 
-            // label1
+            // labelMsgBoxText
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.Location = new Point(14, 10);
-            label1.Margin = new Padding(4, 0, 4, 0);
-            label1.MaximumSize = new Size(386, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(52, 17);
-            label1.TabIndex = 0;
-            label1.Text = "label1";
+            labelMsgBoxText.AutoSize = true;
+            labelMsgBoxText.Location = new Point(14, 10);
+            labelMsgBoxText.Margin = new Padding(4, 0, 4, 0);
+            labelMsgBoxText.MaximumSize = new Size(386, 0);
+            labelMsgBoxText.Name = "labelMsgBoxText";
+            labelMsgBoxText.Size = new Size(355, 15);
+            labelMsgBoxText.TabIndex = 0;
+            labelMsgBoxText.Text = "Message Box Text Goes Here. If you are seeing this, please report it";
             // 
             // tableLayoutPanel1
             // 
@@ -174,7 +175,7 @@ namespace ChampollionGUI_Update
             ClientSize = new Size(688, 252);
             Controls.Add(msgBoxIconField);
             Controls.Add(tableLayoutPanel1);
-            Controls.Add(label1);
+            Controls.Add(labelMsgBoxText);
             Margin = new Padding(4, 3, 4, 3);
             Name = "MessageBox";
             StartPosition = FormStartPosition.CenterParent;
