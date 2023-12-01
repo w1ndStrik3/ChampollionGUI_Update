@@ -152,7 +152,7 @@ namespace ChampollionGUI_Update
             groupBoxParams.Controls.Add(chkUseDifferentDirectoryForSource);
             groupBoxParams.Controls.Add(txtSourcePath);
             groupBoxParams.Controls.Add(btnAssemblyPathBrowse);
-            groupBoxParams.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            groupBoxParams.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             groupBoxParams.Location = new Point(13, 51);
             groupBoxParams.Margin = new Padding(4, 3, 4, 3);
             groupBoxParams.Name = "groupBoxParams";
@@ -176,7 +176,7 @@ namespace ChampollionGUI_Update
             // labelScriptsFolder
             // 
             labelScriptsFolder.AutoSize = true;
-            labelScriptsFolder.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            labelScriptsFolder.Font = new Font("Segoe UI", 9F);
             labelScriptsFolder.Location = new Point(13, 29);
             labelScriptsFolder.Margin = new Padding(4, 0, 4, 0);
             labelScriptsFolder.Name = "labelScriptsFolder";
@@ -197,7 +197,7 @@ namespace ChampollionGUI_Update
             // 
             chkOutputAssemblyDiffLocation.AutoSize = true;
             chkOutputAssemblyDiffLocation.Enabled = false;
-            chkOutputAssemblyDiffLocation.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chkOutputAssemblyDiffLocation.Font = new Font("Segoe UI", 9F);
             chkOutputAssemblyDiffLocation.Location = new Point(223, 149);
             chkOutputAssemblyDiffLocation.Margin = new Padding(4, 3, 4, 3);
             chkOutputAssemblyDiffLocation.Name = "chkOutputAssemblyDiffLocation";
@@ -208,7 +208,7 @@ namespace ChampollionGUI_Update
             // 
             // btnScriptsPathBrowse
             // 
-            btnScriptsPathBrowse.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            btnScriptsPathBrowse.Font = new Font("Segoe UI", 9F);
             btnScriptsPathBrowse.Location = new Point(734, 22);
             btnScriptsPathBrowse.Margin = new Padding(4, 3, 4, 3);
             btnScriptsPathBrowse.Name = "btnScriptsPathBrowse";
@@ -220,7 +220,7 @@ namespace ChampollionGUI_Update
             // chkGenerateAssembly
             // 
             chkGenerateAssembly.AutoSize = true;
-            chkGenerateAssembly.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chkGenerateAssembly.Font = new Font("Segoe UI", 9F);
             chkGenerateAssembly.Location = new Point(15, 149);
             chkGenerateAssembly.Margin = new Padding(4, 3, 4, 3);
             chkGenerateAssembly.Name = "chkGenerateAssembly";
@@ -232,7 +232,7 @@ namespace ChampollionGUI_Update
             // labelAssemblyDestination
             // 
             labelAssemblyDestination.AutoSize = true;
-            labelAssemblyDestination.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            labelAssemblyDestination.Font = new Font("Segoe UI", 9F);
             labelAssemblyDestination.Location = new Point(13, 189);
             labelAssemblyDestination.Margin = new Padding(4, 0, 4, 0);
             labelAssemblyDestination.Name = "labelAssemblyDestination";
@@ -243,7 +243,7 @@ namespace ChampollionGUI_Update
             // labelSourceDestination
             // 
             labelSourceDestination.AutoSize = true;
-            labelSourceDestination.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            labelSourceDestination.Font = new Font("Segoe UI", 9F);
             labelSourceDestination.Location = new Point(13, 109);
             labelSourceDestination.Margin = new Padding(4, 0, 4, 0);
             labelSourceDestination.Name = "labelSourceDestination";
@@ -254,7 +254,7 @@ namespace ChampollionGUI_Update
             // btnSourceDestinationBrowse
             // 
             btnSourceDestinationBrowse.Enabled = false;
-            btnSourceDestinationBrowse.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            btnSourceDestinationBrowse.Font = new Font("Segoe UI", 9F);
             btnSourceDestinationBrowse.Location = new Point(734, 102);
             btnSourceDestinationBrowse.Margin = new Padding(4, 3, 4, 3);
             btnSourceDestinationBrowse.Name = "btnSourceDestinationBrowse";
@@ -266,7 +266,7 @@ namespace ChampollionGUI_Update
             // chkGenerateComments
             // 
             chkGenerateComments.AutoSize = true;
-            chkGenerateComments.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chkGenerateComments.Font = new Font("Segoe UI", 9F);
             chkGenerateComments.Location = new Point(15, 229);
             chkGenerateComments.Margin = new Padding(4, 3, 4, 3);
             chkGenerateComments.Name = "chkGenerateComments";
@@ -288,7 +288,7 @@ namespace ChampollionGUI_Update
             // chkUseDifferentDirectoryForSource
             // 
             chkUseDifferentDirectoryForSource.AutoSize = true;
-            chkUseDifferentDirectoryForSource.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            chkUseDifferentDirectoryForSource.Font = new Font("Segoe UI", 9F);
             chkUseDifferentDirectoryForSource.Location = new Point(15, 69);
             chkUseDifferentDirectoryForSource.Margin = new Padding(4, 3, 4, 3);
             chkUseDifferentDirectoryForSource.Name = "chkUseDifferentDirectoryForSource";
@@ -310,7 +310,7 @@ namespace ChampollionGUI_Update
             // btnAssemblyPathBrowse
             // 
             btnAssemblyPathBrowse.Enabled = false;
-            btnAssemblyPathBrowse.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            btnAssemblyPathBrowse.Font = new Font("Segoe UI", 9F);
             btnAssemblyPathBrowse.Location = new Point(734, 182);
             btnAssemblyPathBrowse.Margin = new Padding(4, 3, 4, 3);
             btnAssemblyPathBrowse.Name = "btnAssemblyPathBrowse";
@@ -322,7 +322,7 @@ namespace ChampollionGUI_Update
             // groupBoxProgress
             // 
             groupBoxProgress.Controls.Add(pbProgress);
-            groupBoxProgress.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            groupBoxProgress.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             groupBoxProgress.Location = new Point(13, 318);
             groupBoxProgress.Margin = new Padding(4, 3, 4, 3);
             groupBoxProgress.Name = "groupBoxProgress";
@@ -404,11 +404,11 @@ namespace ChampollionGUI_Update
             // 
             labelVersion.AutoSize = true;
             labelVersion.ForeColor = Color.Gray;
-            labelVersion.Location = new Point(717, 433);
+            labelVersion.Location = new Point(683, 433);
             labelVersion.Name = "labelVersion";
-            labelVersion.Size = new Size(135, 15);
+            labelVersion.Size = new Size(169, 15);
             labelVersion.TabIndex = 11;
-            labelVersion.Text = "Version: 2.1 (29/11/2023)";
+            labelVersion.Text = "Version: 2.1 Alpha (29/11/2023)";
             // 
             // Form1
             // 
