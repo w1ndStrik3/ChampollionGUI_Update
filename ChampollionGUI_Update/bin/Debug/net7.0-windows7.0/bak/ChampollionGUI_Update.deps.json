@@ -1,0 +1,53 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v7.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v7.0": {
+      "ChampollionGUI_Update/1.0.0": {
+        "dependencies": {
+          "Microsoft.WindowsAPICodePack": "1.1.0.0",
+          "Microsoft.WindowsAPICodePack.Shell": "1.1.0.0"
+        },
+        "runtime": {
+          "ChampollionGUI_Update.dll": {}
+        }
+      },
+      "Microsoft.WindowsAPICodePack/1.1.0.0": {
+        "runtime": {
+          "Microsoft.WindowsAPICodePack.dll": {
+            "assemblyVersion": "1.1.0.0",
+            "fileVersion": "1.1.0.0"
+          }
+        }
+      },
+      "Microsoft.WindowsAPICodePack.Shell/1.1.0.0": {
+        "runtime": {
+          "Microsoft.WindowsAPICodePack.Shell.dll": {
+            "assemblyVersion": "1.1.0.0",
+            "fileVersion": "1.1.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ChampollionGUI_Update/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.WindowsAPICodePack/1.1.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.WindowsAPICodePack.Shell/1.1.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

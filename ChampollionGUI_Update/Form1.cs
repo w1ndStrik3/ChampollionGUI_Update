@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using Font = System.Drawing.Font;
 using System.IO;
 using System.Reflection;
 using System.Text;
