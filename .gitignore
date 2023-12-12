@@ -3,5 +3,6 @@
 ################################################################################
 
 .vs/
-ChampollionGUI_Update/bak
-ChampollionGUI_Update/bin/Debug
+ChampollionGUI_Update/bak/
+ChampollionGUI_Update/bin/
+notes.txt
