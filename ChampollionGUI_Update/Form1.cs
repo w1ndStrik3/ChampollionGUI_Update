@@ -156,7 +156,7 @@ namespace ChampollionGUI_Update
             ButtonHelp.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             ButtonHelp.Location = new Point(763, 17);
             ButtonHelp.Margin = new Padding(4, 3, 4, 3);
-            ButtonHelp.Name = "btnHelp";
+            ButtonHelp.Name = "ButtonHelp";
             ButtonHelp.Size = new Size(88, 27);
             ButtonHelp.TabIndex = 2;
             ButtonHelp.Text = "Help...";
@@ -167,7 +167,7 @@ namespace ChampollionGUI_Update
             ButtonAbout.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             ButtonAbout.Location = new Point(668, 17);
             ButtonAbout.Margin = new Padding(4, 3, 4, 3);
-            ButtonAbout.Name = "btnAbout";
+            ButtonAbout.Name = "ButtonAbout";
             ButtonAbout.Size = new Size(88, 27);
             ButtonAbout.TabIndex = 3;
             ButtonAbout.Text = "About...";
@@ -192,7 +192,7 @@ namespace ChampollionGUI_Update
             GroupBoxParameters.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             GroupBoxParameters.Location = new Point(13, 51);
             GroupBoxParameters.Margin = new Padding(4, 3, 4, 3);
-            GroupBoxParameters.Name = "groupBoxParams";
+            GroupBoxParameters.Name = "GroupBoxParameters";
             GroupBoxParameters.Padding = new Padding(4, 3, 4, 3);
             GroupBoxParameters.Size = new Size(838, 261);
             GroupBoxParameters.TabIndex = 4;
@@ -216,7 +216,7 @@ namespace ChampollionGUI_Update
             LabelScriptsFolder.Font = new Font("Segoe UI", 9F);
             LabelScriptsFolder.Location = new Point(13, 29);
             LabelScriptsFolder.Margin = new Padding(4, 0, 4, 0);
-            LabelScriptsFolder.Name = "labelScriptsFolder";
+            LabelScriptsFolder.Name = "LabelScriptsFolder";
             LabelScriptsFolder.Size = new Size(114, 15);
             LabelScriptsFolder.TabIndex = 14;
             LabelScriptsFolder.Text = "Scripts Folder (.pex):";
@@ -226,7 +226,7 @@ namespace ChampollionGUI_Update
             TextBoxScriptsPEXPath.BackColor = SystemColors.ControlLightLight;
             TextBoxScriptsPEXPath.Location = new Point(223, 23);
             TextBoxScriptsPEXPath.Margin = new Padding(4, 3, 4, 3);
-            TextBoxScriptsPEXPath.Name = "txtScriptsPEXPath";
+            TextBoxScriptsPEXPath.Name = "TextBoxScriptsPEXPath";
             TextBoxScriptsPEXPath.Size = new Size(506, 27);
             TextBoxScriptsPEXPath.TabIndex = 15;
             // 
@@ -237,7 +237,7 @@ namespace ChampollionGUI_Update
             CheckBoxOutputAssemblyDiffLocation.Font = new Font("Segoe UI", 9F);
             CheckBoxOutputAssemblyDiffLocation.Location = new Point(223, 149);
             CheckBoxOutputAssemblyDiffLocation.Margin = new Padding(4, 3, 4, 3);
-            CheckBoxOutputAssemblyDiffLocation.Name = "chkOutputAssemblyDiffLocation";
+            CheckBoxOutputAssemblyDiffLocation.Name = "CheckBoxOutputAssemblyDiffLocation";
             CheckBoxOutputAssemblyDiffLocation.Size = new Size(229, 19);
             CheckBoxOutputAssemblyDiffLocation.TabIndex = 22;
             CheckBoxOutputAssemblyDiffLocation.Text = "Output Assembly in Different Location";
@@ -248,7 +248,7 @@ namespace ChampollionGUI_Update
             ButtonScriptsPathBrowse.Font = new Font("Segoe UI", 9F);
             ButtonScriptsPathBrowse.Location = new Point(734, 22);
             ButtonScriptsPathBrowse.Margin = new Padding(4, 3, 4, 3);
-            ButtonScriptsPathBrowse.Name = "btnScriptsPathBrowse";
+            ButtonScriptsPathBrowse.Name = "ButtonScriptsPathBrowse";
             ButtonScriptsPathBrowse.Size = new Size(96, 29);
             ButtonScriptsPathBrowse.TabIndex = 16;
             ButtonScriptsPathBrowse.Text = "Browse";
@@ -260,7 +260,7 @@ namespace ChampollionGUI_Update
             CheckBoxGenerateAssembly.Font = new Font("Segoe UI", 9F);
             CheckBoxGenerateAssembly.Location = new Point(15, 149);
             CheckBoxGenerateAssembly.Margin = new Padding(4, 3, 4, 3);
-            CheckBoxGenerateAssembly.Name = "chkGenerateAssembly";
+            CheckBoxGenerateAssembly.Name = "CheckBoxGenerateAssembly";
             CheckBoxGenerateAssembly.Size = new Size(127, 19);
             CheckBoxGenerateAssembly.TabIndex = 21;
             CheckBoxGenerateAssembly.Text = "Generate Assembly";
@@ -272,7 +272,7 @@ namespace ChampollionGUI_Update
             LabelAssemblyDestination.Font = new Font("Segoe UI", 9F);
             LabelAssemblyDestination.Location = new Point(13, 189);
             LabelAssemblyDestination.Margin = new Padding(4, 0, 4, 0);
-            LabelAssemblyDestination.Name = "labelAssemblyDestination";
+            LabelAssemblyDestination.Name = "LabelAssemblyDestination";
             LabelAssemblyDestination.Size = new Size(124, 15);
             LabelAssemblyDestination.TabIndex = 23;
             LabelAssemblyDestination.Text = "Assembly Destination:";
@@ -283,7 +283,7 @@ namespace ChampollionGUI_Update
             LabelSourceDestination.Font = new Font("Segoe UI", 9F);
             LabelSourceDestination.Location = new Point(13, 109);
             LabelSourceDestination.Margin = new Padding(4, 0, 4, 0);
-            LabelSourceDestination.Name = "labelSourceDestination";
+            LabelSourceDestination.Name = "LabelSourceDestination";
             LabelSourceDestination.Size = new Size(109, 15);
             LabelSourceDestination.TabIndex = 17;
             LabelSourceDestination.Text = "Source Destination:";
@@ -362,7 +362,7 @@ namespace ChampollionGUI_Update
             GroupBoxProgress.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             GroupBoxProgress.Location = new Point(13, 318);
             GroupBoxProgress.Margin = new Padding(4, 3, 4, 3);
-            GroupBoxProgress.Name = "groupBoxProgress";
+            GroupBoxProgress.Name = "GroupBoxProgress";
             GroupBoxProgress.Padding = new Padding(4, 3, 4, 3);
             GroupBoxProgress.Size = new Size(838, 96);
             GroupBoxProgress.TabIndex = 5;
@@ -373,7 +373,7 @@ namespace ChampollionGUI_Update
             // 
             ProgressBarProgress.Location = new Point(7, 38);
             ProgressBarProgress.Margin = new Padding(4, 3, 4, 3);
-            ProgressBarProgress.Name = "pbProgress";
+            ProgressBarProgress.Name = "ProgressBarProgress";
             ProgressBarProgress.Size = new Size(823, 27);
             ProgressBarProgress.TabIndex = 0;
             // 
@@ -381,7 +381,7 @@ namespace ChampollionGUI_Update
             // 
             ButtonRun.Location = new Point(436, 423);
             ButtonRun.Margin = new Padding(4, 3, 4, 3);
-            ButtonRun.Name = "btnRun";
+            ButtonRun.Name = "ButtonRun";
             ButtonRun.Size = new Size(88, 27);
             ButtonRun.TabIndex = 0;
             ButtonRun.Text = "Run...";
@@ -401,7 +401,7 @@ namespace ChampollionGUI_Update
             // 
             LabelAuthor.AutoSize = true;
             LabelAuthor.Location = new Point(12, 9);
-            LabelAuthor.Name = "labelCreatedBy";
+            LabelAuthor.Name = "LabelAuthor";
             LabelAuthor.Size = new Size(64, 15);
             LabelAuthor.TabIndex = 7;
             LabelAuthor.Text = "Created by";
@@ -410,7 +410,7 @@ namespace ChampollionGUI_Update
             // 
             LinkLabelAuthorOriginal.AutoSize = true;
             LinkLabelAuthorOriginal.Location = new Point(73, 9);
-            LinkLabelAuthorOriginal.Name = "linkLabelAuthorOriginal";
+            LinkLabelAuthorOriginal.Name = "LinkLabelAuthorOriginal";
             LinkLabelAuthorOriginal.Size = new Size(93, 15);
             LinkLabelAuthorOriginal.TabIndex = 8;
             LinkLabelAuthorOriginal.TabStop = true;
@@ -421,7 +421,7 @@ namespace ChampollionGUI_Update
             // 
             LabelUpdatedBy.AutoSize = true;
             LabelUpdatedBy.Location = new Point(12, 29);
-            LabelUpdatedBy.Name = "labelUpdatedBy";
+            LabelUpdatedBy.Name = "LabelUpdatedBy";
             LabelUpdatedBy.Size = new Size(146, 15);
             LabelUpdatedBy.TabIndex = 9;
             LabelUpdatedBy.Text = "Updated and enhanced by";
@@ -430,7 +430,7 @@ namespace ChampollionGUI_Update
             // 
             LinkLabelAuthorRevision.AutoSize = true;
             LinkLabelAuthorRevision.Location = new Point(157, 29);
-            LinkLabelAuthorRevision.Name = "linkLabelAuthorRevision";
+            LinkLabelAuthorRevision.Name = "LinkLabelAuthorRevision";
             LinkLabelAuthorRevision.Size = new Size(65, 15);
             LinkLabelAuthorRevision.TabIndex = 10;
             LinkLabelAuthorRevision.TabStop = true;
@@ -445,7 +445,7 @@ namespace ChampollionGUI_Update
             labelVersion.Name = "labelVersion";
             labelVersion.Size = new Size(169, 15);
             labelVersion.TabIndex = 11;
-            labelVersion.Text = "Version: 2.1 Alpha (29/11/2023)";
+            labelVersion.Text = "Version: 2.1 Alpha (12/12/2023)";
             // 
             // Form1
             // 
@@ -464,9 +464,7 @@ namespace ChampollionGUI_Update
             Controls.Add(ButtonHelp);
             Controls.Add(GroupBoxProgress);
             FormBorderStyle = FormBorderStyle.FixedDialog;
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
             Icon = (Icon)resources.GetObject("$this.Icon");
-#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
             Margin = new Padding(4, 3, 4, 3);
             Name = "Form1";
             Text = "Champollion Interface";
