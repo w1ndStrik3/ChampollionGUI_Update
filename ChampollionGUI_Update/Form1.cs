@@ -726,8 +726,6 @@ namespace ChampollionGUI_Update
             }
             return Path;
         }
-
-        
         #endregion
     }
 }
