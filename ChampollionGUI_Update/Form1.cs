@@ -464,7 +464,9 @@ namespace ChampollionGUI_Update
             Controls.Add(ButtonHelp);
             Controls.Add(GroupBoxProgress);
             FormBorderStyle = FormBorderStyle.FixedDialog;
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
             Icon = (Icon)resources.GetObject("$this.Icon");
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
             Margin = new Padding(4, 3, 4, 3);
             Name = "Form1";
             Text = "Champollion Interface";
