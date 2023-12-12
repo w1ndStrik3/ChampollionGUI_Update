@@ -14,29 +14,52 @@ namespace ChampollionGUI_Update
         private PictureBox msgBoxIconField;
         private Button btnCancel;
 
+        #pragma warning disable CS8618
         public MessageBox() => this.InitializeComponent();
+        #pragma warning restore CS8618
 
-        public MessageBox(String title, String message, bool showCancel) : this()
+        //************************************************************************
+        /// <summary>
+        /// A new Message box is constructed, with the three parameters "Title",
+        /// "Message" and "showCancel".
+        /// </summary>
+        /// <param name="Title">
+        /// The Title shown in the top bar/edge of the Message box.
+        /// </param>
+        /// <param name="Message">
+        /// The text of the Message that the Message box will display.
+        /// </param>
+        /// <param name="showCancel">
+        /// The boolean "showCancel" indicates whether the Message box should
+        /// display "Cancel" button in addition to the "OK" button, or only the
+        /// "OK" button. When "showCancel" is true, the "Cancel" button is
+        /// displayed.
+        /// </param>
+        //************************************************************************
+        public MessageBox(String Title, String Message, bool showCancel) : this()
         {
-            this.Text = title;
-            labelMsgBoxText.Text = message;
+            this.Text = Title;
+            labelMsgBoxText.Text = Message;
             if (!showCancel)
             {
                 btnCancel.Visible = false;
             }
+            /*
             else
             {
                 btnOk.Text = "Yes";
                 btnCancel.Text = "No";
             }
-            iconSelect(title);
+            */
+
+            iconSelect(Title);
             this.WireEvents();
         }
 
-        private void iconSelect(String title)
+        private void iconSelect(String Title)
         {
             String Dir = Directory.GetCurrentDirectory() + @"\images\";
-            switch (title)
+            switch (Title)
             {
                 case "Run Error":
                     msgBoxIconField.Image = new Bitmap(Dir + "error.jpg");
@@ -74,21 +97,28 @@ namespace ChampollionGUI_Update
             btnCancel.Click -= new EventHandler(this.btnCancel_Click);
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
+        private void btnCancel_Click(Object? Sender, EventArgs EA)
         {
             this.UnWireEvents();
             this.DialogResult = DialogResult.Cancel;
         }
 
-        //Adds check to see if the user if a wierdo and clicks the close (X) button
-        //in the corner instead of using the No/Cancel button like a normal human
-        private void MessageBox_FormClosing(object sender, FormClosingEventArgs e)
+        //************************************************************************
+        /// <summary>
+        /// Adds check to see if the user if a wierdo and clicks the close (X) 
+        /// button in the corner instead of using the No/Cancel button like a 
+        /// normal human
+        /// </summary>
+        /// <param name="Sender"></param>
+        /// <param name="FCEA"></param>
+        //************************************************************************
+        private void MessageBox_FormClosing(Object? Sender, FormClosingEventArgs FCEA)
         {
             _ = new EventHandler(this.btnCancel_Click);
-            e.Cancel = true;
+            FCEA.Cancel = true;
         }
 
-        private void btnOk_Click(object sender, EventArgs e)
+        private void btnOk_Click(Object? Sender, EventArgs EA)
         {
             this.UnWireEvents();
             this.DialogResult = DialogResult.OK;
