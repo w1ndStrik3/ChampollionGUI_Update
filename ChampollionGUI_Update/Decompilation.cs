@@ -1,31 +1,58 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
+
+#pragma warning disable CS8618
+#pragma warning disable CS8622
 
 namespace ChampollionGUI_Update
 {
     public class Decompilation : Form1
     {
-        public bool[,] PreDecompilationChecks()
+        private Process DecompilationProcess;
+        private System.Threading.Timer outputTimeoutTimer;
+        private readonly int timeoutMilliseconds = 5000;
+
+        private bool outputSource = false;
+        private bool useDefaultSourceDirectory = false;
+
+        private bool outputAssembly = false;
+        private bool useDefaultAssemblyDirectory = false;
+
+        private bool generateAssembly = false;
+        private bool generateComments = false;
+
+        private String PexFileDirectory = "";
+
+        private String DefaultSourceDirectory = "";
+        private String DefaultAssemblyDirectory = "";
+
+        private String SourcePath = "";
+        private String AssemblyPath = "";
+
+        #region Pre decompilation methods
+        public char PreDecompilationChecks()
         {
+            char result = 'E';
+
             bool pexDirOK = (!String.IsNullOrWhiteSpace(TextBoxScriptsPEXPath.Text) && Directory.Exists(TextBoxScriptsPEXPath.Text));
 
-            bool outputSource = false;
-            bool useDefaultSourceDirectory = false;
+            bool threaded = CheckBoxThreaded.Checked;
+            bool ignoreCorrupt = CheckBoxIgnoreCorruptFiles.Checked;
 
-            bool outputAssembly = false;
-            bool useDefaultAssemblyDirectory = false;
+            generateAssembly = CheckBoxGenerateAssembly.Checked;
+            generateComments = CheckBoxGenerateComments.Checked;
+
             //bool breakProcess = false;
 
             if (!pexDirOK)
             {
-                if (!String.IsNullOrWhiteSpace(TextBoxScriptsPEXPath.Text))
+                if (String.IsNullOrWhiteSpace(TextBoxScriptsPEXPath.Text))
                 {
                     _ = new MessageBox("Run Error", "Unable to run - Scripts Path empty", false).ShowDialog();
+
+                    throw new PreDecompilationException($"Pex Path is Null or Whitespace:");
                 }
                 else if (!Directory.Exists(TextBoxScriptsPEXPath.Text))
                 {
@@ -35,16 +62,10 @@ namespace ChampollionGUI_Update
                 else //if(!emptyDir)
                 {
                     //Something real fishy should happen for this to trigger. No idea how it would.
-                    String Fishy = "Unknown Error. Please report the following error message\r\n" +
-                                   "on the mod page on nexus mods along with a screenshot:" +
-                                   "\r\nError message: pexDirOK Failed Check";
-
-                    _ = new MessageBox("Run Error", Fishy, false).ShowDialog();
-
-
+                    Fishy("pexDirOK Failed Check");
                 }
 
-                throw new ChampollionGUIException();
+                throw new PreDecompilationException("");
             }
 
             if (Directory.GetFiles(TextBoxScriptsPEXPath.Text, "*.pex").Length == 0)
@@ -58,16 +79,16 @@ namespace ChampollionGUI_Update
                     _ = new MessageBox("Run Error", "Unable to run - Chosen scripts directory does not contain any .pex files.", false).ShowDialog();
                 }
 
-                throw new ChampollionGUIException();
+                throw new PreDecompilationException("");
 
                 //pexDirOK = false;
                 //emptyDir = true;
             }
 
-            if (chkUseDifferentDirectoryForSource.Checked)
+            if (CheckBoxUseDifferentDirectoryForSource.Checked)
             {
-                //if (!String.IsNullOrWhiteSpace(txtSourcePath.Text) && Directory.Exists(txtSourcePath.Text))
-                if (CheckDirectory(txtSourcePath.Text))
+                //if (!String.IsNullOrWhiteSpace(TextBoxSourcePath.PexFileDirectory) && Directory.Exists(TextBoxSourcePath.PexFileDirectory))
+                if (CheckDirectory(TextBoxSourcePath.Text))
                 {
                     outputSource = true;
                 }
@@ -75,7 +96,7 @@ namespace ChampollionGUI_Update
                 {
                     if (!SendWarning("source"))
                     {
-                        throw new ChampollionGUIException();
+                        throw new PreDecompilationException("");
                     }
                     useDefaultSourceDirectory = true;
                 }
@@ -88,12 +109,12 @@ namespace ChampollionGUI_Update
             }
             */
 
-            if (CheckBoxGenerateAssembly.Checked)
+            if (generateAssembly)
             {
                 if (CheckBoxOutputAssemblyDiffLocation.Checked)
                 {
-                    //if (!String.IsNullOrWhiteSpace(txtAssemblyPath.Text) && Directory.Exists(txtAssemblyPath.Text))
-                    if (CheckDirectory(txtAssemblyPath.Text))
+                    //if (!String.IsNullOrWhiteSpace(TextBoxAssemblyPath.PexFileDirectory) && Directory.Exists(TextBoxAssemblyPath.PexFileDirectory))
+                    if (CheckDirectory(TextBoxAssemblyPath.Text))
                     {
                         outputAssembly = true;
                     }
@@ -101,7 +122,7 @@ namespace ChampollionGUI_Update
                     {
                         if (!SendWarning("assembly"))
                         {
-                            throw new ChampollionGUIException();
+                            throw new PreDecompilationException("");
                         }
                         useDefaultAssemblyDirectory = true;
                     }
@@ -115,6 +136,7 @@ namespace ChampollionGUI_Update
             }
             */
 
+            /*
             bool[,] result =
             {
                 {
@@ -127,6 +149,47 @@ namespace ChampollionGUI_Update
                     useDefaultAssemblyDirectory //[1,1]
                 }
             };
+            */
+
+            if (threaded && !ignoreCorrupt) //Threaded decompilation
+            {
+                result = 'T';
+            }
+            else if (ignoreCorrupt && !threaded) //Ignoring corrupt/errouneous files decompilation
+            {
+                result = 'I';
+            }
+            else if (!threaded && !ignoreCorrupt) //Regular decompilation
+            {
+                result = 'R';
+            }
+            else if (threaded && ignoreCorrupt) //Should not happen
+            {
+                Fishy("Threaded & Ignore Corrupt both true");
+
+            }
+            else //Critical error, which I cannot imagine whould ever occur
+            {
+                Fishy("Threaded & Ignore Corrupt Critical Error");
+            }
+
+            PexFileDirectory = TextBoxScriptsPEXPath.Text;
+
+            DefaultSourceDirectory = PexFileDirectory + @"\source";
+            DefaultAssemblyDirectory = PexFileDirectory + @"\assembly";
+
+            SourcePath = DefaultSourceDirectory;
+            AssemblyPath = DefaultAssemblyDirectory;
+
+            if (!useDefaultSourceDirectory)
+            {
+                SourcePath = TextBoxSourcePath.Text;
+            }
+
+            if (!useDefaultAssemblyDirectory)
+            {
+                AssemblyPath = TextBoxAssemblyPath.Text;
+            }
 
             return result;
         }
@@ -150,8 +213,10 @@ namespace ChampollionGUI_Update
             bool exists = Directory.Exists(Path);
             return !isEmpty && exists;
         }
+        #endregion
 
-        public void Run(bool[,] arguments)
+        #region The meat and potatoes
+        public void Decompile(char option)
         {
             /*
              * arguments: [[a,b],[c,d]]
@@ -160,172 +225,422 @@ namespace ChampollionGUI_Update
              * b(x) = 0; b(y) = 1 -> b = [0,1]
              * c(x) = 1; c(y) = 0 -> c = [1,0] 
              * d(x) = 1; d(y) = 1 -> d = [1,1]
+             *
+             *
+             *                                          (x)
+             *                         0                                   1                 
+             *       +-----------------------------------+-----------------------------------+
+             *       |                                   |                                   |    
+             *     0 |           outputSource            |           outputAssembly          |          
+             *       |                                   |                                   |
+             *  (y)  +-----------------------------------+-----------------------------------+
+             *       |                                   |                                   |
+             *     1 |     useDefaultSourceDirectory     |    useDefaultAssemblyDirectory    |
+             *       |                                   |                                   |
+             *       +-----------------------------------+-----------------------------------+      
+             *
+             * I spent almost 50 minutes doing this diagram. I need to learn to prioritize stuff
+             * Six hours later, I have just found out that this Diagram is completely useless, 
+             * Since I am no longer using the array stuff that this diagram was trying to visualize
              */
 
-            //                                          (x)
-            //                         0                                   1                 
-            //       +-----------------------------------+-----------------------------------+
-            //       |                                   |                                   |    
-            //     0 |           outputSource            |           outputAssembly          |          
-            //       |                                   |                                   |
-            //  (y)  +-----------------------------------+-----------------------------------+
-            //       |                                   |                                   |
-            //     1 |     useDefaultSourceDirectory     |    useDefaultAssemblyDirectory    |
-            //       |                                   |                                   |
-            //       +-----------------------------------+-----------------------------------+      
+            switch (option)
+            {
+                case 'T':
+                    ThreadedDecompilation();
+                    break;
+                case 'I':
+                    IgnoreCorruptFilesDecompilation();
+                    break;
+                case 'R':
+                    RegularDecompilation();
+                    break;
+                default:
+                    Fishy("Switch Option is default");
+                    break;
+            }
+        }
 
-            //I spent almost 50 minutes doing this diagram. I need to learn to prioritize stuff
+        private void RegularDecompilation()
+        {
+            /*
+               In the name of Christ and everything holy, that was the longest condition statement i have ever seen.
+               550 character long condition statement... No offense but I will make it look prettier.
+               This is not a criticism, just very surprised. Look, if it works, it works. Everything else is personal preference.
+               The condition statement can be expressed in boolean algebra as "F=(A*B*C)+(C*D*E).
+               -w1ndStrik3
 
+               if (CheckBoxUseDifferentDirectoryForSource.Checked && string.IsNullOrWhiteSpace(TextBoxSourcePath.PexFileDirectory) && new MessageBox("Confirm Continue Decompile", "LastLine Source is checked but destination is empty. \n Do you want to continue?", true).DialogResult == DialogResult.Cancel || CheckBoxGenerateAssembly.Checked && CheckBoxOutputAssemblyDiffLocation.Checked && string.IsNullOrWhiteSpace(TextBoxAssemblyPath.PexFileDirectory) && new MessageBox("Confirm Continue Decompile", "Assembly Location is checked but destination is empty. \n Do you want to continue?", true).DialogResult == DialogResult.Cancel)
+               {
+                   return;
+               }
+               */
+            /*
             bool outputSource = arguments[0, 0];
             bool useDefaultSourceDirectory = arguments[0, 1];
             bool outputAssembly = arguments[1, 0];
             bool useDefaultAssemblyDirectory = arguments[1, 1];
+            */
 
-            #region The meat and potatoes
-            if (new MessageBox("Confirm Run", "Are you sure you want to run Champollion?", true).ShowDialog() != DialogResult.OK)
+            /*
+            String PexFileDirectory = TextBoxScriptsPEXPath.PexFileDirectory;
+            
+            String DefaultSourceDirectory = PexFileDirectory + @"\source";
+            String DefaultAssemblyDirectory = PexFileDirectory + @"\assembly";
+
+            String SourcePath = DefaultSourceDirectory;
+            String AssemblyPath = DefaultAssemblyDirectory;
+            */
+
+            /*
+            if (!useDefaultSourceDirectory)
             {
-                return;
+                SourcePath = TextBoxSourcePath.PexFileDirectory;
             }
-            else //(!string.IsNullOrWhiteSpace(TextBoxScriptsPEXPath.Text))
+
+            if (!useDefaultAssemblyDirectory)
             {
-                /*
-                In the name of Christ and everything holy, that was the longest condition statement i have ever seen.
-                550 character long condition statement... No offense but I will make it look prettier.
-                This is not a criticism, just very surprised. Look, if it works, it works. Everything else is personal preference.
-                The condition statement can be expressed in boolean algebra as "F=(A*B*C)+(C*D*E).
-                -w1ndStrik3
-                
-                if (chkUseDifferentDirectoryForSource.Checked && string.IsNullOrWhiteSpace(txtSourcePath.Text) && new MessageBox("Confirm Continue Run", "Output Source is checked but destination is empty. \n Do you want to continue?", true).DialogResult == DialogResult.Cancel || CheckBoxGenerateAssembly.Checked && CheckBoxOutputAssemblyDiffLocation.Checked && string.IsNullOrWhiteSpace(txtAssemblyPath.Text) && new MessageBox("Confirm Continue Run", "Assembly Location is checked but destination is empty. \n Do you want to continue?", true).DialogResult == DialogResult.Cancel)
+                AssemblyPath = TextBoxAssemblyPath.PexFileDirectory;
+            }
+            */
+
+            //bool outputSource = CheckBoxUseDifferentDirectoryForSource.Checked;
+
+            //bool outputAssembly = CheckBoxOutputAssemblyDiffLocation.Checked;
+
+            String LastLine = "";
+
+            String[] PexFiles = Directory.GetFiles(PexFileDirectory, "*.pex");
+
+            ProgressBarProgress.Maximum = PexFiles.Length;
+            ProgressBarProgress.Value = 0;
+
+            Action UpdateProgress = (Action)(() =>
+            {
+                ++ProgressBarProgress.Value;
+                ProgressBarProgress.Refresh();
+            });
+            bool encounteredError = false;
+            Task DecompilationTask = new Task((Action)(() =>
+            {
+                //TODO: Rewrite this.
+                //This implementation essentially takes each file and gives each file as a
+                //separate command to Champollion instead of just giving champollion an
+                //entire directory to decompile. This substantially increases the waiting
+                //time for the user.
+
+                for (int index1 = 0; index1 < PexFiles.Length; ++index1)
                 {
-                    return;
-                }
-                */
-
-                String Text = TextBoxScriptsPEXPath.Text;
-                String SourcePath = txtSourcePath.Text;
-                String AssemblyPath = txtAssemblyPath.Text;
-                String DefaultSourceDirectory = Text + @"\source";
-                String DefaultAssemblyDirectory = Text + @"\assembly";
-                //bool outputSource = chkUseDifferentDirectoryForSource.Checked;
-                bool generateAssembly = CheckBoxGenerateAssembly.Checked;
-                //bool outputAssembly = CheckBoxOutputAssemblyDiffLocation.Checked;
-                bool generateComments = chkGenerateComments.Checked;
-
-                String[] PexFiles = Directory.GetFiles(Text, "*.pex");
-
-                ProgressBarProgress.Maximum = PexFiles.Length;
-                ProgressBarProgress.Value = 0;
-
-                Action UpdateProgress = (Action)(() =>
-                {
-                    ++ProgressBarProgress.Value;
-                    ProgressBarProgress.Refresh();
-                });
-                bool encounteredError = false;
-                Task DecompilationTask = new Task((Action)(() =>
-                {
-                    //TODO: Rewrite this.
-                    //This implementation essentially takes each file and gives each file as a
-                    //separate command to Champollion instead of just giving champollion an
-                    //entire directory to decompile. While this allows the program to halt the
-                    //decompilation as soon as an erroneous/corrupt file is encountered, it
-                    //also results in a longer waiting time for the user, espcially if the
-                    //user wants to decompile a large amount of files. Additionally, the user
-                    //may not care if some files are corrupt, and would prefer to just have
-                    //the program skip over those files instead and continue on.
-
-                    for (int index1 = 0; index1 < PexFiles.Length; ++index1)
+                    try
                     {
-                        try
+                        /*
+                        List<String> CommandList = new List<String>
                         {
-                            List<String> StringList = new List<String>
-                            {
-                                    String.Format("\"{0}\"", (object)PexFiles[index1])
-                            };
+                            String.Format("\"{0}\"", (object)PexFiles[index1])
+                        };
 
-                            if (outputSource && !String.IsNullOrWhiteSpace(SourcePath))
+                        if (outputSource && !String.IsNullOrWhiteSpace(SourcePath))
+                        {
+                            CommandList.Add(String.Format(" -p \"{0}\"", (object)SourcePath));
+                        }
+                        else
+                        {
+                            CommandList.Add(String.Format(" -p \"{0}\"", (object)DefaultSourceDirectory));
+                        }
+
+                        if (generateAssembly)
+                        {
+                            CommandList.Add(" -a");
+
+                            if (outputAssembly && !String.IsNullOrWhiteSpace(AssemblyPath))
                             {
-                                StringList.Add(String.Format(" -p \"{0}\"", (object)SourcePath));
+
+                                CommandList.Add(String.Format(" \"{0}\"", (object)AssemblyPath));
                             }
                             else
                             {
-                                StringList.Add(String.Format(" -p \"{0}\"", (object)DefaultSourceDirectory));
+                                CommandList.Add(String.Format(" \"{0}\"", (object)DefaultAssemblyDirectory));
                             }
+                        }
+                        if (generateComments)
+                        {
+                            CommandList.Add(" -c");
+                        }
+                        String Str = "";
+                        for (int index2 = 0; index2 < CommandList.Count; ++index2)
+                        {
+                            Str += CommandList[index2];
+                        }
+                        */
 
-                            if (generateAssembly)
+                        String Command = CommandBuilder(PexFiles[index1], SourcePath, AssemblyPath, false);
+
+                        DecompilationProcess = new Process();
+
+                        DecompilationProcess.StartInfo.UseShellExecute = false;
+                        DecompilationProcess.StartInfo.RedirectStandardOutput = true;
+
+                        DecompilationProcess.StartInfo.WorkingDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                        DecompilationProcess.StartInfo.FileName = Path.GetFileName("Champollion.exe");
+                        DecompilationProcess.StartInfo.Arguments = Command;
+
+                        DecompilationProcess.OutputDataReceived += (Sender, E) =>
+                        {
+                            if (!String.IsNullOrWhiteSpace(E.Data))
                             {
-                                StringList.Add(" -a");
-
-                                if (outputAssembly && !String.IsNullOrWhiteSpace(AssemblyPath))
-                                {
-
-                                    StringList.Add(String.Format(" \"{0}\"", (object)AssemblyPath));
-                                }
-                                else
-                                {
-                                    StringList.Add(String.Format(" -p \"{0}\"", (object)DefaultAssemblyDirectory));
-                                }
+                                outputTimeoutTimer.Change(timeoutMilliseconds, Timeout.Infinite);
+                                LastLine = E.Data;
+                                this.Invoke((Delegate)UpdateProgress);
                             }
-                            if (generateComments)
-                            {
-                                StringList.Add(" -c");
-                            }
-                            String Str = "";
-                            for (int index2 = 0; index2 < StringList.Count; ++index2)
-                            {
-                                Str += StringList[index2];
-                            }
-                            Process DecompilationProcess = new Process();
-                            DecompilationProcess.StartInfo.UseShellExecute = false;
-                            DecompilationProcess.StartInfo.RedirectStandardOutput = true;
-                            DecompilationProcess.StartInfo.WorkingDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                            DecompilationProcess.StartInfo.FileName = Path.GetFileName("Champollion.exe");
-                            DecompilationProcess.StartInfo.Arguments = Str;
-                            DecompilationProcess.Start();
-                            String End = DecompilationProcess.StandardOutput.ReadToEnd();
-                            DecompilationProcess.WaitForExit();
+                        };
 
-                            do
-                            {
-                                //wait
-                            }
-                            while (!DecompilationProcess.HasExited);
+                        DecompilationProcess.Start();
 
-                            if (!End.Contains("files process"))
+                        DecompilationProcess.BeginOutputReadLine();
+
+                        String End = DecompilationProcess.StandardOutput.ReadToEnd();
+                        DecompilationProcess.WaitForExit(5000);
+
+                        if (!DecompilationProcess.HasExited)
+                        {
+                            DecompilationProcess.Kill();
+                            throw new IntraDecompilationException($"Champollion encountered an error while decompiling {PexFiles[index1]}");
+                        }
+
+                        /*
+                        do
+                        {
+                            //wait
+                        }
+                        while (!DecompilationProcess.HasExited);
+                        */
+
+                        if (!End.Contains("files processed in"))
+                        {
+                            throw new IntraDecompilationException($"Champollion encountered an error while decompiling {PexFiles[index1]}. ");
+                        }
+
+                        if (End.Contains("ERROR: "))
+                        {
+                            throw new IntraDecompilationException($"There was a problem with the file {PexFiles[index1]}. It is likely corrupt. ");
+                        }
+
+                        this.Invoke((Delegate)UpdateProgress);
+                    }
+                    catch (IntraDecompilationException IDE)
+                    {
+                        _ = new MessageBox("Champollion Error", IDE.Message + "Aborting...", false).ShowDialog();
+                        /*
+                        _ = new MessageBox("Champollion Error", String.Format("An error has occurred during execution. \r\n" +
+                                                                                         "Champollion was unable to process {0}. \n Aborting...",
+                                                                                         (object)PexFiles[index1]), false).ShowDialog();
+                        */
+                        encounteredError = true;
+                        break;
+                    }
+                }
+            }));
+            DecompilationTask.Start();
+
+            /*
+            do
+            {
+                //wait
+            }
+            while (DecompilationTask.Status.Equals((object)TaskStatus.Running));
+            */
+
+            /*
+            if (encounteredError)
+            {
+                return;
+            }
+            */
+
+            DecompilationTask.ContinueWith(task =>
+            {
+                if (!encounteredError)
+                {
+                    DisplayMessageOnCompletetion(LastLine, 0);
+                }
+            });
+        }
+
+        private void IgnoreCorruptFilesDecompilation()
+        {
+            ProgressBarProgress.Maximum = Directory.GetFiles(PexFileDirectory, "*.pex").Length;
+            ProgressBarProgress.Value = 0;
+
+            String LastLine = "";
+
+            int errors = 0;
+
+            Action UpdateProgress = (Action)(() =>
+            {
+                ++ProgressBarProgress.Value;
+                ProgressBarProgress.Refresh();
+            });
+            bool encounteredError = false;
+            Task DecompilationTask = new Task((Action)(() =>
+            {
+                //TODO: Rewrite this.
+                //This implementation essentially takes each file and gives each file as a
+                //separate command to Champollion instead of just giving champollion an
+                //entire directory to decompile. This substantially increases the waiting
+                //time for the user.
+
+                try
+                {
+                    String Command = CommandBuilder(PexFileDirectory, SourcePath, AssemblyPath, false);
+
+                    DecompilationProcess = new Process();
+
+                    DecompilationProcess.StartInfo.UseShellExecute = false;
+                    DecompilationProcess.StartInfo.RedirectStandardOutput = true;
+
+                    DecompilationProcess.StartInfo.WorkingDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                    DecompilationProcess.StartInfo.FileName = Path.GetFileName("Champollion.exe");
+                    DecompilationProcess.StartInfo.Arguments = Command;
+
+                    DecompilationProcess.OutputDataReceived += (Sender, E) =>
+                    {
+                        if (!String.IsNullOrWhiteSpace(E.Data))
+                        {
+                            outputTimeoutTimer.Change(timeoutMilliseconds, Timeout.Infinite);
+                            LastLine = E.Data;
+                            if (LastLine.Contains("ERROR: "))
                             {
-                                throw new Exception("Champollion encountered an error");
+                                errors++;
                             }
                             this.Invoke((Delegate)UpdateProgress);
                         }
-                        catch (Exception)
-                        {
-                            _ = new MessageBox("Champollion Error", String.Format("An error has occurred during execution. \r\n" +
-                                                                                             "Was unable to process {0}. \n Aborting...",
-                                                                                             (object)PexFiles[index1]), false).ShowDialog();
-                            encounteredError = true;
-                            break;
-                        }
-                    }
-                }));
-                DecompilationTask.Start();
-                //do
-                //{
-                //    //wait
-                //}
-                //while (DecompilationTask.Status.Equals((object)TaskStatus.Running));
+                    };
 
-                if (encounteredError)
+                    DecompilationProcess.Start();
+
+                    outputTimeoutTimer = new System.Threading.Timer(KillProcessOnTimeout, null, Timeout.Infinite, Timeout.Infinite);
+                    outputTimeoutTimer.Change(timeoutMilliseconds, Timeout.Infinite);
+
+                    DecompilationProcess.BeginOutputReadLine();
+
+                    DecompilationProcess.WaitForExit();
+
+                    if (!DecompilationProcess.HasExited)
+                    {
+                        throw new IntraDecompilationException($"Champollion encountered an error while decompiling {PexFiles[index1]}");
+                    }
+
+                    if (DecompilationProcess.HasExited && !LastLine.Contains("files processed in"))
+                    {
+                        throw new IntraDecompilationException($"Champollion encountered an error while decompiling {PexFiles[index1]}. ");
+                    }
+                }
+                catch (IntraDecompilationException IDE)
                 {
-                    return;
+                    _ = new MessageBox("Champollion Error", IDE.Message + "Aborting...", false).ShowDialog();
+                    /*
+                    _ = new MessageBox("Champollion Error", String.Format("An error has occurred during execution. \r\n" +
+                                                                                     "Champollion was unable to process {0}. \n Aborting...",
+                                                                                     (object)PexFiles[index1]), false).ShowDialog();
+                    */
+                    encounteredError = true;
                 }
 
-                DecompilationTask.ContinueWith(task =>
+                for (int index1 = 0; index1 < PexFiles.Length; ++index1)
                 {
-                    _ = new MessageBox("Champollion Run Complete", "Champollion has successfully processed all files. \r\n" +
-                                                                    "Verify your scripts. \n Note: Events will be listed as Functions ", false).ShowDialog();
-                });
+                    
+                }
+            }));
+            DecompilationTask.Start();
+            //do
+            //{
+            //    //wait
+            //}
+            //while (DecompilationTask.Status.Equals((object)TaskStatus.Running));
+
+            /*
+            if (encounteredError)
+            {
+                return;
             }
-            #endregion
+            */
+
+            DecompilationTask.ContinueWith(task =>
+            {
+                if (!encounteredError)
+                {
+                    DisplayMessageOnCompletetion(LastLine, errors);
+                }
+            });
         }
+        
+        private void ThreadedDecompilation()
+        {
+
+        }
+        #endregion
+
+        #region Intra decompilation methods
+        private String CommandBuilder(String FilePath, String SourcePath, String AssemblyPath, bool threaded)
+        {
+            StringBuilder Command = new StringBuilder();
+
+            Command.Append(FilePath);
+
+            if (outputSource)
+            {
+                Command.Append($" -p \"{SourcePath}\"");
+            }
+
+            if (generateAssembly)
+            {
+                Command.Append(" -a");
+                if (outputAssembly)
+                {
+                    Command.Append($" \"{AssemblyPath}\"");
+                }
+            }
+
+            if (generateComments)
+            {
+                Command.Append(" -c");
+            }
+
+            return Command.ToString();
+        }
+
+        private void DisplayMessageOnCompletetion(String Result, int errors)
+        {
+            String Message = "";
+            if (errors > 0) 
+            {
+                Message =
+                "Champollion has processed all files. \r\n" +
+                Result + "\r\n" +
+               $"Errors encountered: {errors}" +
+                "See log file for details." + 
+                "Verify your scripts.\r\n" +
+                "Note: Events will be listed as Functions ";
+            }
+            else
+            {
+                Message = 
+                "Champollion has successfully processed all files. \r\n" +
+                Result + "\r\n" +
+                "Verify your scripts.\r\n" +
+                "Note: Events will be listed as Functions ";
+            }
+            _ = new MessageBox("Champollion Run Complete", Message, false).ShowDialog();
+        }
+
+        private void KillProcessOnTimeout(Object State)
+        {
+            if (!DecompilationProcess.HasExited)
+            {
+                DecompilationProcess.Kill();
+                throw new IntraDecompilationException("Champollion.exe is not responding. Terminating process.");
+            }
+        }
+        #endregion
     }
 }
