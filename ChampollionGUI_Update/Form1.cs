@@ -158,8 +158,8 @@ namespace ChampollionGUI_Update
             FolderDialog = new FolderBrowserDialog();
             LabelVersion = new Label();
             GroupBoxAdditionalSettings = new GroupBox();
-            ButtonOpenReadme = new Button();
             LabelReadTheReadMe = new Label();
+            ButtonOpenReadme = new Button();
             GroupBoxParameters.SuspendLayout();
             GroupBoxProgress.SuspendLayout();
             GroupBoxAdditionalSettings.SuspendLayout();
@@ -484,7 +484,7 @@ namespace ChampollionGUI_Update
             LabelVersion.Name = "LabelVersion";
             LabelVersion.Size = new Size(169, 15);
             LabelVersion.TabIndex = 11;
-            LabelVersion.Text = "Version: 2.1 Alpha (12/12/2023)";
+            LabelVersion.Text = "Version: 2.1 Alpha (14/12/2023)";
             // 
             // GroupBoxAdditionalSettings
             // 
@@ -502,18 +502,6 @@ namespace ChampollionGUI_Update
             GroupBoxAdditionalSettings.TabStop = false;
             GroupBoxAdditionalSettings.Text = "Additional Settings";
             // 
-            // ButtonOpenReadme
-            // 
-            ButtonOpenReadme.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            ButtonOpenReadme.Location = new Point(763, 12);
-            ButtonOpenReadme.Margin = new Padding(4, 3, 4, 3);
-            ButtonOpenReadme.Name = "ButtonOpenReadme";
-            ButtonOpenReadme.Size = new Size(88, 27);
-            ButtonOpenReadme.TabIndex = 13;
-            ButtonOpenReadme.Text = "README.txt";
-            ButtonOpenReadme.UseVisualStyleBackColor = true;
-            ButtonOpenReadme.Click += ButtonOpenReadme_Click;
-            // 
             // LabelReadTheReadMe
             // 
             LabelReadTheReadMe.AutoSize = true;
@@ -525,6 +513,18 @@ namespace ChampollionGUI_Update
             LabelReadTheReadMe.Size = new Size(291, 30);
             LabelReadTheReadMe.TabIndex = 31;
             LabelReadTheReadMe.Text = "Please Read the README before using either the \"Threaded mode\" or \"Ignore Corrupt Files\" options";
+            // 
+            // ButtonOpenReadme
+            // 
+            ButtonOpenReadme.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            ButtonOpenReadme.Location = new Point(763, 12);
+            ButtonOpenReadme.Margin = new Padding(4, 3, 4, 3);
+            ButtonOpenReadme.Name = "ButtonOpenReadme";
+            ButtonOpenReadme.Size = new Size(88, 27);
+            ButtonOpenReadme.TabIndex = 13;
+            ButtonOpenReadme.Text = "README.txt";
+            ButtonOpenReadme.UseVisualStyleBackColor = true;
+            ButtonOpenReadme.Click += ButtonOpenReadme_Click;
             // 
             // Form1
             // 
@@ -662,12 +662,14 @@ namespace ChampollionGUI_Update
 
         private void CheckBoxIgnoreCorruptFiles_CheckedChanged(object sender, EventArgs e)
         {
-
+            CheckBoxThreaded.Enabled = !CheckBoxIgnoreCorruptFiles.Checked;
+            CheckBoxThreaded.Checked = false;
         }
 
         private void CheckBoxThreaded_CheckedChanged(object sender, EventArgs e)
         {
-            
+            CheckBoxIgnoreCorruptFiles.Enabled = !CheckBoxThreaded.Checked;
+            CheckBoxIgnoreCorruptFiles.Checked = false;
         }
 
         private void ButtonSourceDestinationBrowse_Click(Object? Sender, EventArgs EA)
@@ -711,7 +713,7 @@ namespace ChampollionGUI_Update
 
         private void ButtonRun_Click(Object? Sender, EventArgs EA)
         {
-            Decompiler = new Decompilation();
+            Decompiler = new Decompilation(this);
             //bool[,] arguments;
             char option;
             try

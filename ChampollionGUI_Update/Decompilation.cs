@@ -5,11 +5,13 @@ using System.Text;
 
 #pragma warning disable CS8618
 #pragma warning disable CS8622
+#pragma warning disable CS8600
 
 namespace ChampollionGUI_Update
 {
-    public class Decompilation : Form1
+    public class Decompilation
     {
+        #region native variables
         private Process DecompilationProcess;
         private System.Threading.Timer outputTimeoutTimer;
         private readonly int timeoutMilliseconds = 5000;
@@ -30,6 +32,51 @@ namespace ChampollionGUI_Update
 
         private String SourcePath = "";
         private String AssemblyPath = "";
+        #endregion
+
+        #region form related variables
+        private Form1 Form1Instance;
+
+        private TextBox TextBoxScriptsPEXPath;
+        private TextBox TextBoxSourcePath;
+        private TextBox TextBoxAssemblyPath;
+
+        private CheckBox CheckBoxUseDifferentDirectoryForSource;
+        private CheckBox CheckBoxGenerateAssembly;
+        private CheckBox CheckBoxOutputAssemblyDiffLocation;
+
+        private CheckBox CheckBoxGenerateComments;
+        private CheckBox CheckBoxThreaded;
+        private CheckBox CheckBoxIgnoreCorruptFiles;
+
+        private ProgressBar ProgressBarProgress;
+
+        private String WarningMessage;
+        #endregion
+        public Decompilation(Form1 Form1Instance)
+        {
+            this.Form1Instance = Form1Instance;
+            this.InitializeComponent();
+        }
+        
+        public void InitializeComponent()
+        {
+            this.TextBoxScriptsPEXPath = Form1Instance.TextBoxScriptsPEXPath;
+            this.TextBoxSourcePath = Form1Instance.TextBoxSourcePath;
+            this.TextBoxAssemblyPath = Form1Instance.TextBoxAssemblyPath;
+
+            this.CheckBoxUseDifferentDirectoryForSource = Form1Instance.CheckBoxUseDifferentDirectoryForSource;
+            this.CheckBoxGenerateAssembly = Form1Instance.CheckBoxGenerateAssembly;
+            this.CheckBoxOutputAssemblyDiffLocation = Form1Instance.CheckBoxOutputAssemblyDiffLocation;
+            
+            this.CheckBoxGenerateComments = Form1Instance.CheckBoxGenerateComments;
+            this.CheckBoxThreaded = Form1Instance.CheckBoxThreaded;
+            this.CheckBoxIgnoreCorruptFiles = Form1Instance.CheckBoxIgnoreCorruptFiles;
+
+            this.ProgressBarProgress = Form1Instance.ProgressBarProgress;
+            
+            this.WarningMessage = Form1Instance.WarningMessage;
+        }
 
         #region Pre decompilation methods
         public char PreDecompilationChecks()
@@ -50,7 +97,7 @@ namespace ChampollionGUI_Update
             {
                 if (String.IsNullOrWhiteSpace(TextBoxScriptsPEXPath.Text))
                 {
-                    _ = new MessageBox("Run Error", "Unable to run - Scripts Path empty", false).ShowDialog();
+                    _ = new MessageBox("Run Error", $"Unable to run - Scripts Path empty\r\n-{TextBoxScriptsPEXPath.Text}-", false).ShowDialog();
 
                     throw new PreDecompilationException($"Pex Path is Null or Whitespace:");
                 }
@@ -315,13 +362,13 @@ namespace ChampollionGUI_Update
             ProgressBarProgress.Maximum = PexFiles.Length;
             ProgressBarProgress.Value = 0;
 
-            Action UpdateProgress = (Action)(() =>
+            Action UpdateProgress = () =>
             {
                 ++ProgressBarProgress.Value;
                 ProgressBarProgress.Refresh();
-            });
+            };
             bool encounteredError = false;
-            Task DecompilationTask = new Task((Action)(() =>
+            Task DecompilationTask = new(() =>
             {
                 //TODO: Rewrite this.
                 //This implementation essentially takes each file and gives each file as a
@@ -390,7 +437,7 @@ namespace ChampollionGUI_Update
                             {
                                 outputTimeoutTimer.Change(timeoutMilliseconds, Timeout.Infinite);
                                 LastLine = E.Data;
-                                this.Invoke((Delegate)UpdateProgress);
+                                Form1Instance.Invoke((Delegate)UpdateProgress);
                             }
                         };
 
@@ -425,11 +472,12 @@ namespace ChampollionGUI_Update
                             throw new IntraDecompilationException($"There was a problem with the file {PexFiles[index1]}. It is likely corrupt. ");
                         }
 
-                        this.Invoke((Delegate)UpdateProgress);
+                        Form1Instance.Invoke((Delegate)UpdateProgress);
                     }
                     catch (IntraDecompilationException IDE)
                     {
-                        _ = new MessageBox("Champollion Error", IDE.Message + "Aborting...", false).ShowDialog();
+                        ProcessAbortedMessage(IDE.Message);
+                        //_ = new MessageBox("Champollion Error", IDE.Message + "Aborting...", false).ShowDialog();
                         /*
                         _ = new MessageBox("Champollion Error", String.Format("An error has occurred during execution. \r\n" +
                                                                                          "Champollion was unable to process {0}. \n Aborting...",
@@ -439,7 +487,7 @@ namespace ChampollionGUI_Update
                         break;
                     }
                 }
-            }));
+            });
             DecompilationTask.Start();
 
             /*
@@ -475,13 +523,12 @@ namespace ChampollionGUI_Update
 
             int errors = 0;
 
-            Action UpdateProgress = (Action)(() =>
+            Action UpdateProgress = () =>
             {
                 ++ProgressBarProgress.Value;
                 ProgressBarProgress.Refresh();
-            });
-            bool encounteredError = false;
-            Task DecompilationTask = new Task((Action)(() =>
+            };
+            Task DecompilationTask = new(() =>
             {
                 //TODO: Rewrite this.
                 //This implementation essentially takes each file and gives each file as a
@@ -512,7 +559,7 @@ namespace ChampollionGUI_Update
                             {
                                 errors++;
                             }
-                            this.Invoke((Delegate)UpdateProgress);
+                            Form1Instance.Invoke((Delegate)UpdateProgress);
                         }
                     };
 
@@ -525,32 +572,23 @@ namespace ChampollionGUI_Update
 
                     DecompilationProcess.WaitForExit();
 
+                    /*
                     if (!DecompilationProcess.HasExited)
                     {
                         throw new IntraDecompilationException($"Champollion encountered an error while decompiling {PexFiles[index1]}");
                     }
+                    */
 
                     if (DecompilationProcess.HasExited && !LastLine.Contains("files processed in"))
                     {
-                        throw new IntraDecompilationException($"Champollion encountered an error while decompiling {PexFiles[index1]}. ");
+                        throw new IntraDecompilationException($"Champollion encountered an error.");
                     }
                 }
                 catch (IntraDecompilationException IDE)
                 {
-                    _ = new MessageBox("Champollion Error", IDE.Message + "Aborting...", false).ShowDialog();
-                    /*
-                    _ = new MessageBox("Champollion Error", String.Format("An error has occurred during execution. \r\n" +
-                                                                                     "Champollion was unable to process {0}. \n Aborting...",
-                                                                                     (object)PexFiles[index1]), false).ShowDialog();
-                    */
-                    encounteredError = true;
+                    ProcessAbortedMessage(IDE.Message);
                 }
-
-                for (int index1 = 0; index1 < PexFiles.Length; ++index1)
-                {
-                    
-                }
-            }));
+            });
             DecompilationTask.Start();
             //do
             //{
@@ -567,16 +605,47 @@ namespace ChampollionGUI_Update
 
             DecompilationTask.ContinueWith(task =>
             {
-                if (!encounteredError)
-                {
-                    DisplayMessageOnCompletetion(LastLine, errors);
-                }
+                DisplayMessageOnCompletetion(LastLine, errors);
             });
         }
-        
+
         private void ThreadedDecompilation()
         {
+            String ChampollionDirectory = "";
 
+            Task DecompilationTask = new(() =>
+            {
+                //TODO: Rewrite this.
+                //This implementation essentially takes each file and gives each file as a
+                //separate command to Champollion instead of just giving champollion an
+                //entire directory to decompile. This substantially increases the waiting
+                //time for the user.
+
+                String Command = CommandBuilder(PexFileDirectory, SourcePath, AssemblyPath, true);
+
+                DecompilationProcess = new Process();
+
+                DecompilationProcess.StartInfo.UseShellExecute = false;
+                DecompilationProcess.StartInfo.RedirectStandardOutput = true;
+
+                ChampollionDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+                DecompilationProcess.StartInfo.WorkingDirectory = ChampollionDirectory;
+                DecompilationProcess.StartInfo.FileName = Path.GetFileName("Champollion.exe");
+                DecompilationProcess.StartInfo.Arguments = Command;
+
+                _ = new MessageBox("Champollion Run Complete", Command, false).ShowDialog();
+
+                DecompilationProcess.Start();
+
+                DecompilationProcess.WaitForExit();
+            });
+            DecompilationTask.Start();
+
+            DecompilationTask.ContinueWith(task =>
+            {
+                DisplayMessageOnCompletetionThreaded(ChampollionDirectory);
+            });
         }
         #endregion
 
@@ -585,11 +654,11 @@ namespace ChampollionGUI_Update
         {
             StringBuilder Command = new StringBuilder();
 
-            Command.Append(FilePath);
+            Command.Append($" {FilePath}");
 
             if (outputSource)
             {
-                Command.Append($" -p \"{SourcePath}\"");
+                Command.Append($" -p {SourcePath}");
             }
 
             if (generateAssembly)
@@ -597,7 +666,7 @@ namespace ChampollionGUI_Update
                 Command.Append(" -a");
                 if (outputAssembly)
                 {
-                    Command.Append($" \"{AssemblyPath}\"");
+                    Command.Append($" {AssemblyPath}");
                 }
             }
 
@@ -606,30 +675,49 @@ namespace ChampollionGUI_Update
                 Command.Append(" -c");
             }
 
+            if (threaded) 
+            {
+                Command.Append(" -t > output.txt");
+            }
+
             return Command.ToString();
         }
 
-        private void DisplayMessageOnCompletetion(String Result, int errors)
+        private static void DisplayMessageOnCompletetion(String Result, int errors)
         {
-            String Message = "";
-            if (errors > 0) 
+            String Message;
+            if (errors > 0)
             {
                 Message =
-                "Champollion has processed all files. \r\n" +
+                "Champollion has processed all files.\r\n" +
                 Result + "\r\n" +
-               $"Errors encountered: {errors}" +
-                "See log file for details." + 
+               $"Errors encountered: {errors}\r\n" +
+                "See log file for details.\r\n" +
                 "Verify your scripts.\r\n" +
                 "Note: Events will be listed as Functions ";
             }
             else
             {
-                Message = 
+                Message =
                 "Champollion has successfully processed all files. \r\n" +
                 Result + "\r\n" +
                 "Verify your scripts.\r\n" +
                 "Note: Events will be listed as Functions ";
             }
+            _ = new MessageBox("Champollion Run Complete", Message, false).ShowDialog();
+        }
+
+        private static void DisplayMessageOnCompletetionThreaded(String Path)
+        {
+            String Message =
+                "Champollion has processed all files. \r\n" +
+                "As stated in the README (which you have\r\n" + 
+                "TOTALLY read, trust me bro),\r\n" + 
+                "the output of this decompilation is stored in:\r\n" +
+               $"{Path}\\output_threaded.txt\r\n" + 
+                "Verify your scripts.\r\n" +
+                "Note: Events will be listed as Functions ";
+           
             _ = new MessageBox("Champollion Run Complete", Message, false).ShowDialog();
         }
 
@@ -640,6 +728,16 @@ namespace ChampollionGUI_Update
                 DecompilationProcess.Kill();
                 throw new IntraDecompilationException("Champollion.exe is not responding. Terminating process.");
             }
+        }
+
+        private static void ProcessAbortedMessage(String Message)
+        {
+            _ = new MessageBox("Champollion Error", Message + " Aborting...", false).ShowDialog();
+        }
+
+        private void Fishy(String Error)
+        {
+            Form1Instance.Fishy(Error);
         }
         #endregion
     }
