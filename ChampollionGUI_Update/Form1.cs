@@ -2,19 +2,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Text;
 using Font = System.Drawing.Font;
-#region unnecessary using directives
-//using System;
-//using System.Collections.Generic;
-//using System.Drawing;
-//using System.IO;
-//using System.Reflection;
-//using System.Threading.Tasks;
-//using System.Windows.Forms;
-//using static System.Net.Mime.MediaTypeNames;
-//using System.Xml.Linq;
-//--using Microsoft.WindowsAPICodePack.Dialogs;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
-#endregion
 
 #pragma warning disable CS8600
 #pragma warning disable CS8622
@@ -26,59 +13,59 @@ namespace ChampollionGUI_Update
         #region declarations
 
         #region IContainers
-        public /*private*/ IContainer Components;
+        public IContainer Components;
         #endregion
 
         #region Buttons
-        public /*private*/ Button ButtonHelp;
-        public /*private*/ Button ButtonAbout;
-        public /*private*/ Button ButtonRun;
-        public /*private*/ Button ButtonScriptsPathBrowse;
-        public /*private*/ Button ButtonSourceDestinationBrowse;
-        public /*private*/ Button ButtonAssemblyPathBrowse;
-        public /*private*/ Button ButtonExit;
+        public Button ButtonHelp;
+        public Button ButtonAbout;
+        public Button ButtonRun;
+        public Button ButtonScriptsPathBrowse;
+        public Button ButtonSourceDestinationBrowse;
+        public Button ButtonAssemblyPathBrowse;
+        public Button ButtonExit;
         #endregion
 
         #region CheckBoxes
-        public /*private*/ CheckBox CheckBoxUseDifferentDirectoryForSource;
-        public /*private*/ CheckBox CheckBoxGenerateAssembly;
-        public /*private*/ CheckBox CheckBoxGenerateComments;
-        public /*private*/ CheckBox CheckBoxOutputAssemblyDiffLocation;
+        public CheckBox CheckBoxUseDifferentDirectoryForSource;
+        public CheckBox CheckBoxGenerateAssembly;
+        public CheckBox CheckBoxGenerateComments;
+        public CheckBox CheckBoxOutputAssemblyDiffLocation;
         #endregion
 
         #region FolderBrowserDialogs
-        public /*private*/ FolderBrowserDialog FolderDialog;
+        public FolderBrowserDialog FolderDialog;
         #endregion
 
         #region Groupboxes
-        public /*private*/ GroupBox GroupBoxParameters;
-        public /*private*/ GroupBox GroupBoxProgress;
+        public GroupBox GroupBoxParameters;
+        public GroupBox GroupBoxProgress;
         public GroupBox GroupBoxAdditionalParameters;
         #endregion
 
         #region Labels
-        public /*private*/ Label LabelAuthor;
-        public /*private*/ Label LabelUpdatedBy;
-        public /*private*/ Label LabelScriptsFolder;
-        public /*private*/ Label LabelAssemblyDestination;
-        public /*private*/ Label LabelSourceDestination;
-        public /*private*/ Label LabelVersion;
+        public Label LabelAuthor;
+        public Label LabelUpdatedBy;
+        public Label LabelScriptsFolder;
+        public Label LabelAssemblyDestination;
+        public Label LabelSourceDestination;
+        public Label LabelVersion;
         #endregion
 
         #region LinkLabels
-        public /*private*/ LinkLabel LinkLabelAuthorOriginal;
-        public /*private*/ LinkLabel LinkLabelAuthorRevision;
-        public /*private*/ LinkLabel LinkLabelEndorse;
+        public LinkLabel LinkLabelAuthorOriginal;
+        public LinkLabel LinkLabelAuthorRevision;
+        public LinkLabel LinkLabelEndorse;
         #endregion
 
         #region ProgressBars
-        public /*private*/ ProgressBar ProgressBarProgress;
+        public ProgressBar ProgressBarProgress;
         #endregion
 
         #region TextBoxes
-        public /*private*/ TextBox TextBoxScriptsPEXPath;
-        public /*private*/ TextBox TextBoxAssemblyPath;
-        public /*private*/ TextBox TextBoxSourcePath;
+        public TextBox TextBoxScriptsPEXPath;
+        public TextBox TextBoxAssemblyPath;
+        public TextBox TextBoxSourcePath;
         #endregion
 
         #region Others
@@ -88,12 +75,7 @@ namespace ChampollionGUI_Update
         public GroupBox GroupBoxAdditionalSettings;
         public Button ButtonOpenReadme;
         public Label LabelReadTheReadMe;
-        public /*private*/ readonly String WarningMessage;
-        #endregion
-
-        #region Deprecated (to be deleted)
-        //private FolderBrowserDialog folderBrowserDialog1;
-        //--private CommonOpenFileDialog FolderDialog;
+        public readonly String WarningMessage;
         #endregion
 
         #endregion
@@ -482,9 +464,9 @@ namespace ChampollionGUI_Update
             LabelVersion.ForeColor = Color.Gray;
             LabelVersion.Location = new Point(681, 457);
             LabelVersion.Name = "LabelVersion";
-            LabelVersion.Size = new Size(169, 15);
+            LabelVersion.Size = new Size(215, 15);
             LabelVersion.TabIndex = 11;
-            LabelVersion.Text = "Version: 2.1 Alpha (14/12/2023)";
+            LabelVersion.Text = "Version: 2.1.0 (Stable release, 26/1/2024)";
             // 
             // GroupBoxAdditionalSettings
             // 
@@ -510,9 +492,9 @@ namespace ChampollionGUI_Update
             LabelReadTheReadMe.Margin = new Padding(4, 0, 4, 0);
             LabelReadTheReadMe.MaximumSize = new Size(300, 0);
             LabelReadTheReadMe.Name = "LabelReadTheReadMe";
-            LabelReadTheReadMe.Size = new Size(291, 30);
+            LabelReadTheReadMe.Size = new Size(300, 30);
             LabelReadTheReadMe.TabIndex = 31;
-            LabelReadTheReadMe.Text = "Please Read the README before using either the \"Threaded mode\" or \"Ignore Corrupt Files\" options";
+            LabelReadTheReadMe.Text = "Please read the README before using the \"Threaded mode\" option";
             // 
             // ButtonOpenReadme
             // 
@@ -620,18 +602,6 @@ namespace ChampollionGUI_Update
             {
                 TextBoxAssemblyPath.Text = String.Empty;
             }
-
-            /*
-            if (CheckBoxOutputAssemblyDiffLocation.Checked)
-            {
-                 ButtonAssemblyPathBrowse.Enabled = true;
-            }
-
-            else
-            {
-                ButtonAssemblyPathBrowse.Enabled = false;
-            }
-            */
         }
 
         private void CheckBoxGenerateAssembly_CheckedChanged(Object? Sender, EventArgs EA)
@@ -647,17 +617,6 @@ namespace ChampollionGUI_Update
                 }
 
             }
-            /*
-            if (CheckBoxGenerateAssembly.Checked)
-            {
-                CheckBoxOutputAssemblyDiffLocation.Enabled = true;
-            }
-            else
-            {
-                CheckBoxOutputAssemblyDiffLocation.Enabled = false;
-                CheckBoxOutputAssemblyDiffLocation.Checked = false;
-            }
-            */
         }
 
         private void CheckBoxIgnoreCorruptFiles_CheckedChanged(object sender, EventArgs e)
@@ -714,11 +673,9 @@ namespace ChampollionGUI_Update
         private void ButtonRun_Click(Object? Sender, EventArgs EA)
         {
             Decompiler = new Decompilation(this);
-            //bool[,] arguments;
             char option;
             try
             {
-                //arguments = Decompiler.PreDecompilationChecks();
                 option = Decompiler.PreDecompilationChecks();
             }
             catch (PreDecompilationException PDE)
@@ -741,12 +698,6 @@ namespace ChampollionGUI_Update
                     }
                 }
                 return;
-                /*
-                else //(!string.IsNullOrWhiteSpace(TextBoxScriptsPEXPath.PexFileDirectory))
-                {
-
-                }
-                */
             }
             catch (PreDecompilationException PDE)
             {
@@ -756,21 +707,6 @@ namespace ChampollionGUI_Update
             {
 
             }
-
-            //Decompiler.Decompile(arguments);
-
-            //bool pexDirOK = (!String.IsNullOrWhiteSpace(TextBoxScriptsPEXPath.PexFileDirectory) && Directory.Exists(TextBoxScriptsPEXPath.PexFileDirectory));
-            //bool emptyDir = false;
-            //bool outputSource = arguments[0, 0];
-            //bool outputAssembly = arguments[1, 0];
-            //bool breakProcess = arguments[2];
-
-            /*
-            if (breakProcess)
-            {
-                return;
-            }
-            */
         }
 
         private void ButtonHelp_Click(Object? Sender, EventArgs EA)
@@ -796,14 +732,6 @@ namespace ChampollionGUI_Update
             StringBuilder.AppendLine("-w1ndStrik3");
 
             _ = new MessageBox("About", StringBuilder.ToString(), false).ShowDialog();
-
-            //String Readme = "\\doc\\readme.txt";
-            //String Dir = Directory.GetCurrentDirectory();
-            //String Wholepath = $"{Dir}\\{Readme}";
-            //Process.Start(new ProcessStartInfo(Wholepath) { UseShellExecute = true });
-            //Process.Start(Wholepath);
-            //Process.Start(String.Format("{0}\\{1}", (object)Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-            //(object)"readme_instructions.txt"));
         }
 
         private void ButtonExit_Click(Object? Sender, EventArgs EA)
@@ -880,8 +808,6 @@ namespace ChampollionGUI_Update
         {
             String Path = Directory.GetCurrentDirectory();
             FolderDialog.InitialDirectory = Path;
-            //--FolderDialog.IsFolderPicker = true;
-            //--if (FolderDialog.ShowDialog() == CommonFileDialogResult.Ok)
             if (FolderDialog.ShowDialog() == DialogResult.OK)
             {
                 //--Path = FolderDialog.FileName;

@@ -16,13 +16,14 @@ The original Champollion GUI has been updated to .NET 7.0 and some additional im
 -An about and help buttons for assistance using this GUI.
 
 # Requirements:
--Champollion (https://www.nexusmods.com/skyrim/mods/35307)
+-Champollion (https://www.nexusmods.com/skyrim/mods/35307) 
+	-(NOT NEEDED AS OF v2.1.0, as it is already bundled together with the GUI in the zip)
 
 # Installation:
-Download the original Champollion tool (manually)
+(If you are downloading release 2.0.0) Download the original Champollion tool (manually)
 Download this tool (manually)
-Extract the original tool to your desired location
-Extract this tool to the same location (So that Champollion.exe and ChampollionGUI_Update.exe are in THE SAME DIRECTORY)
+Extract the tool to your desired location
+(If you are downloading release 2.0.0) Extract this tool to the same location (So that Champollion.exe and ChampollionGUI_Update.exe are in THE SAME DIRECTORY)
 Run ChampollionGUI_Update.exe
 Enjoy!
 

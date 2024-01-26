@@ -113,13 +113,7 @@ namespace ChampollionGUI_Update
             {
                 ButtonCancel.Visible = false;
             }
-            /*
-            else
-            {
-                btnOk.PexFileDirectory = "Yes";
-                btnCancel.PexFileDirectory = "No";
-            }
-            */
+
             int lines = CountLines(Text);
             if (lines > 13)
             {
