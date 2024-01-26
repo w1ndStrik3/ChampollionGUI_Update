@@ -60,5 +60,4 @@ Champollion Interface Help:
 # Credits:
 
 -lin1x - Champollion tool (http://www.nexusmods.com/skyrim/mods/35307)
--Microsoft Visual Studios 2022
 -Arron Dominion (https://forums.nexusmods.com/index.php?showuser=582310) for the original Champollion GUI (https://www.nexusmods.com/skyrim/mods/82367)
