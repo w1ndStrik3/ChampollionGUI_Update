@@ -18,10 +18,10 @@ namespace ChampollionGUI_Update
         private readonly int timeoutMilliseconds = 5000;
 
         private bool outputSource = false;
-        private bool useDefaultSourceDirectory = false;
+        private bool useDefaultSourceDirectory = true;
 
         private bool outputAssembly = false;
-        private bool useDefaultAssemblyDirectory = false;
+        private bool useDefaultAssemblyDirectory = true;
 
         private bool generateAssembly = false;
         private bool generateComments = false;
@@ -133,6 +133,7 @@ namespace ChampollionGUI_Update
                 if (CheckDirectory(TextBoxSourcePath.Text))
                 {
                     outputSource = true;
+                    useDefaultSourceDirectory = false;
                 }
                 else
                 {
@@ -151,6 +152,7 @@ namespace ChampollionGUI_Update
                     if (CheckDirectory(TextBoxAssemblyPath.Text))
                     {
                         outputAssembly = true;
+                        useDefaultAssemblyDirectory = false;
                     }
                     else
                     {
@@ -187,11 +189,12 @@ namespace ChampollionGUI_Update
 
             PexFileDirectory = TextBoxScriptsPEXPath.Text;
 
-            DefaultSourceDirectory = PexFileDirectory + @"\source";
-            DefaultAssemblyDirectory = PexFileDirectory + @"\assembly";
+            DefaultSourceDirectory = PexFileDirectory + "\\source";
+            DefaultAssemblyDirectory = PexFileDirectory + "\\assembly";
 
             SourcePath = DefaultSourceDirectory;
             AssemblyPath = DefaultAssemblyDirectory;
+
 
             if (!useDefaultSourceDirectory)
             {
@@ -264,7 +267,7 @@ namespace ChampollionGUI_Update
                 {
                     try
                     {
-                        String Command = CommandBuilder(PexFiles[index1], SourcePath, AssemblyPath, null, false);
+                        String Command = CommandBuilder(PexFiles[index1], SourcePath, AssemblyPath, false);
 
                         DecompilationProcess = new Process();
 
@@ -343,7 +346,7 @@ namespace ChampollionGUI_Update
             {
                 try
                 {
-                    String Command = CommandBuilder(PexFileDirectory, SourcePath, AssemblyPath, null, false);
+                    String Command = CommandBuilder(PexFileDirectory, SourcePath, AssemblyPath, false);
 
                     DecompilationProcess = new Process();
 
@@ -428,7 +431,7 @@ namespace ChampollionGUI_Update
                 DecompilationProcess.StartInfo.WorkingDirectory = ChampollionDirectory;
                 DecompilationProcess.StartInfo.FileName = Path.GetFileName("Champollion.exe");
 
-                String Command = CommandBuilder(PexFileDirectory, SourcePath, AssemblyPath, ChampollionDirectory, true);
+                String Command = CommandBuilder(PexFileDirectory, SourcePath, AssemblyPath, true);
 
                 DecompilationProcess.StartInfo.Arguments = Command;
 
@@ -458,7 +461,7 @@ namespace ChampollionGUI_Update
         #endregion
 
         #region Intra decompilation methods
-        private String CommandBuilder(String FilePath, String SourcePath, String AssemblyPath, String ChampollionDirectory, bool threaded)
+        private String CommandBuilder(String FilePath, String SourcePath, String AssemblyPath, bool threaded)
         {
             StringBuilder Command = new StringBuilder();
 
@@ -468,6 +471,10 @@ namespace ChampollionGUI_Update
             {
                 Command.Append($" -p \"{SourcePath}\"");
             }
+            else
+            {
+                Command.Append($" -p \"{DefaultSourceDirectory}\"");
+            }
 
             if (generateAssembly)
             {
@@ -475,6 +482,10 @@ namespace ChampollionGUI_Update
                 if (outputAssembly)
                 {
                     Command.Append($" \"{AssemblyPath}\"");
+                }
+                else
+                {
+                    Command.Append($"\"{DefaultAssemblyDirectory}\"");
                 }
             }
 
@@ -485,7 +496,7 @@ namespace ChampollionGUI_Update
 
             if (threaded)
             {
-                Command.Append($" -t");
+                Command.Append(" -t");
             }
 
             return Command.ToString();

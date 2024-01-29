@@ -462,11 +462,11 @@ namespace ChampollionGUI_Update
             // 
             LabelVersion.AutoSize = true;
             LabelVersion.ForeColor = Color.Gray;
-            LabelVersion.Location = new Point(681, 457);
+            LabelVersion.Location = new Point(628, 457);
             LabelVersion.Name = "LabelVersion";
-            LabelVersion.Size = new Size(215, 15);
+            LabelVersion.Size = new Size(224, 15);
             LabelVersion.TabIndex = 11;
-            LabelVersion.Text = "Version: 2.1.0 (Stable release, 26/1/2024)";
+            LabelVersion.Text = "Version: 2.1.0.1 (Stable release, 29/1/2024)";
             // 
             // GroupBoxAdditionalSettings
             // 
@@ -769,7 +769,7 @@ namespace ChampollionGUI_Update
 
         private void ButtonOpenReadme_Click(object sender, EventArgs e)
         {
-            String Readme = "doc\\Readme.html";
+            String Readme = "readme_instructions.txt";
             String Dir = Directory.GetCurrentDirectory();
             String Wholepath = $"{Dir}\\{Readme}";
             Process.Start(new ProcessStartInfo(Wholepath) { UseShellExecute = true });
