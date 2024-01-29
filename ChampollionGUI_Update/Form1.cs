@@ -504,7 +504,7 @@ namespace ChampollionGUI_Update
             ButtonOpenReadme.Name = "ButtonOpenReadme";
             ButtonOpenReadme.Size = new Size(88, 27);
             ButtonOpenReadme.TabIndex = 13;
-            ButtonOpenReadme.Text = "README.txt";
+            ButtonOpenReadme.Text = "README";
             ButtonOpenReadme.UseVisualStyleBackColor = true;
             ButtonOpenReadme.Click += ButtonOpenReadme_Click;
             // 
@@ -769,7 +769,7 @@ namespace ChampollionGUI_Update
 
         private void ButtonOpenReadme_Click(object sender, EventArgs e)
         {
-            String Readme = "doc\\readme.txt";
+            String Readme = "doc\\Readme.html";
             String Dir = Directory.GetCurrentDirectory();
             String Wholepath = $"{Dir}\\{Readme}";
             Process.Start(new ProcessStartInfo(Wholepath) { UseShellExecute = true });

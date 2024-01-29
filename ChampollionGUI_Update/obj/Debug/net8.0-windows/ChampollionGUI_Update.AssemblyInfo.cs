@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ChampollionGUI_Update")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+39f778620cb0ca68620c2b6d96e51de7511e210d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5dcc38a9ffda28bcce01b990ab979520572f351a")]
 [assembly: System.Reflection.AssemblyProductAttribute("ChampollionGUI_Update")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ChampollionGUI_Update")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
