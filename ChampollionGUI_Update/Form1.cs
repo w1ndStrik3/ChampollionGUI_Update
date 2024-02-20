@@ -69,6 +69,7 @@ namespace ChampollionGUI_Update
         #endregion
 
         #region Others
+        private StartupProcedures StartupProceduresInstance;
         private Decompilation Decompiler;
         public CheckBox CheckBoxIgnoreCorruptFiles;
         public CheckBox CheckBoxThreaded;
@@ -539,6 +540,9 @@ namespace ChampollionGUI_Update
             GroupBoxAdditionalSettings.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
+
+            StartupProceduresInstance = new StartupProcedures();
+
         }
 
         private void WireEvents()
