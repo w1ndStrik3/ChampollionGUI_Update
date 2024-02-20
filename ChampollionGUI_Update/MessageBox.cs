@@ -128,26 +128,25 @@ namespace ChampollionGUI_Update
 
         private void IconSelect(String Title)
         {
-            String Dir = Directory.GetCurrentDirectory() + @"\images\";
             switch (Title)
             {
                 case "Run Error":
-                    MessageBoxIconField.Image = new Bitmap(Dir + "error.jpg");
+                    MessageBoxIconField.Image = new Bitmap(Properties.ImageResources.error);
                     break;
                 case "Warning":
-                    MessageBoxIconField.Image = new Bitmap(Dir + "warning.jpg");
+                    MessageBoxIconField.Image = new Bitmap(Properties.ImageResources.warning);
                     break;
                 case "Confirm Run":
-                    MessageBoxIconField.Image = new Bitmap(Dir + "confirm.jpg");
+                    MessageBoxIconField.Image = new Bitmap(Properties.ImageResources.confirm);
                     break;
                 case "Champollion Error":
-                    MessageBoxIconField.Image = new Bitmap(Dir + "champ_error.jpg");
+                    MessageBoxIconField.Image = new Bitmap(Properties.ImageResources.champ_error);
                     break;
                 case "Champollion Run Complete":
-                    MessageBoxIconField.Image = new Bitmap(Dir + "finished.jpg");
+                    MessageBoxIconField.Image = new Bitmap(Properties.ImageResources.finished);
                     break;
                 case "About":
-                    MessageBoxIconField.Image = new Bitmap(Dir + "about.jpg");
+                    MessageBoxIconField.Image = new Bitmap(Properties.ImageResources.about);
                     break;
                 default:
                     MessageBoxIconField.Image = null;

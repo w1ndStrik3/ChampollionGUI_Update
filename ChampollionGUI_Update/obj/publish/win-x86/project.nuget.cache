@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "u0eI3/DAa5S6l5p7C8bd1vYVI+3Ha+uE09TvIFRCgPXIsRf8IwtLfnm7dIPHT8m31k+/rvXye+VzjFWt4GAa0g==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\aleks\\source\\repos\\ChampollionGUI_Update\\ChampollionGUI_Update\\ChampollionGUI_Update.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\aleks\\.nuget\\packages\\microsoft.net.illink.tasks\\8.0.0\\microsoft.net.illink.tasks.8.0.0.nupkg.sha512",
+    "C:\\Users\\aleks\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x86\\8.0.0\\microsoft.netcore.app.runtime.win-x86.8.0.0.nupkg.sha512",
+    "C:\\Users\\aleks\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x86\\8.0.0\\microsoft.windowsdesktop.app.runtime.win-x86.8.0.0.nupkg.sha512",
+    "C:\\Users\\aleks\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x86\\8.0.0\\microsoft.aspnetcore.app.runtime.win-x86.8.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

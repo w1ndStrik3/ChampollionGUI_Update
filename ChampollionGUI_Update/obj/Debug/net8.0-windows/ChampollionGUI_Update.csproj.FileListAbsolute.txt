@@ -17,3 +17,5 @@ C:\Users\aleks\source\repos\ChampollionGUI_Update\ChampollionGUI_Update\obj\Debu
 C:\Users\aleks\source\repos\ChampollionGUI_Update\ChampollionGUI_Update\obj\Debug\net8.0-windows\ChampollionGUI_Update.pdb
 C:\Users\aleks\source\repos\ChampollionGUI_Update\ChampollionGUI_Update\obj\Debug\net8.0-windows\ChampollionGUI_Update.genruntimeconfig.cache
 C:\Users\aleks\source\repos\ChampollionGUI_Update\ChampollionGUI_Update\obj\Debug\net8.0-windows\ref\ChampollionGUI_Update.dll
+C:\Users\aleks\source\repos\ChampollionGUI_Update\ChampollionGUI_Update\obj\Debug\net8.0-windows\ChampollionGUI_Update.Properties.ImageResources.resources
+C:\Users\aleks\source\repos\ChampollionGUI_Update\ChampollionGUI_Update\obj\Debug\net8.0-windows\ChampollionGUI_Update.Properties.TxtResources.resources
