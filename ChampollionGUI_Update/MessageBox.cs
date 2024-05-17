@@ -13,8 +13,11 @@ namespace ChampollionGUI_Update
         private PictureBox MessageBoxIconField;
         private Button ButtonCancel;
 
-        #pragma warning disable CS8618
-        public MessageBox() => this.InitializeComponent();
+#pragma warning disable CS8618
+        public MessageBox()
+        {
+            this.InitializeComponent();
+        }
 #pragma warning restore CS8618
 
         private void InitializeComponent()
