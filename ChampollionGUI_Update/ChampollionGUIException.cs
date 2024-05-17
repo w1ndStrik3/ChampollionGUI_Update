@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace ChampollionGUI_Update
 {
-    
+    //TODO: Create exeption for when something not fitting any of the exemptions
+    //below happens. E.g. when trying to open the readme_instructions.txt file,
+    //but that file is missing.
     [Serializable]
     public class ChampollionGUIException : Exception
     {

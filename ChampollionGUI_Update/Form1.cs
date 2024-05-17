@@ -151,10 +151,10 @@ namespace ChampollionGUI_Update
             // ButtonHelp
             // 
             ButtonHelp.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            ButtonHelp.Location = new Point(762, 16);
-            ButtonHelp.Margin = new Padding(5, 4, 5, 4);
+            ButtonHelp.Location = new Point(667, 12);
+            ButtonHelp.Margin = new Padding(4, 3, 4, 3);
             ButtonHelp.Name = "ButtonHelp";
-            ButtonHelp.Size = new Size(101, 36);
+            ButtonHelp.Size = new Size(88, 27);
             ButtonHelp.TabIndex = 2;
             ButtonHelp.Text = "Help...";
             ButtonHelp.UseVisualStyleBackColor = true;
@@ -162,10 +162,10 @@ namespace ChampollionGUI_Update
             // ButtonAbout
             // 
             ButtonAbout.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            ButtonAbout.Location = new Point(653, 16);
-            ButtonAbout.Margin = new Padding(5, 4, 5, 4);
+            ButtonAbout.Location = new Point(571, 12);
+            ButtonAbout.Margin = new Padding(4, 3, 4, 3);
             ButtonAbout.Name = "ButtonAbout";
-            ButtonAbout.Size = new Size(101, 36);
+            ButtonAbout.Size = new Size(88, 27);
             ButtonAbout.TabIndex = 3;
             ButtonAbout.Text = "About...";
             ButtonAbout.UseVisualStyleBackColor = true;
@@ -186,11 +186,11 @@ namespace ChampollionGUI_Update
             GroupBoxParameters.Controls.Add(TextBoxSourcePath);
             GroupBoxParameters.Controls.Add(ButtonAssemblyPathBrowse);
             GroupBoxParameters.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            GroupBoxParameters.Location = new Point(15, 68);
-            GroupBoxParameters.Margin = new Padding(5, 4, 5, 4);
+            GroupBoxParameters.Location = new Point(13, 51);
+            GroupBoxParameters.Margin = new Padding(4, 3, 4, 3);
             GroupBoxParameters.Name = "GroupBoxParameters";
-            GroupBoxParameters.Padding = new Padding(5, 4, 5, 4);
-            GroupBoxParameters.Size = new Size(958, 301);
+            GroupBoxParameters.Padding = new Padding(4, 3, 4, 3);
+            GroupBoxParameters.Size = new Size(838, 226);
             GroupBoxParameters.TabIndex = 4;
             GroupBoxParameters.TabStop = false;
             GroupBoxParameters.Text = "Parameters";
@@ -198,9 +198,9 @@ namespace ChampollionGUI_Update
             // LinkLabelEndorse
             // 
             LinkLabelEndorse.AutoSize = true;
-            LinkLabelEndorse.Location = new Point(698, 195);
+            LinkLabelEndorse.Location = new Point(611, 146);
             LinkLabelEndorse.Name = "LinkLabelEndorse";
-            LinkLabelEndorse.Size = new Size(150, 25);
+            LinkLabelEndorse.Size = new Size(118, 20);
             LinkLabelEndorse.TabIndex = 28;
             LinkLabelEndorse.TabStop = true;
             LinkLabelEndorse.Text = "Please Endorse!";
@@ -210,20 +210,20 @@ namespace ChampollionGUI_Update
             // 
             LabelScriptsFolder.AutoSize = true;
             LabelScriptsFolder.Font = new Font("Segoe UI", 9F);
-            LabelScriptsFolder.Location = new Point(15, 39);
-            LabelScriptsFolder.Margin = new Padding(5, 0, 5, 0);
+            LabelScriptsFolder.Location = new Point(13, 29);
+            LabelScriptsFolder.Margin = new Padding(4, 0, 4, 0);
             LabelScriptsFolder.Name = "LabelScriptsFolder";
-            LabelScriptsFolder.Size = new Size(143, 20);
+            LabelScriptsFolder.Size = new Size(114, 15);
             LabelScriptsFolder.TabIndex = 14;
             LabelScriptsFolder.Text = "Scripts Folder (.pex):";
             // 
             // TextBoxScriptsPEXPath
             // 
             TextBoxScriptsPEXPath.BackColor = SystemColors.ControlLightLight;
-            TextBoxScriptsPEXPath.Location = new Point(255, 31);
-            TextBoxScriptsPEXPath.Margin = new Padding(5, 4, 5, 4);
+            TextBoxScriptsPEXPath.Location = new Point(223, 23);
+            TextBoxScriptsPEXPath.Margin = new Padding(4, 3, 4, 3);
             TextBoxScriptsPEXPath.Name = "TextBoxScriptsPEXPath";
-            TextBoxScriptsPEXPath.Size = new Size(578, 32);
+            TextBoxScriptsPEXPath.Size = new Size(506, 27);
             TextBoxScriptsPEXPath.TabIndex = 15;
             // 
             // CheckBoxOutputAssemblyDiffLocation
@@ -231,10 +231,10 @@ namespace ChampollionGUI_Update
             CheckBoxOutputAssemblyDiffLocation.AutoSize = true;
             CheckBoxOutputAssemblyDiffLocation.Enabled = false;
             CheckBoxOutputAssemblyDiffLocation.Font = new Font("Segoe UI", 9F);
-            CheckBoxOutputAssemblyDiffLocation.Location = new Point(255, 199);
-            CheckBoxOutputAssemblyDiffLocation.Margin = new Padding(5, 4, 5, 4);
+            CheckBoxOutputAssemblyDiffLocation.Location = new Point(223, 149);
+            CheckBoxOutputAssemblyDiffLocation.Margin = new Padding(4, 3, 4, 3);
             CheckBoxOutputAssemblyDiffLocation.Name = "CheckBoxOutputAssemblyDiffLocation";
-            CheckBoxOutputAssemblyDiffLocation.Size = new Size(284, 24);
+            CheckBoxOutputAssemblyDiffLocation.Size = new Size(229, 19);
             CheckBoxOutputAssemblyDiffLocation.TabIndex = 22;
             CheckBoxOutputAssemblyDiffLocation.Text = "Output Assembly in Different Location";
             CheckBoxOutputAssemblyDiffLocation.UseVisualStyleBackColor = true;
@@ -242,10 +242,10 @@ namespace ChampollionGUI_Update
             // ButtonScriptsPathBrowse
             // 
             ButtonScriptsPathBrowse.Font = new Font("Segoe UI", 9F);
-            ButtonScriptsPathBrowse.Location = new Point(839, 29);
-            ButtonScriptsPathBrowse.Margin = new Padding(5, 4, 5, 4);
+            ButtonScriptsPathBrowse.Location = new Point(734, 22);
+            ButtonScriptsPathBrowse.Margin = new Padding(4, 3, 4, 3);
             ButtonScriptsPathBrowse.Name = "ButtonScriptsPathBrowse";
-            ButtonScriptsPathBrowse.Size = new Size(110, 39);
+            ButtonScriptsPathBrowse.Size = new Size(96, 29);
             ButtonScriptsPathBrowse.TabIndex = 16;
             ButtonScriptsPathBrowse.Text = "Browse";
             ButtonScriptsPathBrowse.UseVisualStyleBackColor = true;
@@ -254,10 +254,10 @@ namespace ChampollionGUI_Update
             // 
             CheckBoxGenerateAssembly.AutoSize = true;
             CheckBoxGenerateAssembly.Font = new Font("Segoe UI", 9F);
-            CheckBoxGenerateAssembly.Location = new Point(17, 199);
-            CheckBoxGenerateAssembly.Margin = new Padding(5, 4, 5, 4);
+            CheckBoxGenerateAssembly.Location = new Point(15, 149);
+            CheckBoxGenerateAssembly.Margin = new Padding(4, 3, 4, 3);
             CheckBoxGenerateAssembly.Name = "CheckBoxGenerateAssembly";
-            CheckBoxGenerateAssembly.Size = new Size(158, 24);
+            CheckBoxGenerateAssembly.Size = new Size(127, 19);
             CheckBoxGenerateAssembly.TabIndex = 21;
             CheckBoxGenerateAssembly.Text = "Generate Assembly";
             CheckBoxGenerateAssembly.UseVisualStyleBackColor = true;
@@ -266,10 +266,10 @@ namespace ChampollionGUI_Update
             // 
             LabelAssemblyDestination.AutoSize = true;
             LabelAssemblyDestination.Font = new Font("Segoe UI", 9F);
-            LabelAssemblyDestination.Location = new Point(15, 252);
-            LabelAssemblyDestination.Margin = new Padding(5, 0, 5, 0);
+            LabelAssemblyDestination.Location = new Point(13, 189);
+            LabelAssemblyDestination.Margin = new Padding(4, 0, 4, 0);
             LabelAssemblyDestination.Name = "LabelAssemblyDestination";
-            LabelAssemblyDestination.Size = new Size(155, 20);
+            LabelAssemblyDestination.Size = new Size(124, 15);
             LabelAssemblyDestination.TabIndex = 23;
             LabelAssemblyDestination.Text = "Assembly Destination:";
             // 
@@ -277,10 +277,10 @@ namespace ChampollionGUI_Update
             // 
             LabelSourceDestination.AutoSize = true;
             LabelSourceDestination.Font = new Font("Segoe UI", 9F);
-            LabelSourceDestination.Location = new Point(15, 145);
-            LabelSourceDestination.Margin = new Padding(5, 0, 5, 0);
+            LabelSourceDestination.Location = new Point(13, 109);
+            LabelSourceDestination.Margin = new Padding(4, 0, 4, 0);
             LabelSourceDestination.Name = "LabelSourceDestination";
-            LabelSourceDestination.Size = new Size(137, 20);
+            LabelSourceDestination.Size = new Size(109, 15);
             LabelSourceDestination.TabIndex = 17;
             LabelSourceDestination.Text = "Source Destination:";
             // 
@@ -288,10 +288,10 @@ namespace ChampollionGUI_Update
             // 
             ButtonSourceDestinationBrowse.Enabled = false;
             ButtonSourceDestinationBrowse.Font = new Font("Segoe UI", 9F);
-            ButtonSourceDestinationBrowse.Location = new Point(839, 136);
-            ButtonSourceDestinationBrowse.Margin = new Padding(5, 4, 5, 4);
+            ButtonSourceDestinationBrowse.Location = new Point(734, 102);
+            ButtonSourceDestinationBrowse.Margin = new Padding(4, 3, 4, 3);
             ButtonSourceDestinationBrowse.Name = "ButtonSourceDestinationBrowse";
-            ButtonSourceDestinationBrowse.Size = new Size(110, 39);
+            ButtonSourceDestinationBrowse.Size = new Size(96, 29);
             ButtonSourceDestinationBrowse.TabIndex = 20;
             ButtonSourceDestinationBrowse.Text = "Browse";
             ButtonSourceDestinationBrowse.UseVisualStyleBackColor = true;
@@ -300,20 +300,20 @@ namespace ChampollionGUI_Update
             // 
             TextBoxAssemblyPath.BackColor = SystemColors.ControlLightLight;
             TextBoxAssemblyPath.Enabled = false;
-            TextBoxAssemblyPath.Location = new Point(255, 244);
-            TextBoxAssemblyPath.Margin = new Padding(5, 4, 5, 4);
+            TextBoxAssemblyPath.Location = new Point(223, 183);
+            TextBoxAssemblyPath.Margin = new Padding(4, 3, 4, 3);
             TextBoxAssemblyPath.Name = "TextBoxAssemblyPath";
-            TextBoxAssemblyPath.Size = new Size(578, 32);
+            TextBoxAssemblyPath.Size = new Size(506, 27);
             TextBoxAssemblyPath.TabIndex = 24;
             // 
             // CheckBoxUseDifferentDirectoryForSource
             // 
             CheckBoxUseDifferentDirectoryForSource.AutoSize = true;
             CheckBoxUseDifferentDirectoryForSource.Font = new Font("Segoe UI", 9F);
-            CheckBoxUseDifferentDirectoryForSource.Location = new Point(17, 92);
-            CheckBoxUseDifferentDirectoryForSource.Margin = new Padding(5, 4, 5, 4);
+            CheckBoxUseDifferentDirectoryForSource.Location = new Point(15, 69);
+            CheckBoxUseDifferentDirectoryForSource.Margin = new Padding(4, 3, 4, 3);
             CheckBoxUseDifferentDirectoryForSource.Name = "CheckBoxUseDifferentDirectoryForSource";
-            CheckBoxUseDifferentDirectoryForSource.Size = new Size(304, 24);
+            CheckBoxUseDifferentDirectoryForSource.Size = new Size(247, 19);
             CheckBoxUseDifferentDirectoryForSource.TabIndex = 18;
             CheckBoxUseDifferentDirectoryForSource.Text = "Use custom source (.psc) output directory";
             CheckBoxUseDifferentDirectoryForSource.UseVisualStyleBackColor = true;
@@ -322,20 +322,20 @@ namespace ChampollionGUI_Update
             // 
             TextBoxSourcePath.BackColor = SystemColors.ControlLightLight;
             TextBoxSourcePath.Enabled = false;
-            TextBoxSourcePath.Location = new Point(255, 137);
-            TextBoxSourcePath.Margin = new Padding(5, 4, 5, 4);
+            TextBoxSourcePath.Location = new Point(223, 103);
+            TextBoxSourcePath.Margin = new Padding(4, 3, 4, 3);
             TextBoxSourcePath.Name = "TextBoxSourcePath";
-            TextBoxSourcePath.Size = new Size(578, 32);
+            TextBoxSourcePath.Size = new Size(506, 27);
             TextBoxSourcePath.TabIndex = 19;
             // 
             // ButtonAssemblyPathBrowse
             // 
             ButtonAssemblyPathBrowse.Enabled = false;
             ButtonAssemblyPathBrowse.Font = new Font("Segoe UI", 9F);
-            ButtonAssemblyPathBrowse.Location = new Point(839, 243);
-            ButtonAssemblyPathBrowse.Margin = new Padding(5, 4, 5, 4);
+            ButtonAssemblyPathBrowse.Location = new Point(734, 182);
+            ButtonAssemblyPathBrowse.Margin = new Padding(4, 3, 4, 3);
             ButtonAssemblyPathBrowse.Name = "ButtonAssemblyPathBrowse";
-            ButtonAssemblyPathBrowse.Size = new Size(110, 39);
+            ButtonAssemblyPathBrowse.Size = new Size(96, 29);
             ButtonAssemblyPathBrowse.TabIndex = 25;
             ButtonAssemblyPathBrowse.Text = "Browse";
             ButtonAssemblyPathBrowse.UseVisualStyleBackColor = true;
@@ -344,10 +344,10 @@ namespace ChampollionGUI_Update
             // 
             CheckBoxIgnoreCorruptFiles.AutoSize = true;
             CheckBoxIgnoreCorruptFiles.Font = new Font("Segoe UI", 9F);
-            CheckBoxIgnoreCorruptFiles.Location = new Point(314, 35);
-            CheckBoxIgnoreCorruptFiles.Margin = new Padding(5, 4, 5, 4);
+            CheckBoxIgnoreCorruptFiles.Location = new Point(275, 26);
+            CheckBoxIgnoreCorruptFiles.Margin = new Padding(4, 3, 4, 3);
             CheckBoxIgnoreCorruptFiles.Name = "CheckBoxIgnoreCorruptFiles";
-            CheckBoxIgnoreCorruptFiles.Size = new Size(161, 24);
+            CheckBoxIgnoreCorruptFiles.Size = new Size(130, 19);
             CheckBoxIgnoreCorruptFiles.TabIndex = 30;
             CheckBoxIgnoreCorruptFiles.Text = "Ignore Corrupt Files";
             CheckBoxIgnoreCorruptFiles.UseVisualStyleBackColor = true;
@@ -357,10 +357,10 @@ namespace ChampollionGUI_Update
             // 
             CheckBoxThreaded.AutoSize = true;
             CheckBoxThreaded.Font = new Font("Segoe UI", 9F);
-            CheckBoxThreaded.Location = new Point(181, 35);
-            CheckBoxThreaded.Margin = new Padding(5, 4, 5, 4);
+            CheckBoxThreaded.Location = new Point(158, 26);
+            CheckBoxThreaded.Margin = new Padding(4, 3, 4, 3);
             CheckBoxThreaded.Name = "CheckBoxThreaded";
-            CheckBoxThreaded.Size = new Size(137, 24);
+            CheckBoxThreaded.Size = new Size(109, 19);
             CheckBoxThreaded.TabIndex = 29;
             CheckBoxThreaded.Text = "Threaded mode";
             CheckBoxThreaded.UseVisualStyleBackColor = true;
@@ -370,10 +370,10 @@ namespace ChampollionGUI_Update
             // 
             CheckBoxGenerateComments.AutoSize = true;
             CheckBoxGenerateComments.Font = new Font("Segoe UI", 9F);
-            CheckBoxGenerateComments.Location = new Point(17, 35);
-            CheckBoxGenerateComments.Margin = new Padding(5, 4, 5, 4);
+            CheckBoxGenerateComments.Location = new Point(15, 26);
+            CheckBoxGenerateComments.Margin = new Padding(4, 3, 4, 3);
             CheckBoxGenerateComments.Name = "CheckBoxGenerateComments";
-            CheckBoxGenerateComments.Size = new Size(166, 24);
+            CheckBoxGenerateComments.Size = new Size(135, 19);
             CheckBoxGenerateComments.TabIndex = 26;
             CheckBoxGenerateComments.Text = "Generate Comments";
             CheckBoxGenerateComments.UseVisualStyleBackColor = true;
@@ -382,39 +382,39 @@ namespace ChampollionGUI_Update
             // 
             GroupBoxProgress.Controls.Add(ProgressBarProgress);
             GroupBoxProgress.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            GroupBoxProgress.Location = new Point(14, 461);
-            GroupBoxProgress.Margin = new Padding(5, 4, 5, 4);
+            GroupBoxProgress.Location = new Point(12, 346);
+            GroupBoxProgress.Margin = new Padding(4, 3, 4, 3);
             GroupBoxProgress.Name = "GroupBoxProgress";
-            GroupBoxProgress.Padding = new Padding(5, 4, 5, 4);
-            GroupBoxProgress.Size = new Size(958, 128);
+            GroupBoxProgress.Padding = new Padding(4, 3, 4, 3);
+            GroupBoxProgress.Size = new Size(838, 96);
             GroupBoxProgress.TabIndex = 5;
             GroupBoxProgress.TabStop = false;
             GroupBoxProgress.Text = "Progress";
             // 
             // ProgressBarProgress
             // 
-            ProgressBarProgress.Location = new Point(8, 51);
-            ProgressBarProgress.Margin = new Padding(5, 4, 5, 4);
+            ProgressBarProgress.Location = new Point(7, 38);
+            ProgressBarProgress.Margin = new Padding(4, 3, 4, 3);
             ProgressBarProgress.Name = "ProgressBarProgress";
-            ProgressBarProgress.Size = new Size(941, 36);
+            ProgressBarProgress.Size = new Size(823, 27);
             ProgressBarProgress.TabIndex = 0;
             // 
             // ButtonRun
             // 
-            ButtonRun.Location = new Point(497, 601);
-            ButtonRun.Margin = new Padding(5, 4, 5, 4);
+            ButtonRun.Location = new Point(435, 451);
+            ButtonRun.Margin = new Padding(4, 3, 4, 3);
             ButtonRun.Name = "ButtonRun";
-            ButtonRun.Size = new Size(101, 36);
+            ButtonRun.Size = new Size(88, 27);
             ButtonRun.TabIndex = 0;
             ButtonRun.Text = "Run...";
             ButtonRun.UseVisualStyleBackColor = true;
             // 
             // ButtonExit
             // 
-            ButtonExit.Location = new Point(386, 601);
-            ButtonExit.Margin = new Padding(5, 4, 5, 4);
+            ButtonExit.Location = new Point(338, 451);
+            ButtonExit.Margin = new Padding(4, 3, 4, 3);
             ButtonExit.Name = "ButtonExit";
-            ButtonExit.Size = new Size(101, 36);
+            ButtonExit.Size = new Size(88, 27);
             ButtonExit.TabIndex = 1;
             ButtonExit.Text = "Exit";
             ButtonExit.UseVisualStyleBackColor = true;
@@ -422,18 +422,18 @@ namespace ChampollionGUI_Update
             // LabelAuthor
             // 
             LabelAuthor.AutoSize = true;
-            LabelAuthor.Location = new Point(14, 12);
+            LabelAuthor.Location = new Point(12, 9);
             LabelAuthor.Name = "LabelAuthor";
-            LabelAuthor.Size = new Size(81, 20);
+            LabelAuthor.Size = new Size(64, 15);
             LabelAuthor.TabIndex = 7;
             LabelAuthor.Text = "Created by";
             // 
             // LinkLabelAuthorOriginal
             // 
             LinkLabelAuthorOriginal.AutoSize = true;
-            LinkLabelAuthorOriginal.Location = new Point(83, 12);
+            LinkLabelAuthorOriginal.Location = new Point(73, 9);
             LinkLabelAuthorOriginal.Name = "LinkLabelAuthorOriginal";
-            LinkLabelAuthorOriginal.Size = new Size(116, 20);
+            LinkLabelAuthorOriginal.Size = new Size(93, 15);
             LinkLabelAuthorOriginal.TabIndex = 8;
             LinkLabelAuthorOriginal.TabStop = true;
             LinkLabelAuthorOriginal.Text = "Arron Dominion";
@@ -442,18 +442,18 @@ namespace ChampollionGUI_Update
             // LabelUpdatedBy
             // 
             LabelUpdatedBy.AutoSize = true;
-            LabelUpdatedBy.Location = new Point(14, 39);
+            LabelUpdatedBy.Location = new Point(12, 29);
             LabelUpdatedBy.Name = "LabelUpdatedBy";
-            LabelUpdatedBy.Size = new Size(184, 20);
+            LabelUpdatedBy.Size = new Size(146, 15);
             LabelUpdatedBy.TabIndex = 9;
             LabelUpdatedBy.Text = "Updated and enhanced by";
             // 
             // LinkLabelAuthorRevision
             // 
             LinkLabelAuthorRevision.AutoSize = true;
-            LinkLabelAuthorRevision.Location = new Point(179, 39);
+            LinkLabelAuthorRevision.Location = new Point(157, 29);
             LinkLabelAuthorRevision.Name = "LinkLabelAuthorRevision";
-            LinkLabelAuthorRevision.Size = new Size(82, 20);
+            LinkLabelAuthorRevision.Size = new Size(65, 15);
             LinkLabelAuthorRevision.TabIndex = 10;
             LinkLabelAuthorRevision.TabStop = true;
             LinkLabelAuthorRevision.Text = "w1ndStrik3";
@@ -464,11 +464,11 @@ namespace ChampollionGUI_Update
             LabelVersion.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             LabelVersion.AutoSize = true;
             LabelVersion.ForeColor = Color.Gray;
-            LabelVersion.Location = new Point(718, 609);
+            LabelVersion.Location = new Point(628, 457);
             LabelVersion.Name = "LabelVersion";
-            LabelVersion.Size = new Size(287, 20);
+            LabelVersion.Size = new Size(238, 15);
             LabelVersion.TabIndex = 11;
-            LabelVersion.Text = "Version: 2.1.0.1 (Stable release, 29/1/2024)";
+            LabelVersion.Text = "Version: 2.1.0.2Beta (Beta release, 17/5/2024)";
             // 
             // GroupBoxAdditionalSettings
             // 
@@ -477,11 +477,11 @@ namespace ChampollionGUI_Update
             GroupBoxAdditionalSettings.Controls.Add(CheckBoxThreaded);
             GroupBoxAdditionalSettings.Controls.Add(CheckBoxGenerateComments);
             GroupBoxAdditionalSettings.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            GroupBoxAdditionalSettings.Location = new Point(15, 377);
-            GroupBoxAdditionalSettings.Margin = new Padding(5, 4, 5, 4);
+            GroupBoxAdditionalSettings.Location = new Point(13, 283);
+            GroupBoxAdditionalSettings.Margin = new Padding(4, 3, 4, 3);
             GroupBoxAdditionalSettings.Name = "GroupBoxAdditionalSettings";
-            GroupBoxAdditionalSettings.Padding = new Padding(5, 4, 5, 4);
-            GroupBoxAdditionalSettings.Size = new Size(958, 76);
+            GroupBoxAdditionalSettings.Padding = new Padding(4, 3, 4, 3);
+            GroupBoxAdditionalSettings.Size = new Size(838, 57);
             GroupBoxAdditionalSettings.TabIndex = 12;
             GroupBoxAdditionalSettings.TabStop = false;
             GroupBoxAdditionalSettings.Text = "Additional Settings";
@@ -490,21 +490,21 @@ namespace ChampollionGUI_Update
             // 
             LabelReadTheReadMe.AutoSize = true;
             LabelReadTheReadMe.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            LabelReadTheReadMe.Location = new Point(501, 24);
-            LabelReadTheReadMe.Margin = new Padding(5, 0, 5, 0);
-            LabelReadTheReadMe.MaximumSize = new Size(343, 0);
+            LabelReadTheReadMe.Location = new Point(438, 18);
+            LabelReadTheReadMe.Margin = new Padding(4, 0, 4, 0);
+            LabelReadTheReadMe.MaximumSize = new Size(350, 0);
             LabelReadTheReadMe.Name = "LabelReadTheReadMe";
-            LabelReadTheReadMe.Size = new Size(304, 40);
+            LabelReadTheReadMe.Size = new Size(344, 30);
             LabelReadTheReadMe.TabIndex = 31;
-            LabelReadTheReadMe.Text = "Please read the README before using the \"Threaded mode\" option";
+            LabelReadTheReadMe.Text = "Please read the README before using the \"Threaded mode\" option (RECOMMENDED for batches of 500+ files)";
             // 
             // ButtonOpenReadme
             // 
             ButtonOpenReadme.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            ButtonOpenReadme.Location = new Point(872, 16);
-            ButtonOpenReadme.Margin = new Padding(5, 4, 5, 4);
+            ButtonOpenReadme.Location = new Point(763, 12);
+            ButtonOpenReadme.Margin = new Padding(4, 3, 4, 3);
             ButtonOpenReadme.Name = "ButtonOpenReadme";
-            ButtonOpenReadme.Size = new Size(101, 36);
+            ButtonOpenReadme.Size = new Size(88, 27);
             ButtonOpenReadme.TabIndex = 13;
             ButtonOpenReadme.Text = "README";
             ButtonOpenReadme.UseVisualStyleBackColor = true;
@@ -512,9 +512,9 @@ namespace ChampollionGUI_Update
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(987, 647);
+            ClientSize = new Size(864, 485);
             Controls.Add(ButtonOpenReadme);
             Controls.Add(GroupBoxAdditionalSettings);
             Controls.Add(LabelVersion);
@@ -530,7 +530,7 @@ namespace ChampollionGUI_Update
             Controls.Add(GroupBoxProgress);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Margin = new Padding(5, 4, 5, 4);
+            Margin = new Padding(4, 3, 4, 3);
             Name = "Form1";
             Text = "Champollion Interface";
             GroupBoxParameters.ResumeLayout(false);
@@ -540,9 +540,6 @@ namespace ChampollionGUI_Update
             GroupBoxAdditionalSettings.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
-
-            StartupProceduresInstance = new StartupProcedures();
-
         }
 
         private void WireEvents()
@@ -763,6 +760,7 @@ namespace ChampollionGUI_Update
 
         private void ButtonOpenReadme_Click(object sender, EventArgs e)
         {
+            //TODO: Create try/catch. See Exeption class for TODO
             String Readme = "readme_instructions.txt";
             String Dir = Directory.GetCurrentDirectory();
             String Wholepath = $"{Dir}\\doc\\{Readme}";
