@@ -1,8 +1,0 @@
-C:\Users\aleks\source\repos\ChampollionGUI_Update\ChampollionGUI_Update\bin\Release\net8.0-windows\publish\win-x64\ChampollionGUI_Update.pdb
-C:\Users\aleks\source\repos\ChampollionGUI_Update\ChampollionGUI_Update\bin\Release\net8.0-windows\publish\win-x64\ChampollionGUI_Update.dll.config
-C:\Users\aleks\source\repos\ChampollionGUI_Update\ChampollionGUI_Update\bin\Release\net8.0-windows\publish\win-x64\D3DCompiler_47_cor3.dll
-C:\Users\aleks\source\repos\ChampollionGUI_Update\ChampollionGUI_Update\bin\Release\net8.0-windows\publish\win-x64\PenImc_cor3.dll
-C:\Users\aleks\source\repos\ChampollionGUI_Update\ChampollionGUI_Update\bin\Release\net8.0-windows\publish\win-x64\PresentationNative_cor3.dll
-C:\Users\aleks\source\repos\ChampollionGUI_Update\ChampollionGUI_Update\bin\Release\net8.0-windows\publish\win-x64\vcruntime140_cor3.dll
-C:\Users\aleks\source\repos\ChampollionGUI_Update\ChampollionGUI_Update\bin\Release\net8.0-windows\publish\win-x64\wpfgfx_cor3.dll
-C:\Users\aleks\source\repos\ChampollionGUI_Update\ChampollionGUI_Update\bin\Release\net8.0-windows\publish\win-x64\ChampollionGUI_Update.exe
