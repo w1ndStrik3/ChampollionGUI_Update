@@ -22,14 +22,14 @@ namespace ChampollionGUI_Update.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ImageResources {
+    internal class TextResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ImageResources() {
+        internal TextResources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace ChampollionGUI_Update.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ChampollionGUI_Update.Properties.ImageResources", typeof(ImageResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ChampollionGUI_Update.Properties.TextResources", typeof(TextResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,72 +61,63 @@ namespace ChampollionGUI_Update.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        ///   Looks up a localized string similar to Summary of the program:
+        ///This program provides a Graphical User Interface (GUI) to li1nx&apos;s 
+        ///&quot;Champollion a PEX to Papyrus decompiler&quot;
+        ///Link to Original Tool: http://www.nexusmods.com/skyrim/mods/35307/
+        ///
+        ///This program is a significant upgrade and modernizations of the
+        ///original &quot;Champollion Graphical User Interface&quot; which was originally
+        ///made by Arron Dominion. https://www.nexusmods.com/skyrim/mods/82367
+        ///
+        ///Compared to the old Champollion GUI, this version improves the
+        ///performance of the program (this ver [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static System.Drawing.Bitmap champ_error {
+        internal static string about {
             get {
-                object obj = ResourceManager.GetObject("champ_error", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ResourceManager.GetString("about", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        ///   Looks up a localized string similar to READ THE README BEFORE YOU POST ABOUT AN ISSUE! YOUR QUESTION IS
+        ///LIKELY ANSWERED THERE ALREADY!
+        ///The README can be found by clicking the README button
+        ///
+        ///If you have trouble and need assistance, please comments on the mod
+        ///page on Nexus or post a new issue on the GitHub page. You are welcome
+        ///to contact me directly on Steam
+        ///https://steamcommunity.com/id/w1ndStrik3_official/, but I would highly
+        ///prefer if you would post your issue on Nexus or GitHub, because other
+        ///people might have the same issue as you,  [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static System.Drawing.Bitmap confirm {
+        internal static string help {
             get {
-                object obj = ResourceManager.GetObject("confirm", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ResourceManager.GetString("help", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        ///   Looks up a localized string similar to Champollion Interface Help:
+        ///
+        ///This document gives an outline of the steps you need to take:
+        ///
+        ///1)  Select a folder where your .pex files are located.
+        ///
+        ///2)  Check Output Source in Different Location if you want the
+        ///    .psc to go to a folder of your own choosing.
+        ///    
+        ///    NOTE: By default, the source files be placed in 
+        ///    folder_with_pex_files/source.
+        ///    
+        ///    2a) Select a folder where your .psc files will be saved to.
+        ///
+        ///3)  Check Generate Assembly if you want a human-readable assembly file.
+        ///     [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static System.Drawing.Bitmap error {
+        internal static string readme_instructions {
             get {
-                object obj = ResourceManager.GetObject("error", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap finished {
-            get {
-                object obj = ResourceManager.GetObject("finished", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap help {
-            get {
-                object obj = ResourceManager.GetObject("help", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap settings {
-            get {
-                object obj = ResourceManager.GetObject("settings", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap warning {
-            get {
-                object obj = ResourceManager.GetObject("warning", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ResourceManager.GetString("readme_instructions", resourceCulture);
             }
         }
     }

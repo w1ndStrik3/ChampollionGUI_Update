@@ -7,47 +7,56 @@ namespace ChampollionGUI_Update
 {
     public class MessageBox : Form
     {
+#pragma warning disable CS0649 // Field 'MessageBox.Components' is never assigned to, and will always have its default value null
         private IContainer Components;
+#pragma warning restore CS0649 // Field 'MessageBox.Components' is never assigned to, and will always have its default value null
         private Label LabelMessageBoxText;
         private Button ButtonOk;
         private PictureBox MessageBoxIconField;
+        private Label LabelMessageBoxText2;
         private Button ButtonCancel;
 
+        //private readonly Font FontDefault = 
+
 #pragma warning disable CS8618
+
         public MessageBox()
         {
+            //this.FontDefault
             this.InitializeComponent();
         }
 #pragma warning restore CS8618
 
         private void InitializeComponent()
         {
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(MessageBox));
             LabelMessageBoxText = new Label();
             ButtonOk = new Button();
             ButtonCancel = new Button();
             MessageBoxIconField = new PictureBox();
+            LabelMessageBoxText2 = new Label();
             ((ISupportInitialize)MessageBoxIconField).BeginInit();
             SuspendLayout();
             // 
             // LabelMessageBoxText
             // 
             LabelMessageBoxText.AutoSize = true;
-            LabelMessageBoxText.Font = new Font("Segoe UI", 9F);
-            LabelMessageBoxText.Location = new Point(14, 10);
+            LabelMessageBoxText.Font = new Font("Consolas", 9F);
+            LabelMessageBoxText.Location = new Point(14, 9);
             LabelMessageBoxText.Margin = new Padding(4, 0, 4, 0);
-            LabelMessageBoxText.MaximumSize = new Size(430, 0);
+            LabelMessageBoxText.MaximumSize = new Size(462, 0);
             LabelMessageBoxText.Name = "LabelMessageBoxText";
-            LabelMessageBoxText.Size = new Size(427, 45);
+            LabelMessageBoxText.Size = new Size(462, 84);
             LabelMessageBoxText.TabIndex = 0;
-            LabelMessageBoxText.Text = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz\nMessage Box Text Goes Here. If you are seeing this, please report it";
+            LabelMessageBoxText.Text = resources.GetString("LabelMessageBoxText.Text");
             // 
             // ButtonOk
             // 
             ButtonOk.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            ButtonOk.Location = new Point(463, 215);
+            ButtonOk.Location = new Point(463, 201);
             ButtonOk.Margin = new Padding(4, 3, 4, 3);
             ButtonOk.Name = "ButtonOk";
-            ButtonOk.Size = new Size(87, 25);
+            ButtonOk.Size = new Size(87, 23);
             ButtonOk.TabIndex = 0;
             ButtonOk.Text = "OK";
             ButtonOk.UseVisualStyleBackColor = true;
@@ -55,10 +64,10 @@ namespace ChampollionGUI_Update
             // ButtonCancel
             // 
             ButtonCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            ButtonCancel.Location = new Point(568, 215);
+            ButtonCancel.Location = new Point(568, 201);
             ButtonCancel.Margin = new Padding(4, 3, 4, 3);
             ButtonCancel.Name = "ButtonCancel";
-            ButtonCancel.Size = new Size(87, 25);
+            ButtonCancel.Size = new Size(87, 23);
             ButtonCancel.TabIndex = 1;
             ButtonCancel.Text = "Cancel";
             ButtonCancel.UseVisualStyleBackColor = true;
@@ -66,21 +75,36 @@ namespace ChampollionGUI_Update
             // MessageBoxIconField
             // 
             MessageBoxIconField.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            MessageBoxIconField.Location = new Point(464, 8);
+            MessageBoxIconField.Location = new Point(486, 9);
             MessageBoxIconField.Name = "MessageBoxIconField";
-            MessageBoxIconField.Size = new Size(190, 190);
+            MessageBoxIconField.Size = new Size(190, 177);
             MessageBoxIconField.TabIndex = 2;
             MessageBoxIconField.TabStop = false;
             // 
+            // LabelMessageBoxText2
+            // 
+            LabelMessageBoxText2.AutoSize = true;
+            LabelMessageBoxText2.Font = new Font("Consolas", 9F);
+            LabelMessageBoxText2.Location = new Point(14, 189);
+            LabelMessageBoxText2.Margin = new Padding(4, 0, 4, 0);
+            LabelMessageBoxText2.MaximumSize = new Size(664, 0);
+            LabelMessageBoxText2.Name = "LabelMessageBoxText2";
+            LabelMessageBoxText2.Size = new Size(658, 56);
+            LabelMessageBoxText2.TabIndex = 3;
+            LabelMessageBoxText2.Text = resources.GetString("LabelMessageBoxText2.Text");
+            LabelMessageBoxText2.Visible = false;
+            // 
             // MessageBox
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(7F, 14F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(688, 252);
+            ClientSize = new Size(688, 235);
+            Controls.Add(LabelMessageBoxText2);
             Controls.Add(ButtonCancel);
             Controls.Add(ButtonOk);
             Controls.Add(MessageBoxIconField);
             Controls.Add(LabelMessageBoxText);
+            Font = new Font("Consolas", 9F);
             Margin = new Padding(4, 3, 4, 3);
             Name = "MessageBox";
             StartPosition = FormStartPosition.CenterParent;
@@ -110,28 +134,35 @@ namespace ChampollionGUI_Update
         //************************************************************************
         public MessageBox(String Title, String Message, bool showCancel) : this()
         {
+            String MessagePart1 = Message;
+            String MessagePart2 = "";
+            
             this.Text = Title;
-            LabelMessageBoxText.Text = Message;
-            if (!showCancel)
+            
+            if(!showCancel)
             {
                 ButtonCancel.Visible = false;
             }
 
-            int lines = CountLines(Text);
-            if (lines > 13)
+            int lines = CountLines(Message);
+            if(lines > 13)
             {
-                lines -= 13;
-                this.Height = 291 + 15 * lines;
+                this.Height = 291 + (15 * (lines - 13));
+
+                (MessagePart1, MessagePart2) = SplitText(Message);
+
+                LabelMessageBoxText2.Visible = true;
+                LabelMessageBoxText2.Text = MessagePart2;
             }
 
-
+            LabelMessageBoxText.Text = MessagePart1;
             IconSelect(Title);
             this.WireEvents();
         }
 
         private void IconSelect(String Title)
         {
-            switch (Title)
+            switch(Title)
             {
                 case "Run Error":
                     MessageBoxIconField.Image = new Bitmap(Properties.ImageResources.error);
@@ -148,8 +179,11 @@ namespace ChampollionGUI_Update
                 case "Champollion Run Complete":
                     MessageBoxIconField.Image = new Bitmap(Properties.ImageResources.finished);
                     break;
-                case "About":
-                    MessageBoxIconField.Image = new Bitmap(Properties.ImageResources.about);
+                case "Settings":
+                    MessageBoxIconField.Image = new Bitmap(Properties.ImageResources.settings);
+                    break;
+                case "Help":
+                    MessageBoxIconField.Image = new Bitmap(Properties.ImageResources.help);
                     break;
                 default:
                     MessageBoxIconField.Image = null;
@@ -198,20 +232,22 @@ namespace ChampollionGUI_Update
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && Components != null)
+            if(disposing && Components != null)
             {
                 Components.Dispose();
             }
+
             base.Dispose(disposing);
         }
 
         private int CountLines(String Text)
         {
-            if (String.IsNullOrEmpty(Text))
+            if(String.IsNullOrEmpty(Text))
             {
                 return 0;
             }
 
+            /*
             int lineCount = 1;
             foreach (char c in Text)
             {
@@ -220,7 +256,18 @@ namespace ChampollionGUI_Update
                     lineCount++;
                 }
             }
+            */
+            int lineCount = Text.Split('\n').Length;
             return lineCount;
+        }
+
+        private (String, String) SplitText(String Text)
+        {
+            String[] Lines = Text.Split(['\n']);
+
+            String Part1 = String.Join("\n", Lines.Take(13));
+            String Part2 = String.Join("\n", Lines.Skip(13));
+            return (Part1, Part2);
         }
     }
 }

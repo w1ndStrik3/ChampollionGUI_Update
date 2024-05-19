@@ -117,4 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="LabelMessageBoxText.Text" xml:space="preserve">
+    <value>_|_|_|_|10_|_|_|_|20_|_|_|_|30_|_|_|_|40_|_|_|_|50_|_|_|_|60_|_|_|_|70_|_|_|_|80_|_|_|_|90_|_|_|_100_|_|_|_110_|_|_|_120_|_|_|_130_|_|_|_140_|_|_|_150_|_|_|_160_|_|_|_170_|_|_|_180_|_|_|_190_|_|_|_200
+Message Box Text Goes Here. If you are seeing this, please report it</value>
+  </data>
+  <data name="LabelMessageBoxText2.Text" xml:space="preserve">
+    <value>_|_|_|_|10_|_|_|_|20_|_|_|_|30_|_|_|_|40_|_|_|_|50_|_|_|_|60_|_|_|_|70_|_|_|_|80_|_|_|_|90_|_|_|_100_|_|_|_110_|_|_|_120_|_|_|_130_|_|_|_140_|_|_|_150_|_|_|_160_|_|_|_170_|_|_|_180_|_|_|_190_|_|_|_200
+Message Box Text Goes Here. If you are seeing this, please report it</value>
+  </data>
 </root>

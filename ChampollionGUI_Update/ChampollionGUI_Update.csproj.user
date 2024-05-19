@@ -4,6 +4,9 @@
     <_LastSelectedProfileId>C:\Users\aleks\source\repos\ChampollionGUI_Update\ChampollionGUI_Update\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Update="AboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
