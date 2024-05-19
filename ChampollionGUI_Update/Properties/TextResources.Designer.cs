@@ -61,17 +61,15 @@ namespace ChampollionGUI_Update.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Summary of the program:
-        ///This program provides a Graphical User Interface (GUI) to li1nx&apos;s 
-        ///&quot;Champollion a PEX to Papyrus decompiler&quot;
-        ///Link to Original Tool: http://www.nexusmods.com/skyrim/mods/35307/
+        ///   Looks up a localized string similar to About Champollion GUI v2:
         ///
-        ///This program is a significant upgrade and modernizations of the
-        ///original &quot;Champollion Graphical User Interface&quot; which was originally
-        ///made by Arron Dominion. https://www.nexusmods.com/skyrim/mods/82367
+        ///This program provides a Graphical User Interface (GUI) to li1nx&apos;s &quot;Champollion a PEX to Papyrus decompiler&quot;.
+        ///Link to the original Champollion tool: http://www.nexusmods.com/skyrim/mods/35307/
         ///
-        ///Compared to the old Champollion GUI, this version improves the
-        ///performance of the program (this ver [rest of string was truncated]&quot;;.
+        ///This program is a significant upgrade and modernizations of the original &quot;Champollion Graphical User Interface&quot; which was originallymade by Arron Dominion. 
+        ///Link to the original Champollion GUI tool: https://www.nexusmods.com/skyrim/mods/82367
+        ///
+        ///Compared to the old Champollion GUI, th [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string about {
             get {

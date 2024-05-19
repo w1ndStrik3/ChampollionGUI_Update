@@ -20,7 +20,7 @@ namespace ChampollionGUI_Update
 
         private String ChampollionDirectory;
         private String ChampollionFullPath;
-        private String ErrorLogDirectory;
+        private String LogsDirectory;
 
         private System.Threading.Timer outputTimeoutTimer;
         private readonly int timeoutMilliseconds = 5000;
@@ -89,8 +89,7 @@ namespace ChampollionGUI_Update
 
             this.ChampollionDirectory = Form1Instance.ChampollionDirectory;
             this.ChampollionFullPath = Form1Instance.ChampollionFullPath;
-            this.ErrorLogDirectory = Form1Instance.ErrorLogDirectory;
-            CreateErrorLogDirectory(ErrorLogDirectory);
+            this.LogsDirectory = Form1Instance.LogsDirectory;
 
             this.DefaultStartInfo = StartInfoBuilder();
         }
@@ -239,13 +238,6 @@ namespace ChampollionGUI_Update
             return !isEmpty && exists;
         }
 
-        private void CreateErrorLogDirectory(String ErrorLogDirectory)
-        {
-            if(!Directory.Exists(ErrorLogDirectory))
-            {
-                Directory.CreateDirectory(ErrorLogDirectory);
-            }
-        }
         private ProcessStartInfo StartInfoBuilder()
         {
             ProcessStartInfo StartInfo = new ProcessStartInfo
@@ -579,7 +571,7 @@ namespace ChampollionGUI_Update
         private void CreateErrorLog(List<String> ErrorsList)
         {
             String TimeNowUTC = DateTime.UtcNow.ToString("dd_MM_yyyy_HH_mm_ss");
-            using(StreamWriter OutputFile = new StreamWriter(Path.Combine(ErrorLogDirectory, $"Champollion_log_{TimeNowUTC}.txt")))
+            using(StreamWriter OutputFile = new StreamWriter(Path.Combine(LogsDirectory, $"Champollion_log_{TimeNowUTC}.txt")))
             {
                 foreach(String Error in ErrorsList)
                 {

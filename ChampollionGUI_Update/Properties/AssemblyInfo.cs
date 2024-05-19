@@ -16,26 +16,19 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCopyrightAttribute("Released under LGPL v3 license")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute(@"About Champollion GUI v2:
 
-This program provides a Graphical User Interface (GUI) to li1nx's 
-""Champollion a PEX to Papyrus decompiler""
-Link to Original Tool: http://www.nexusmods.com/skyrim/mods/35307/
+This program provides a Graphical User Interface (GUI) to li1nx's ""Champollion a PEX to Papyrus decompiler"".
+Link to the original Champollion tool: http://www.nexusmods.com/skyrim/mods/35307/
 
-This program is a significant upgrade and modernizations of the
-original ""Champollion Graphical User Interface"" which was originally
-made by Arron Dominion. https://www.nexusmods.com/skyrim/mods/82367
+This program is a significant upgrade and modernizations of the original ""Champollion Graphical User Interface"" which was originallymade by Arron Dominion. 
+Link to the original Champollion GUI tool: https://www.nexusmods.com/skyrim/mods/82367
 
-Compared to the old Champollion GUI, this version improves the
-performance of the program (this version runs on the newest .NET,
-which is .NET version 8 currently). Additionaly, this updated
-version of the Champollion Graphical User Interface severely improves
-the user experience and the ease of use, along with a few added
-features compared to the original version by Arron Dominion.
+Compared to the old Champollion GUI, this version improves the performance of the program (this version runs on the newest .NET, which is .NET version 8 currently). Additionaly, this updated version of the Champollion Graphical User Interface severely improves the user experience and the ease of use, along with a few added features compared to the original version by Arron Dominion.
 
 The README can be found in the ""doc"" folder
 
 This program is released under the LGPL v3 license")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("2.2.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("2.2.0-alpha")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("2.2.0-alpha+58ab4c744bdc5b00549ae530be21090bfc1fea84")]
 [assembly: System.Reflection.AssemblyProductAttribute("Champollion GUI v2")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ChampollionGUI_Update")]
 [assembly: System.Reflection.AssemblyVersionAttribute("2.2.0.0")]

@@ -73,7 +73,7 @@ namespace ChampollionGUI_Update
         public readonly String RootDirectory;
         public readonly String ChampollionDirectory;
         public readonly String ChampollionFullPath;
-        public readonly String ErrorLogDirectory;
+        public readonly String LogsDirectory;
         #endregion
 
         #region Others
@@ -114,7 +114,7 @@ namespace ChampollionGUI_Update
             this.RootDirectory = StartupProceduresInstance.RootDirectory;
             this.ChampollionDirectory = StartupProceduresInstance.ChampollionDirectory;
             this.ChampollionFullPath = StartupProceduresInstance.ChampollionFullPath;
-            this.ErrorLogDirectory = StartupProceduresInstance.ErrorLogDirectory;
+            this.LogsDirectory = StartupProceduresInstance.LogsDirectory;
 
 
         }
