@@ -28,7 +28,7 @@ The README can be found in the ""doc"" folder
 
 This program is released under the LGPL v3 license")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("2.2.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("2.2.0-alpha+58ab4c744bdc5b00549ae530be21090bfc1fea84")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("2.2.0-alpha")]
 [assembly: System.Reflection.AssemblyProductAttribute("Champollion GUI v2")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ChampollionGUI_Update")]
 [assembly: System.Reflection.AssemblyVersionAttribute("2.2.0.0")]

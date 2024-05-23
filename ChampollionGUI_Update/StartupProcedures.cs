@@ -17,6 +17,8 @@ namespace ChampollionGUI_Update
         public readonly String SettingsFileFullPath;
         public readonly String LogsDirectory;
 
+        public readonly String WarningMessage;
+
         //TODO:
         //  Create Settings
         //  Fill "CreateSettings" method
@@ -60,6 +62,15 @@ namespace ChampollionGUI_Update
         public StartupProcedures(Form Form1Instance)
         {
             this.Form1Instance = Form1Instance;
+
+            this.WarningMessage = "You have selected to use a custom directory for the " +
+                                  "{0} files, but either you have not specified the " +
+                                  "location of the custom directory, OR the specified " +
+                                  "directory does not exist." +
+                                  "\r\n\r\nWould you like to use the default directory? " +
+                                  "\r\n\tSelect \"OK\" to continue with the default directory " +
+                                  "\r\n\tSelect \"Cancel\" to cancel." +
+                                  "\r\n\r\nDefault directory is: %Scripts Folder%\\{0}";
 
             this.RootDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             this.ChampollionDirectory = Path.Combine(RootDirectory, "Champollion");

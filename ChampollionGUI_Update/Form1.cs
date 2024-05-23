@@ -12,7 +12,7 @@ namespace ChampollionGUI_Update
     public class Form1 : Form
     {
         #region declarations
-
+        #region Form elements
         #region IContainers
         public IContainer Components;
         #endregion
@@ -25,6 +25,7 @@ namespace ChampollionGUI_Update
         public Button ButtonSourceDestinationBrowse;
         public Button ButtonAssemblyPathBrowse;
         public Button ButtonExit;
+        public Button ButtonOpenReadme;
         #endregion
 
         #region CheckBoxes
@@ -32,10 +33,9 @@ namespace ChampollionGUI_Update
         public CheckBox CheckBoxGenerateAssembly;
         public CheckBox CheckBoxGenerateComments;
         public CheckBox CheckBoxOutputAssemblyDiffLocation;
-        #endregion
-
-        #region FolderBrowserDialogs
-        public FolderBrowserDialog FolderDialog;
+        public CheckBox CheckBoxIgnoreCorruptFiles;
+        public CheckBox CheckBoxThreaded;
+        public GroupBox GroupBoxAdditionalSettings;
         #endregion
 
         #region Groupboxes
@@ -51,6 +51,7 @@ namespace ChampollionGUI_Update
         public Label LabelAssemblyDestination;
         public Label LabelSourceDestination;
         public Label LabelVersion;
+        public Label LabelReadTheReadMe;
         #endregion
 
         #region LinkLabels
@@ -69,67 +70,188 @@ namespace ChampollionGUI_Update
         public TextBox TextBoxSourcePath;
         #endregion
 
+        #region ToolStripMenuItems & MenuStrip
+        public MenuStrip MenuStrip;
+        public ToolStripMenuItem ToolStripMenuItemSettings;
+        public ToolStripMenuItem ToolStripMenuItemAbout;
+        public ToolStripMenuItem ToolStripMenuItemHelp;
+        public ToolStripMenuItem ToolStripMenuItemReadme;
+        #endregion
+        #endregion //Form elements
+
         #region Directories
+
+        ///***********************************************************************
+        /// <summary>
+        /// 
+        /// The root directory of the Champollion GUI installation. The name of
+        /// the root folder is <c>"\ChampollionGUI_Update"</c>. The exact path is
+        /// determined by the <see cref="StartupProcedures"/>.
+        /// 
+        /// <example>
+        /// For example:
+        /// <para>
+        /// <c>X:\ExampleDir\ChampollionGUI_Update</c>
+        /// </para>
+        /// </example>
+        /// 
+        /// </summary>
+        ///***********************************************************************
         public readonly String RootDirectory;
+
+        ///***********************************************************************
+        /// <summary>
+        /// 
+        /// The Champollion folder. It is located inside the ChampollionGUI_Update
+        /// folder (the root folder). The exact path is determined by the 
+        /// <see cref="StartupProcedures"/> class.
+        /// 
+        /// <example>
+        /// For example:
+        /// <para>
+        /// <c>X:\ExampleDir\ChampollionGUI_Update\Champollion</c>
+        /// </para>
+        /// </example>
+        /// 
+        /// </summary>
+        /// 
+        /// <remarks>
+        /// <para><b>Additional remarks:</b></para>
+        /// Root folder: <see cref="RootDirectory"/>
+        /// <para>
+        /// The specific contents of this folder are as follows:
+        /// </para>
+        /// <list type="bullet">
+        /// 
+        /// <item><c>Champollion.exe</c></item>
+        /// <item><c>Decompiler.dll</c></item>
+        /// <item><c>Pex.dll</c></item>
+        /// 
+        /// </list>
+        /// </remarks>
+        ///***********************************************************************
         public readonly String ChampollionDirectory;
+
+        ///***********************************************************************
+        /// <summary>
+        /// 
+        /// The full path to the Champollion.exe executable file itself. Located
+        /// inside the "Champollion" folder. The exact path is determined by the 
+        /// <see cref="StartupProcedures"/> class.
+        /// 
+        /// <example>
+        /// For example:
+        /// <para>
+        /// <c>X:\ExampleDir\ChampollionGUI_Update\Champollion\Champollion.exe</c>
+        /// </para>
+        /// </example>
+        /// 
+        /// </summary>
+        /// 
+        /// <remarks>
+        /// <para><b>Additional remarks:</b></para>
+        /// Champollion folder: <see cref="ChampollionDirectory"/>
+        /// 
+        /// </remarks>
+        ///***********************************************************************
         public readonly String ChampollionFullPath;
+
+        ///***********************************************************************
+        /// <summary>
+        /// 
+        /// The logs folder. This is where all generated log files will go.
+        /// Located inside the ChampollionGUI_Update (i.e. the root) folder. The
+        /// exact path is determined by the <see cref="StartupProcedures"/> class.
+        /// 
+        /// <example>
+        /// For example:
+        /// <para>
+        /// <c>X:\ExampleDir\ChampollionGUI_Update\Logs</c>
+        /// </para>
+        /// </example>
+        /// 
+        /// </summary>
+        /// 
+        /// <remarks>
+        /// <para><b>Additional remarks:</b></para>
+        /// Root folder: <see cref="RootDirectory"/>
+        /// 
+        /// </remarks>
+        ///***********************************************************************
         public readonly String LogsDirectory;
         #endregion
 
         #region Others
+        public FolderBrowserDialog FolderDialog;
         private StartupProcedures StartupProceduresInstance;
         private Decompilation Decompiler;
-        public CheckBox CheckBoxIgnoreCorruptFiles;
-        public CheckBox CheckBoxThreaded;
-        public GroupBox GroupBoxAdditionalSettings;
-        public Button ButtonOpenReadme;
-        public Label LabelReadTheReadMe;
-        private ToolStripMenuItem ToolStripMenuItemSettings;
-        private ToolStripMenuItem ToolStripMenuItemAbout;
-        private ToolStripMenuItem ToolStripMenuItemHelp;
-        private MenuStrip MenuStrip;
-        private ToolStripMenuItem ToolStripMenuItemReadme;
+
+        ///***********************************************************************
+        /// <summary>
+        /// A template for a warning message that can be thrown in the case of the
+        /// user having selected to use a custom output directory, for either the
+        /// scripts or the assembly files, but the folder path given by the user
+        /// is invalid, i.e. either the textbox is empty, the path has a typo or
+        /// if the directory does not exist.
+        /// </summary>
+        ///***********************************************************************
         public readonly String WarningMessage;
-        #endregion
+        #endregion //Others
 
         #endregion
 
-        #pragma warning disable CS8618
+#pragma warning disable CS8618
         public Form1()
         {
             this.InitializeComponent();
-
-            this.WarningMessage = "You have selected to use a custom directory for the " +
-                                  "{0} files, but either you have not specified the " +
-                                  "location of the custom directory, OR the specified " +
-                                  "directory does not exist." +
-                                  "\r\n\r\nWould you like to use the default directory? " +
-                                  "\r\n\tSelect \"OK\" to continue with the default directory " +
-                                  "\r\n\tSelect \"Cancel\" to cancel." +
-                                  "\r\n\r\nDefault directory is: %Scripts Folder%\\{0}";
-
             this.WireEvents();
 
             this.StartupProceduresInstance = new StartupProcedures(this);
+
+            //Sets the paths of the directories to the proper values.
             this.RootDirectory = StartupProceduresInstance.RootDirectory;
             this.ChampollionDirectory = StartupProceduresInstance.ChampollionDirectory;
             this.ChampollionFullPath = StartupProceduresInstance.ChampollionFullPath;
             this.LogsDirectory = StartupProceduresInstance.LogsDirectory;
-
-
+            this.WarningMessage = StartupProceduresInstance.WarningMessage;
         }
-        #pragma warning restore CS8618
 
+#pragma warning restore CS8618
+
+        ///***********************************************************************
+        /// <summary>
+        ///	The Dispose method ensures that when a form or control is disposed of,
+        ///	any components it contains are also disposed of, provided that the 
+        ///	Dispose method is called with disposing set to true. This helps to
+        ///	free up resources and prevent memory leaks by properly cleaning up 
+        ///	both managed and unmanaged resources used by the form or control and 
+        ///	its components. 
+        /// </summary>
+        /// <param name="disposing">
+        /// Indicates where the method was called from.
+        /// <para>Called by the program code if <c>true</c></para>
+        /// <para>Called by the runtime if <c>false</c> </para>
+        /// 
+        /// </param>
+        ///***********************************************************************
         protected override void Dispose(bool disposing)
         {
+            //Firsts disposes the Components if any
             if(disposing && Components != null)
             {
                 Components.Dispose();
             }
 
+            //Calls the base Dispose to clean everything
             base.Dispose(disposing);
         }
 
+        ///***********************************************************************
+        /// <summary>
+        /// Instantiates and i nitializes all the UI elements in thw form window,
+        /// and applies all the default values to those elements.
+        /// </summary>
+        ///***********************************************************************
         private void InitializeComponent()
         {
             ComponentResourceManager resources = new ComponentResourceManager(typeof(Form1));
@@ -551,7 +673,9 @@ namespace ChampollionGUI_Update
             LabelReadTheReadMe.Name = "LabelReadTheReadMe";
             LabelReadTheReadMe.Size = new Size(344, 30);
             LabelReadTheReadMe.TabIndex = 31;
-            LabelReadTheReadMe.Text = "Please read the README before using the \"Threaded mode\" option (RECOMMENDED for batches of 500+ files)";
+            LabelReadTheReadMe.Text =
+                "Please read the README before using the \"Threaded mode\" " +
+                "option (RECOMMENDED for batches of 500+ files)";
             // 
             // ButtonOpenReadme
             // 
@@ -591,7 +715,16 @@ namespace ChampollionGUI_Update
             // MenuStrip
             // 
             MenuStrip.BackColor = Color.White;
-            MenuStrip.Items.AddRange(new ToolStripItem[] { ToolStripMenuItemSettings, ToolStripMenuItemAbout, ToolStripMenuItemHelp, ToolStripMenuItemReadme });
+            MenuStrip.Items.AddRange
+            (
+                new ToolStripItem[]
+                {
+                    ToolStripMenuItemSettings,
+                    ToolStripMenuItemAbout,
+                    ToolStripMenuItemHelp,
+                    ToolStripMenuItemReadme
+                }
+            );
             MenuStrip.Location = new Point(0, 0);
             MenuStrip.Name = "MenuStrip";
             MenuStrip.Size = new Size(864, 24);
@@ -641,35 +774,185 @@ namespace ChampollionGUI_Update
             PerformLayout();
         }
 
+
+        ///***********************************************************************
+        /// <summary>
+        /// Adds eventhandlers to the different possible events that can occur/be
+        /// fired when using the UI, and ensures the right method is called when 
+        /// the user performs some action in the program.
+        /// </summary>
+        ///***********************************************************************
         private void WireEvents()
         {
+            #region Checkboxes
+            /* 
+            Template
+            
+            .CheckedChanged += 
+                new EventHandler(this._CheckedChanged);
+            
+             */
+            CheckBoxUseDifferentDirectoryForSource.CheckedChanged +=
+                new EventHandler(this.CheckBoxUseDifferentDirectoryForSource_CheckedChanged);
+            CheckBoxOutputAssemblyDiffLocation.CheckedChanged +=
+                new EventHandler(this.CheckBoxOutputAssemblyDiffLocation_CheckedChanged);
+            CheckBoxGenerateAssembly.CheckedChanged +=
+                new EventHandler(this.CheckBoxGenerateAssembly_CheckedChanged);
+            CheckBoxIgnoreCorruptFiles.CheckedChanged +=
+                new EventHandler(this.CheckBoxIgnoreCorruptFiles_CheckedChanged);
+            CheckBoxThreaded.CheckedChanged +=
+                new EventHandler(this.CheckBoxThreaded_CheckedChanged);
+            #endregion //Checkboxes
+            #region Buttons
+            /* 
+            Template
+            
+            .Click += 
+                new EventHandler(this._Click);
+            
+             */
+            ButtonSourceDestinationBrowse.Click +=
+                new EventHandler(this.ButtonSourceDestinationBrowse_Click);
+            ButtonScriptsPathBrowse.Click +=
+                new EventHandler(this.ButtonScriptsPathBrowse_Click);
+            ButtonAssemblyPathBrowse.Click +=
+                new EventHandler(this.ButtonAssemblyPathBrowse_Click);
+            ButtonRun.Click +=
+                new EventHandler(this.ButtonRun_Click);
+            ButtonExit.Click +=
+                new EventHandler(this.ButtonExit_Click);
+            ButtonOpenReadme.Click +=
+                new EventHandler(this.ButtonOpenReadme_Click);
             //ButtonAbout.Click += new EventHandler(this.ButtonAbout_Click);
-            ButtonAssemblyPathBrowse.Click += new EventHandler(this.ButtonAssemblyPathBrowse_Click);
-            ButtonExit.Click += new EventHandler(this.ButtonExit_Click);
             //ButtonHelp.Click += new EventHandler(this.ButtonHelp_Click);
-            ButtonRun.Click += new EventHandler(this.ButtonRun_Click);
-            ButtonScriptsPathBrowse.Click += new EventHandler(this.ButtonScriptsPathBrowse_Click);
-            ButtonSourceDestinationBrowse.Click += new EventHandler(this.ButtonSourceDestinationBrowse_Click);
-            CheckBoxGenerateAssembly.CheckedChanged += new EventHandler(this.CheckBoxGenerateAssembly_CheckedChanged);
-            CheckBoxOutputAssemblyDiffLocation.CheckedChanged += new EventHandler(this.CheckBoxOutputAssemblyDiffLocation_CheckedChanged);
-            CheckBoxUseDifferentDirectoryForSource.CheckedChanged += new EventHandler(this.CheckBoxUseDifferentDirectoryForSource_CheckedChanged);
+            #endregion //Buttons
+            #region Link labels
+            /* 
+            Template
+
+            .LinkClicked += 
+               new LinkLabelLinkClickedEventHandler(this._LinkClicked);
+
+            */
+
+            LinkLabelAuthorOriginal.LinkClicked +=
+                new LinkLabelLinkClickedEventHandler(this.LinkLabelAuthorOriginal_LinkClicked);
+            LinkLabelAuthorRevision.LinkClicked +=
+               new LinkLabelLinkClickedEventHandler(this.LinkLabelAuthorRevision_LinkClicked);
+            LinkLabelEndorse.LinkClicked +=
+               new LinkLabelLinkClickedEventHandler(this.LinkLabelEndorse_LinkClicked);
+            #endregion //Link labels
+            #region Toolstrip buttons
+            /* 
+            Template
+
+            .Click += 
+              new EventArgs(this._Click);
+
+            */
+
+            ToolStripMenuItemSettings.Click +=
+              new EventHandler(this.ToolStripMenuItemSettings_Click);
+            ToolStripMenuItemAbout.Click +=
+              new EventHandler(this.ToolStripMenuItemAbout_Click);
+            ToolStripMenuItemHelp.Click +=
+              new EventHandler(this.ToolStripMenuItemHelp_Click);
+            ToolStripMenuItemReadme.Click +=
+              new EventHandler(this.ToolStripMenuItemReadme_Click);
+
+            #endregion //Toolstrip buttons
         }
 
+        ///***********************************************************************
+        /// <summary>
+        /// Does the exact opposite of <see cref="WireEvents"/>, i.e. it removes
+        /// the eventhandlers from all the events. Is used when the program is
+        /// closed. Is only called by the <see cref="ButtonExit_Click"/> method.
+        /// </summary>
+        ///***********************************************************************
         private void UnWireEvents()
         {
+            #region Checkboxes
+            /* 
+            Template
+            
+            .CheckedChanged -= 
+                new EventHandler(this._CheckedChanged);
+            
+             */
+            CheckBoxUseDifferentDirectoryForSource.CheckedChanged -=
+                new EventHandler(this.CheckBoxUseDifferentDirectoryForSource_CheckedChanged);
+            CheckBoxOutputAssemblyDiffLocation.CheckedChanged -=
+                new EventHandler(this.CheckBoxOutputAssemblyDiffLocation_CheckedChanged);
+            CheckBoxGenerateAssembly.CheckedChanged -=
+                new EventHandler(this.CheckBoxGenerateAssembly_CheckedChanged);
+            CheckBoxIgnoreCorruptFiles.CheckedChanged -=
+                new EventHandler(this.CheckBoxIgnoreCorruptFiles_CheckedChanged);
+            CheckBoxThreaded.CheckedChanged -=
+                new EventHandler(this.CheckBoxThreaded_CheckedChanged);
+            #endregion //Checkboxes
+            #region Buttons
+            /* 
+            Template
+            
+            .Click -= 
+                new EventHandler(this._Click);
+            
+             */
+            ButtonSourceDestinationBrowse.Click -=
+                new EventHandler(this.ButtonSourceDestinationBrowse_Click);
+            ButtonScriptsPathBrowse.Click -=
+                new EventHandler(this.ButtonScriptsPathBrowse_Click);
+            ButtonAssemblyPathBrowse.Click -=
+                new EventHandler(this.ButtonAssemblyPathBrowse_Click);
+            ButtonRun.Click -=
+                new EventHandler(this.ButtonRun_Click);
+            ButtonExit.Click -=
+                new EventHandler(this.ButtonExit_Click);
+            ButtonOpenReadme.Click -=
+                new EventHandler(this.ButtonOpenReadme_Click);
             //ButtonAbout.Click -= new EventHandler(this.ButtonAbout_Click);
-            ButtonAssemblyPathBrowse.Click -= new EventHandler(this.ButtonAssemblyPathBrowse_Click);
-            ButtonExit.Click -= new EventHandler(this.ButtonExit_Click);
             //ButtonHelp.Click -= new EventHandler(this.ButtonHelp_Click);
-            ButtonRun.Click -= new EventHandler(this.ButtonRun_Click);
-            ButtonScriptsPathBrowse.Click -= new EventHandler(this.ButtonScriptsPathBrowse_Click);
-            ButtonSourceDestinationBrowse.Click -= new EventHandler(this.ButtonSourceDestinationBrowse_Click);
-            CheckBoxGenerateAssembly.CheckedChanged -= new EventHandler(this.CheckBoxGenerateAssembly_CheckedChanged);
-            CheckBoxOutputAssemblyDiffLocation.CheckedChanged -= new EventHandler(this.CheckBoxOutputAssemblyDiffLocation_CheckedChanged);
-            CheckBoxUseDifferentDirectoryForSource.CheckedChanged -= new EventHandler(this.CheckBoxUseDifferentDirectoryForSource_CheckedChanged);
+            #endregion //Buttons
+            #region Link labels
+            /* 
+            Template
+
+            .LinkClicked -= 
+               new LinkLabelLinkClickedEventHandler(this._LinkClicked);
+
+            */
+
+            LinkLabelAuthorOriginal.LinkClicked -=
+                new LinkLabelLinkClickedEventHandler(this.LinkLabelAuthorOriginal_LinkClicked);
+            LinkLabelAuthorRevision.LinkClicked -=
+               new LinkLabelLinkClickedEventHandler(this.LinkLabelAuthorRevision_LinkClicked);
+            LinkLabelEndorse.LinkClicked -=
+               new LinkLabelLinkClickedEventHandler(this.LinkLabelEndorse_LinkClicked);
+            #endregion //Link labels
+            #region Toolstrip buttons
+            /* 
+            Template
+
+            .Click -= 
+              new EventArgs(this._Click);
+
+            */
+
+            ToolStripMenuItemSettings.Click -=
+              new EventHandler(this.ToolStripMenuItemSettings_Click);
+            ToolStripMenuItemAbout.Click -=
+              new EventHandler(this.ToolStripMenuItemAbout_Click);
+            ToolStripMenuItemHelp.Click -=
+              new EventHandler(this.ToolStripMenuItemHelp_Click);
+            ToolStripMenuItemReadme.Click -=
+              new EventHandler(this.ToolStripMenuItemReadme_Click);
+
+            #endregion //Toolstrip buttons
         }
 
         #region Form methods
+        #region Checkboxes
         private void CheckBoxUseDifferentDirectoryForSource_CheckedChanged(Object? Sender, EventArgs EA)
         {
             ButtonSourceDestinationBrowse.Enabled = CheckBoxUseDifferentDirectoryForSource.Checked;
@@ -709,18 +992,19 @@ namespace ChampollionGUI_Update
             }
         }
 
-        private void CheckBoxIgnoreCorruptFiles_CheckedChanged(object sender, EventArgs EA)
+        private void CheckBoxIgnoreCorruptFiles_CheckedChanged(Object? sender, EventArgs EA)
         {
             CheckBoxThreaded.Enabled = !CheckBoxIgnoreCorruptFiles.Checked;
             CheckBoxThreaded.Checked = false;
         }
 
-        private void CheckBoxThreaded_CheckedChanged(object sender, EventArgs EA)
+        private void CheckBoxThreaded_CheckedChanged(Object? sender, EventArgs EA)
         {
             CheckBoxIgnoreCorruptFiles.Enabled = !CheckBoxThreaded.Checked;
             CheckBoxIgnoreCorruptFiles.Checked = false;
         }
-
+        #endregion //Checkboxes
+        #region Buttons
         private void ButtonSourceDestinationBrowse_Click(Object? Sender, EventArgs EA)
         {
             String Path = SelectFolder();
@@ -807,7 +1091,7 @@ namespace ChampollionGUI_Update
             this.Close();
         }
 
-        
+
         //private void ButtonHelp_Click(Object? Sender, EventArgs EA)
         //{
         //    String Help_Text = Properties.TextResources.help;
@@ -864,15 +1148,16 @@ namespace ChampollionGUI_Update
         //
         //}
 
-        private void ButtonOpenReadme_Click(object sender, EventArgs e)
+        private void ButtonOpenReadme_Click(Object? sender, EventArgs e)
         {
-            
-            
-            
-            
-            
-        }
 
+
+
+
+
+        }
+        #endregion //Buttons
+        #region Link labels
         private void LinkLabelAuthorOriginal_LinkClicked(Object? Sender, LinkLabelLinkClickedEventArgs LLLCEA)
         {
             // Specify that the link was visited.
@@ -899,24 +1184,25 @@ namespace ChampollionGUI_Update
             // Navigate to a URL.
             Process.Start("https://www.nexusmods.com/skyrimspecialedition/mods/92452");
         }
-        
-        private void ToolStripMenuItemSettings_Click(object sender, EventArgs EA)
+        #endregion //Link labels
+        #region Tooltsrip buttons
+        private void ToolStripMenuItemSettings_Click(Object? sender, EventArgs EA)
         {
-            
+
         }
 
-        private void ToolStripMenuItemAbout_Click(object sender, EventArgs EA)
+        private void ToolStripMenuItemAbout_Click(Object? sender, EventArgs EA)
         {
             _ = new AboutBox().ShowDialog();
         }
 
-        private void ToolStripMenuItemHelp_Click(object sender, EventArgs EA)
+        private void ToolStripMenuItemHelp_Click(Object? sender, EventArgs EA)
         {
             String Help_Text = Properties.TextResources.help;
             _ = new MessageBox("Help", Help_Text /*Help_Strings.ToString()*/, false).ShowDialog();
         }
 
-        private void ToolStripMenuItemReadme_Click(object sender, EventArgs EA)
+        private void ToolStripMenuItemReadme_Click(Object? sender, EventArgs EA)
         {
             //TODO: Create try/catch. See Exeption class for TODO
             //String Readme = "readme_instructions.txt";
@@ -926,8 +1212,8 @@ namespace ChampollionGUI_Update
             String ReadMe_Text = Properties.TextResources.readme_instructions;
             _ = new MessageBox("Settings", ReadMe_Text, false).ShowDialog();
         }
-        #endregion
-
+        #endregion //Tooltsrip buttons
+        #endregion //Form methods
         #region Custom methods
         private String SelectFolder()
         {
@@ -956,7 +1242,7 @@ namespace ChampollionGUI_Update
 
             _ = new MessageBox("Run Error", Fishy, false).ShowDialog();
         }
-        #endregion
+        #endregion //Custom methods
 
     }
 }
