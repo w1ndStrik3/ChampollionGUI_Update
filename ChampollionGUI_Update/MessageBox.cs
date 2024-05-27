@@ -22,11 +22,16 @@ namespace ChampollionGUI_Update
 
         public MessageBox()
         {
-            //this.FontDefault
             this.InitializeComponent();
         }
 #pragma warning restore CS8618
 
+        ///***********************************************************************
+        /// <summary>
+        /// Instantiates and initializes all the UI elements in the form window,
+        /// and applies all the default values to those elements.
+        /// </summary>
+        ///***********************************************************************
         private void InitializeComponent()
         {
             ComponentResourceManager resources = new ComponentResourceManager(typeof(MessageBox));
@@ -114,7 +119,7 @@ namespace ChampollionGUI_Update
             PerformLayout();
         }
 
-        //************************************************************************
+        ///************************************************************************
         /// <summary>
         /// A new Message box is constructed, with the three parameters "Title",
         /// "Message" and "showCancel".
@@ -131,24 +136,26 @@ namespace ChampollionGUI_Update
         /// "OK" button. When "showCancel" is true, the "Cancel" button is
         /// displayed.
         /// </param>
-        //************************************************************************
+        ///************************************************************************
         public MessageBox(String Title, String Message, bool showCancel) : this()
         {
             String MessagePart1 = Message;
-            String MessagePart2 = "";
-            
             this.Text = Title;
-            
+
             if(!showCancel)
             {
                 ButtonCancel.Visible = false;
             }
 
+            //If the message is longer than 13 lines, the message will be split
+            //into two parts, and use two different text boxes, so the entire
+            //message will be able to fit properly.
             int lines = CountLines(Message);
             if(lines > 13)
             {
                 this.Height = 291 + (15 * (lines - 13));
 
+                String MessagePart2;
                 (MessagePart1, MessagePart2) = SplitText(Message);
 
                 LabelMessageBoxText2.Visible = true;
@@ -160,6 +167,16 @@ namespace ChampollionGUI_Update
             this.WireEvents();
         }
 
+        ///************************************************************************
+        /// <summary>
+        /// The message box can show different icons based on the reason the
+        /// message box was created. This method chooses the correct icon to be
+        /// displayed.
+        /// </summary>
+        /// <param name="Title">
+        /// This parameter is used to determine the appropriate icon.
+        /// </param>
+        ///************************************************************************
         private void IconSelect(String Title)
         {
             switch(Title)
@@ -191,12 +208,27 @@ namespace ChampollionGUI_Update
             }
         }
 
+        ///***********************************************************************
+        /// <summary>
+        /// Adds eventhandlers to the different possible events that can occur/be
+        /// fired when using the UI, and ensures the right method is called when 
+        /// the user performs some action in the program.
+        /// </summary>
+        ///***********************************************************************
         private void WireEvents()
         {
             ButtonOk.Click += new EventHandler(this.ButtonOk_Click);
             ButtonCancel.Click += new EventHandler(this.ButtonCancel_Click);
         }
 
+        ///***********************************************************************
+        /// <summary>
+        /// Does the exact opposite of <see cref="WireEvents"/>, i.e. it removes
+        /// the eventhandlers from all the events. Is used when the program is
+        /// closed. Is only called by either the <see cref="ButtonCancel_Click"/> or
+        /// <see cref="ButtonOk_Click"/>   method.
+        /// </summary>
+        ///***********************************************************************
         private void UnWireEvents()
         {
             ButtonOk.Click -= new EventHandler(this.ButtonOk_Click);
@@ -209,15 +241,14 @@ namespace ChampollionGUI_Update
             this.DialogResult = DialogResult.Cancel;
         }
 
-        //************************************************************************
+        ///************************************************************************
         /// <summary>
-        /// Adds check to see if the user if a wierdo and clicks the close (X) 
-        /// button in the corner instead of using the No/Cancel button like a 
-        /// normal human
+        /// Called when the user presses the close (red "X") button in the upper 
+        /// right corner of the message box, instead of either the OK or Cancel 
+        /// buttons. This method cancels the normal process of closing the message
+        /// box, and instead calls the <see cref="ButtonCancel_Click"/> method.
         /// </summary>
-        /// <param name="Sender"></param>
-        /// <param name="FCEA"></param>
-        //************************************************************************
+        ///************************************************************************
         private void MessageBox_FormClosing(Object? Sender, FormClosingEventArgs FCEA)
         {
             _ = new EventHandler(this.ButtonCancel_Click);
@@ -230,6 +261,21 @@ namespace ChampollionGUI_Update
             this.DialogResult = DialogResult.OK;
         }
 
+        ///***********************************************************************
+        /// <summary>
+        ///	The Dispose method ensures that when a form or control is disposed of,
+        ///	any components it contains are also disposed of, provided that the 
+        ///	Dispose method is called with disposing set to true. This helps to
+        ///	free up resources and prevent memory leaks by properly cleaning up 
+        ///	both managed and unmanaged resources used by the form or control and 
+        ///	its components. 
+        /// </summary>
+        /// <param name="disposing">
+        /// Indicates where the method was called from.
+        /// <para>Called by the program code if <c>true</c></para>
+        /// <para>Called by the runtime if <c>false</c> </para>
+        /// </param>
+        ///***********************************************************************
         protected override void Dispose(bool disposing)
         {
             if(disposing && Components != null)
@@ -240,6 +286,18 @@ namespace ChampollionGUI_Update
             base.Dispose(disposing);
         }
 
+        ///***********************************************************************
+        /// <summary>
+        /// Counts the number of lines ('\n') in the string passed to the method.
+        /// Called by the constructor.
+        /// </summary>
+        /// <param name="Text">
+        /// This is the string in which the number of lines are counted.
+        /// </param>
+        /// <returns>
+        /// Integer value corresponding to the amount of lines ('\n') counted.
+        /// </returns>
+        ///***********************************************************************
         private int CountLines(String Text)
         {
             if(String.IsNullOrEmpty(Text))
@@ -261,6 +319,19 @@ namespace ChampollionGUI_Update
             return lineCount;
         }
 
+        ///***********************************************************************
+        /// <summary>
+        /// Splits a string of text into two parts, where the first part contains
+        /// the first 13 lines of text, and the second part contains the rest.
+        /// </summary>
+        /// <param name="Text">
+        /// This is the string which will be split.
+        /// </param>
+        /// <returns>
+        /// Two strings (String, String) where the first string is the first part
+        /// of the splits text, and the second string is the second part.
+        /// </returns>
+        ///***********************************************************************
         private (String, String) SplitText(String Text)
         {
             String[] Lines = Text.Split(['\n']);

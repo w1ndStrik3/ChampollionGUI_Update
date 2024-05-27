@@ -63,12 +63,27 @@ namespace ChampollionGUI_Update
         private String WarningMessage;
         #endregion
         #endregion
+
+        ///***********************************************************************
+        /// <summary>
+        /// The constructor for the Decompilation class.
+        /// </summary>
+        /// <param name="Form1Instance">
+        /// The Form instance of the CGUI form passed by the Form1 class.
+        /// </param>
+        ///***********************************************************************
         public Decompilation(Form1 Form1Instance)
         {
             this.Form1Instance = Form1Instance;
             this.InitializeComponent();
         }
 
+        ///***********************************************************************
+        /// <summary>
+        /// Instantiates and initializes all the UI elements in the form window,
+        /// and applies all the default values to those elements.
+        /// </summary>
+        ///***********************************************************************
         public void InitializeComponent()
         {
             this.TextBoxScriptsPEXPath = Form1Instance.TextBoxScriptsPEXPath;

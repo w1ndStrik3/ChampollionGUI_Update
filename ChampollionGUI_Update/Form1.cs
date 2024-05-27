@@ -231,7 +231,6 @@ namespace ChampollionGUI_Update
         /// Indicates where the method was called from.
         /// <para>Called by the program code if <c>true</c></para>
         /// <para>Called by the runtime if <c>false</c> </para>
-        /// 
         /// </param>
         ///***********************************************************************
         protected override void Dispose(bool disposing)
@@ -248,7 +247,7 @@ namespace ChampollionGUI_Update
 
         ///***********************************************************************
         /// <summary>
-        /// Instantiates and i nitializes all the UI elements in thw form window,
+        /// Instantiates and initializes all the UI elements in the form window,
         /// and applies all the default values to those elements.
         /// </summary>
         ///***********************************************************************
@@ -953,6 +952,7 @@ namespace ChampollionGUI_Update
 
         #region Form methods
         #region Checkboxes
+
         private void CheckBoxUseDifferentDirectoryForSource_CheckedChanged(Object? Sender, EventArgs EA)
         {
             ButtonSourceDestinationBrowse.Enabled = CheckBoxUseDifferentDirectoryForSource.Checked;
@@ -1215,6 +1215,18 @@ namespace ChampollionGUI_Update
         #endregion //Tooltsrip buttons
         #endregion //Form methods
         #region Custom methods
+
+        ///***********************************************************************
+        /// <summary>
+        /// Opens an explorer dialog window where the user can select the desired
+        /// folder. The default folder that the dialog window shows when it is
+        /// opened is the ChampollionGUI_Update folder.
+        /// </summary>
+        /// <returns>
+        /// A string representation of the selected folder. If the Cancel button
+        /// in the dialog window, an empty string is returned.
+        /// </returns>
+        ///***********************************************************************
         private String SelectFolder()
         {
             String Path = Directory.GetCurrentDirectory();
@@ -1232,6 +1244,7 @@ namespace ChampollionGUI_Update
             return Path;
         }
 
+        //Delete
         public void Fishy(String Error)
         {
             String Fishy = "Unknown Error. Please report the following error message\r\n" +
