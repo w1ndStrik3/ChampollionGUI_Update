@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using static System.Windows.Forms.LinkLabel;
 
 #pragma warning disable CS8600
@@ -110,93 +111,77 @@ namespace ChampollionGUI_Update
         }
 
         #region Pre decompilation methods
-        public char PreDecompilationChecks()
+        public void PreDecompilationChecks()
         {
-            char result = 'E';
-
-            bool pexDirOK = (!String.IsNullOrWhiteSpace(TextBoxScriptsPEXPath.Text) && Directory.Exists(TextBoxScriptsPEXPath.Text));
-
-            bool threaded = CheckBoxThreaded.Checked;
-            bool ignoreCorrupt = CheckBoxIgnoreCorruptFiles.Checked;
+            bool pexDirOK = CheckDirectory(TextBoxScriptsPEXPath.Text);
 
             generateAssembly = CheckBoxGenerateAssembly.Checked;
             generateComments = CheckBoxGenerateComments.Checked;
-
-            if(!pexDirOK)
+            try
             {
-                if(String.IsNullOrWhiteSpace(TextBoxScriptsPEXPath.Text))
+                if(!pexDirOK)
                 {
-                    _ = new MessageBox("Run Error", $"Unable to run - Scripts Path empty\r\n-{TextBoxScriptsPEXPath.Text}-", false).ShowDialog();
-
-                    throw new PreDecompilationException($"Pex Path is Null or Whitespace:");
-                }
-                else if(!Directory.Exists(TextBoxScriptsPEXPath.Text))
-                {
-                    _ = new MessageBox("Run Error", "Unable to run - Source directory does not exist.", false).ShowDialog();
+                    CheckPexDirExists();
                 }
 
-                else
+                if(Directory.GetFiles(TextBoxScriptsPEXPath.Text, "*.pex").Length == 0)
                 {
-                    //Something real fishy should happen for this to trigger. No idea how it would.
-                    Fishy("pexDirOK Failed Check");
+                    CheckPexDirEmpty();
                 }
 
-                throw new PreDecompilationException("");
+                CheckSourceAndAssembly();
+            }
+            catch(PreDecompilationException PDE)
+            {
+
+                throw;
+            }
+        }
+
+        public void CheckPexDirExists()
+        {
+            if(String.IsNullOrWhiteSpace(TextBoxScriptsPEXPath.Text))
+            {
+                _ = new MessageBox("Run Error", $"Unable to run - Scripts Path empty\r\n-{TextBoxScriptsPEXPath.Text}-", false).ShowDialog();
+
+                throw new PreDecompilationException($"Pex Path is Null or Whitespace: \"{TextBoxScriptsPEXPath.Text}\"");
+            }
+            else if(!Directory.Exists(TextBoxScriptsPEXPath.Text))
+            {
+                _ = new MessageBox("Run Error", "Unable to run - Source directory does not exist.", false).ShowDialog();
+                throw new PreDecompilationException($"Directory does not exist: \"{TextBoxScriptsPEXPath.Text}\"");
+            }
+            else
+            {
+                //Something real fishy should happen for this to trigger. No idea how it would.
+                Fishy("pexDirOK Failed Check");
             }
 
-            if(Directory.GetFiles(TextBoxScriptsPEXPath.Text, "*.pex").Length == 0)
-            {
-                if(Directory.GetFiles(TextBoxScriptsPEXPath.Text).Length == 0)
-                {
-                    _ = new MessageBox("Run Error", "Unable to run - Chosen scripts directory is empty.", false).ShowDialog();
-                }
-                else
-                {
-                    _ = new MessageBox("Run Error", "Unable to run - Chosen scripts directory does not contain any .pex files.", false).ShowDialog();
-                }
+            throw new PreDecompilationException("");
+        }
 
-                throw new PreDecompilationException("");
+        public void CheckPexDirEmpty()
+        {
+            if(Directory.GetFiles(TextBoxScriptsPEXPath.Text).Length == 0)
+            {
+                _ = new MessageBox("Run Error", "Unable to run - Chosen scripts directory is empty.", false).ShowDialog();
+                throw new PreDecompilationException("Pex directory empty: \"{TextBoxScriptsPEXPath.Text}\"");
+            }
+            else
+            {
+                _ = new MessageBox("Run Error", "Unable to run - Chosen scripts directory does not contain any .pex files.", false).ShowDialog();
+                throw new PreDecompilationException("Pex directory contains no .pex files: \"{TextBoxScriptsPEXPath.Text}\"");
             }
 
-            if(CheckBoxUseDifferentDirectoryForSource.Checked)
-            {
-                if(CheckDirectory(TextBoxSourcePath.Text))
-                {
-                    outputSource = true;
-                    useDefaultSourceDirectory = false;
-                }
-                else
-                {
-                    if(!SendWarning("source"))
-                    {
-                        throw new PreDecompilationException("");
-                    }
+            throw new PreDecompilationException("");
+        }
 
-                    useDefaultSourceDirectory = true;
-                }
-            }
+        public char SetMode()
+        {
+            bool threaded = CheckBoxThreaded.Checked;
+            bool ignoreCorrupt = CheckBoxIgnoreCorruptFiles.Checked;
 
-            if(generateAssembly)
-            {
-                if(CheckBoxOutputAssemblyDiffLocation.Checked)
-                {
-                    if(CheckDirectory(TextBoxAssemblyPath.Text))
-                    {
-                        outputAssembly = true;
-                        useDefaultAssemblyDirectory = false;
-                    }
-                    else
-                    {
-                        if(!SendWarning("assembly"))
-                        {
-                            throw new PreDecompilationException("");
-                        }
-
-                        useDefaultAssemblyDirectory = true;
-                    }
-                }
-            }
-
+            char result = 'E';
             if(threaded && !ignoreCorrupt) //Threaded decompilation
             {
                 result = 'T';
@@ -239,6 +224,48 @@ namespace ChampollionGUI_Update
             }
 
             return result;
+        }
+
+        public void CheckSourceAndAssembly()
+        {
+            if(CheckBoxUseDifferentDirectoryForSource.Checked)
+            {
+                if(CheckDirectory(TextBoxSourcePath.Text))
+                {
+                    outputSource = true;
+                    useDefaultSourceDirectory = false;
+                }
+                else
+                {
+                    if(!SendWarning("source"))
+                    {
+                        throw new PreDecompilationException("");
+                    }
+
+                    useDefaultSourceDirectory = true;
+                }
+            }
+
+            if(generateAssembly)
+            {
+                if(CheckBoxOutputAssemblyDiffLocation.Checked)
+                {
+                    if(CheckDirectory(TextBoxAssemblyPath.Text))
+                    {
+                        outputAssembly = true;
+                        useDefaultAssemblyDirectory = false;
+                    }
+                    else
+                    {
+                        if(!SendWarning("assembly"))
+                        {
+                            throw new PreDecompilationException("");
+                        }
+
+                        useDefaultAssemblyDirectory = true;
+                    }
+                }
+            }
         }
 
         private bool SendWarning(String Type)

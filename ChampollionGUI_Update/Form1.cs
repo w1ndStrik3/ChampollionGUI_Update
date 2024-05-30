@@ -1050,7 +1050,8 @@ namespace ChampollionGUI_Update
             char option;
             try
             {
-                option = Decompiler.PreDecompilationChecks();
+                Decompiler.PreDecompilationChecks();
+                option = Decompiler.SetMode();
             }
             catch(PreDecompilationException PDE)
             {
