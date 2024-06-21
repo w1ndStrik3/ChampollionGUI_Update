@@ -84,4 +84,28 @@ namespace ChampollionGUI_Update
             : base(ErrorMessage)
         { }
     }
+
+    ///***********************************************************************
+    /// <summary>
+    /// The class represents an exception that is thrown to indicate that the
+    /// program ran into an error, but the nature of the error does not fit
+    /// any of the previously described categories, i.e. the error is not
+    /// related to missing dependencies, an error thrown during the pre
+    /// decompilation checks or during the decompilation process.
+    /// </summary>
+    ///***********************************************************************
+    public class DefaultCGUIException : ChampollionGUIException
+    {
+        ///***********************************************************************
+        /// A new exception is constructed with the error message ErrorMessage.
+        /// </summary>
+        /// <param name="ErrorMessage">
+        /// The error message of the exception.
+        /// </param>
+        ///***********************************************************************
+        public DefaultCGUIException(String ErrorMessage)
+            : base(ErrorMessage)
+        {
+        }
+    }
 }

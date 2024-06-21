@@ -15,17 +15,14 @@ namespace ChampollionGUI_Update
         #region Form elements
         #region IContainers
         public IContainer Components;
-        #endregion
 
-        #region Buttons
-        public Button ButtonHelp;
-        public Button ButtonAbout;
+#endregion
+#region Buttons
         public Button ButtonRun;
         public Button ButtonScriptsPathBrowse;
         public Button ButtonSourceDestinationBrowse;
         public Button ButtonAssemblyPathBrowse;
         public Button ButtonExit;
-        public Button ButtonOpenReadme;
         #endregion
 
         #region CheckBoxes
@@ -185,6 +182,8 @@ namespace ChampollionGUI_Update
         public FolderBrowserDialog FolderDialog;
         private StartupProcedures StartupProceduresInstance;
         private Decompilation Decompiler;
+        private BackgroundWorker backgroundWorker1;
+        private PictureBox BitmapIconField;
 
         ///***********************************************************************
         /// <summary>
@@ -254,8 +253,6 @@ namespace ChampollionGUI_Update
         private void InitializeComponent()
         {
             ComponentResourceManager resources = new ComponentResourceManager(typeof(Form1));
-            ButtonHelp = new Button();
-            ButtonAbout = new Button();
             GroupBoxParameters = new GroupBox();
             LinkLabelEndorse = new LinkLabel();
             LabelScriptsFolder = new Label();
@@ -285,39 +282,19 @@ namespace ChampollionGUI_Update
             LabelVersion = new Label();
             GroupBoxAdditionalSettings = new GroupBox();
             LabelReadTheReadMe = new Label();
-            ButtonOpenReadme = new Button();
             ToolStripMenuItemSettings = new ToolStripMenuItem();
             ToolStripMenuItemAbout = new ToolStripMenuItem();
             ToolStripMenuItemHelp = new ToolStripMenuItem();
             MenuStrip = new MenuStrip();
             ToolStripMenuItemReadme = new ToolStripMenuItem();
+            backgroundWorker1 = new BackgroundWorker();
+            BitmapIconField = new PictureBox();
             GroupBoxParameters.SuspendLayout();
             GroupBoxProgress.SuspendLayout();
             GroupBoxAdditionalSettings.SuspendLayout();
             MenuStrip.SuspendLayout();
+            ((ISupportInitialize)BitmapIconField).BeginInit();
             SuspendLayout();
-            // 
-            // ButtonHelp
-            // 
-            ButtonHelp.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            ButtonHelp.Location = new Point(667, 36);
-            ButtonHelp.Margin = new Padding(4, 3, 4, 3);
-            ButtonHelp.Name = "ButtonHelp";
-            ButtonHelp.Size = new Size(88, 27);
-            ButtonHelp.TabIndex = 2;
-            ButtonHelp.Text = "Help...";
-            ButtonHelp.UseVisualStyleBackColor = true;
-            // 
-            // ButtonAbout
-            // 
-            ButtonAbout.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            ButtonAbout.Location = new Point(571, 36);
-            ButtonAbout.Margin = new Padding(4, 3, 4, 3);
-            ButtonAbout.Name = "ButtonAbout";
-            ButtonAbout.Size = new Size(88, 27);
-            ButtonAbout.TabIndex = 3;
-            ButtonAbout.Text = "About...";
-            ButtonAbout.UseVisualStyleBackColor = true;
             // 
             // GroupBoxParameters
             // 
@@ -349,12 +326,12 @@ namespace ChampollionGUI_Update
             // 
             LinkLabelEndorse.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             LinkLabelEndorse.AutoSize = true;
-            LinkLabelEndorse.Location = new Point(611, 146);
+            LinkLabelEndorse.Location = new Point(541, 146);
             LinkLabelEndorse.Name = "LinkLabelEndorse";
-            LinkLabelEndorse.Size = new Size(118, 20);
+            LinkLabelEndorse.Size = new Size(188, 20);
             LinkLabelEndorse.TabIndex = 28;
             LinkLabelEndorse.TabStop = true;
-            LinkLabelEndorse.Text = "Please Endorse!";
+            LinkLabelEndorse.Text = "Please Endorse on Nexus!";
             LinkLabelEndorse.LinkClicked += LinkLabelEndorse_LinkClicked;
             // 
             // LabelScriptsFolder
@@ -553,7 +530,7 @@ namespace ChampollionGUI_Update
             GroupBoxProgress.Margin = new Padding(4, 3, 4, 3);
             GroupBoxProgress.Name = "GroupBoxProgress";
             GroupBoxProgress.Padding = new Padding(4, 3, 4, 3);
-            GroupBoxProgress.Size = new Size(838, 96);
+            GroupBoxProgress.Size = new Size(839, 96);
             GroupBoxProgress.TabIndex = 5;
             GroupBoxProgress.TabStop = false;
             GroupBoxProgress.Text = "Progress";
@@ -670,23 +647,9 @@ namespace ChampollionGUI_Update
             LabelReadTheReadMe.Margin = new Padding(4, 0, 4, 0);
             LabelReadTheReadMe.MaximumSize = new Size(350, 0);
             LabelReadTheReadMe.Name = "LabelReadTheReadMe";
-            LabelReadTheReadMe.Size = new Size(344, 30);
+            LabelReadTheReadMe.Size = new Size(328, 30);
             LabelReadTheReadMe.TabIndex = 31;
-            LabelReadTheReadMe.Text =
-                "Please read the README before using the \"Threaded mode\" " +
-                "option (RECOMMENDED for batches of 500+ files)";
-            // 
-            // ButtonOpenReadme
-            // 
-            ButtonOpenReadme.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            ButtonOpenReadme.Location = new Point(763, 36);
-            ButtonOpenReadme.Margin = new Padding(4, 3, 4, 3);
-            ButtonOpenReadme.Name = "ButtonOpenReadme";
-            ButtonOpenReadme.Size = new Size(88, 27);
-            ButtonOpenReadme.TabIndex = 13;
-            ButtonOpenReadme.Text = "README";
-            ButtonOpenReadme.UseVisualStyleBackColor = true;
-            ButtonOpenReadme.Click += ButtonOpenReadme_Click;
+            LabelReadTheReadMe.Text = "Please read the README before using the \"Ignore Corrup Files\" or \"Threaded\" modes";
             // 
             // ToolStripMenuItemSettings
             // 
@@ -714,16 +677,7 @@ namespace ChampollionGUI_Update
             // MenuStrip
             // 
             MenuStrip.BackColor = Color.White;
-            MenuStrip.Items.AddRange
-            (
-                new ToolStripItem[]
-                {
-                    ToolStripMenuItemSettings,
-                    ToolStripMenuItemAbout,
-                    ToolStripMenuItemHelp,
-                    ToolStripMenuItemReadme
-                }
-            );
+            MenuStrip.Items.AddRange(new ToolStripItem[] { ToolStripMenuItemSettings, ToolStripMenuItemAbout, ToolStripMenuItemHelp, ToolStripMenuItemReadme });
             MenuStrip.Location = new Point(0, 0);
             MenuStrip.Name = "MenuStrip";
             MenuStrip.Size = new Size(864, 24);
@@ -736,13 +690,24 @@ namespace ChampollionGUI_Update
             ToolStripMenuItemReadme.Text = "README";
             ToolStripMenuItemReadme.Click += ToolStripMenuItemReadme_Click;
             // 
+            // BitmapIconField
+            // 
+            BitmapIconField.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            BitmapIconField.Image = Properties.ImageResources.CGUI_V2_Logo;
+            BitmapIconField.Location = new Point(797, 27);
+            BitmapIconField.Name = "BitmapIconField";
+            BitmapIconField.Size = new Size(54, 54);
+            BitmapIconField.SizeMode = PictureBoxSizeMode.Zoom;
+            BitmapIconField.TabIndex = 13;
+            BitmapIconField.TabStop = false;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
             ClientSize = new Size(864, 509);
-            Controls.Add(ButtonOpenReadme);
+            Controls.Add(BitmapIconField);
             Controls.Add(GroupBoxAdditionalSettings);
             Controls.Add(LabelVersion);
             Controls.Add(ButtonRun);
@@ -752,8 +717,6 @@ namespace ChampollionGUI_Update
             Controls.Add(LinkLabelAuthorOriginal);
             Controls.Add(LabelAuthor);
             Controls.Add(GroupBoxParameters);
-            Controls.Add(ButtonAbout);
-            Controls.Add(ButtonHelp);
             Controls.Add(GroupBoxProgress);
             Controls.Add(MenuStrip);
             FormBorderStyle = FormBorderStyle.FixedDialog;
@@ -769,6 +732,7 @@ namespace ChampollionGUI_Update
             GroupBoxAdditionalSettings.PerformLayout();
             MenuStrip.ResumeLayout(false);
             MenuStrip.PerformLayout();
+            ((ISupportInitialize)BitmapIconField).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -820,8 +784,8 @@ namespace ChampollionGUI_Update
                 new EventHandler(this.ButtonRun_Click);
             ButtonExit.Click +=
                 new EventHandler(this.ButtonExit_Click);
-            ButtonOpenReadme.Click +=
-                new EventHandler(this.ButtonOpenReadme_Click);
+            //ButtonOpenReadme.Click +=
+            //    new EventHandler(this.ButtonOpenReadme_Click);
             //ButtonAbout.Click += new EventHandler(this.ButtonAbout_Click);
             //ButtonHelp.Click += new EventHandler(this.ButtonHelp_Click);
             #endregion //Buttons
@@ -908,8 +872,8 @@ namespace ChampollionGUI_Update
                 new EventHandler(this.ButtonRun_Click);
             ButtonExit.Click -=
                 new EventHandler(this.ButtonExit_Click);
-            ButtonOpenReadme.Click -=
-                new EventHandler(this.ButtonOpenReadme_Click);
+            //ButtonOpenReadme.Click -=
+            //    new EventHandler(this.ButtonOpenReadme_Click);
             //ButtonAbout.Click -= new EventHandler(this.ButtonAbout_Click);
             //ButtonHelp.Click -= new EventHandler(this.ButtonHelp_Click);
             #endregion //Buttons
@@ -1150,13 +1114,7 @@ namespace ChampollionGUI_Update
         //}
 
         private void ButtonOpenReadme_Click(Object? sender, EventArgs e)
-        {
-
-
-
-
-
-        }
+        { }
         #endregion //Buttons
         #region Link labels
         private void LinkLabelAuthorOriginal_LinkClicked(Object? Sender, LinkLabelLinkClickedEventArgs LLLCEA)
@@ -1188,9 +1146,7 @@ namespace ChampollionGUI_Update
         #endregion //Link labels
         #region Tooltsrip buttons
         private void ToolStripMenuItemSettings_Click(Object? sender, EventArgs EA)
-        {
-
-        }
+        { }
 
         private void ToolStripMenuItemAbout_Click(Object? sender, EventArgs EA)
         {

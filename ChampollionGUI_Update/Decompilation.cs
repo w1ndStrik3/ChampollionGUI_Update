@@ -297,20 +297,30 @@ namespace ChampollionGUI_Update
         #region The meat and potatoes
         public void Decompile(char option)
         {
-            switch(option)
+            try
             {
-                case 'T':
-                    ThreadedDecompilation();
-                    break;
-                case 'I':
-                    IgnoreCorruptFilesDecompilation();
-                    break;
-                case 'R':
-                    RegularDecompilation();
-                    break;
-                default:
-                    Fishy("Switch Option is default");
-                    break;
+                switch(option)
+                {
+                    case 'T':
+                        ThreadedDecompilation();
+                        break;
+                    case 'I':
+                        IgnoreCorruptFilesDecompilation();
+                        break;
+                    case 'R':
+                        RegularDecompilation();
+                        break;
+                    default:
+                        throw new PreDecompilationException("Switch Option is default");
+                }
+            }
+            catch(PreDecompilationException PDE)
+            {
+                Fishy(PDE.Message);
+            }
+            catch(IntraDecompilationException IDE)
+            {
+                ProcessAbortedMessage(IDE.Message);
             }
         }
 
@@ -367,7 +377,7 @@ namespace ChampollionGUI_Update
                             throw new IntraDecompilationException($"Champollion encountered an error while decompiling {PexFiles[index1]}");
                         }
 
-                        if(LastLine.Contains("ERROR: "))
+                        if(LastLine.Contains("files failed to decompile"))
                         {
                             throw new IntraDecompilationException($"There was a problem with the file {PexFiles[index1]}. It is likely corrupt. ");
                         }
@@ -410,50 +420,51 @@ namespace ChampollionGUI_Update
             };
             Task DecompilationTask = new(() =>
             {
-                try
+                String Command = CommandBuilder(PexFileDirectory, SourcePath, AssemblyPath, false);
+
+                DecompilationProcess = new Process();
+                DecompilationProcess.StartInfo = DefaultStartInfo;
+                DecompilationProcess.StartInfo.Arguments = Command;
+
+                DecompilationProcess.OutputDataReceived += (Sender, E) =>
                 {
-                    String Command = CommandBuilder(PexFileDirectory, SourcePath, AssemblyPath, false);
-
-                    DecompilationProcess = new Process();
-                    DecompilationProcess.StartInfo = DefaultStartInfo;
-                    DecompilationProcess.StartInfo.Arguments = Command;
-
-                    DecompilationProcess.OutputDataReceived += (Sender, E) =>
+                    if(!String.IsNullOrWhiteSpace(E.Data))
                     {
-                        if(!String.IsNullOrWhiteSpace(E.Data))
+                        outputTimeoutTimer.Change(timeoutMilliseconds, Timeout.Infinite);
+                        LastLine = E.Data;
+                        if(LastLine.Contains("ERROR: "))
                         {
-                            outputTimeoutTimer.Change(timeoutMilliseconds, Timeout.Infinite);
-                            LastLine = E.Data;
-                            if(LastLine.Contains("ERROR: "))
-                            {
-                                errors++;
-                                ErrorsList.Add(LastLine);
-                            }
-
-                            if(!LastLine.Contains("dissassembled to "))
-                            {
-                                Form1Instance.Invoke((Delegate)UpdateProgress);
-                            }
+                            errors++;
+                            ErrorsList.Add(LastLine);
                         }
-                    };
 
-                    DecompilationProcess.Start();
-
-                    outputTimeoutTimer = new System.Threading.Timer(KillProcessOnTimeout, null, Timeout.Infinite, Timeout.Infinite);
-                    outputTimeoutTimer.Change(timeoutMilliseconds, Timeout.Infinite);
-
-                    DecompilationProcess.BeginOutputReadLine();
-
-                    DecompilationProcess.WaitForExit();
-
-                    if(DecompilationProcess.HasExited && !LastLine.Contains("files processed in"))
-                    {
-                        throw new IntraDecompilationException($"Champollion encountered an error.");
+                        if(!LastLine.Contains("dissassembled to "))
+                        {
+                            Form1Instance.Invoke((Delegate)UpdateProgress);
+                        }
                     }
-                }
-                catch(IntraDecompilationException IDE)
+                };
+
+                DecompilationProcess.Start();
+
+                outputTimeoutTimer = new System.Threading.Timer(KillProcessOnTimeout, null, Timeout.Infinite, Timeout.Infinite);
+                outputTimeoutTimer.Change(timeoutMilliseconds, Timeout.Infinite);
+
+                DecompilationProcess.BeginOutputReadLine();
+
+                DecompilationProcess.WaitForExit();
+
+
+                if(DecompilationProcess.HasExited && !LastLine.Contains("files processed in"))
                 {
-                    ProcessAbortedMessage(IDE.Message);
+                    String ErrorMessage = "Champollion encountered an error.";
+                    if(LastLine.Contains("files failed to decompile"))
+                    {
+                        ErrorMessage += " The issue is like related to the " +
+                        "usage of a wrong Champollion version. Please check" +
+                        "the readme regarding \"Ignore Corrupt Files\".";
+                    }
+                    throw new IntraDecompilationException(ErrorMessage);
                 }
             });
             DecompilationTask.Start();
@@ -477,7 +488,6 @@ namespace ChampollionGUI_Update
                 DecompilationProcess = new Process();
                 DecompilationProcess.StartInfo = DefaultStartInfo;
                 DecompilationProcess.StartInfo.Arguments = Command;
-
                 DecompilationProcess.Start();
 
                 using(StreamReader StmRdr = DecompilationProcess.StandardOutput)

@@ -63,6 +63,16 @@ namespace ChampollionGUI_Update.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap CGUI_V2_Logo {
+            get {
+                object obj = ResourceManager.GetObject("CGUI_V2_Logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap champ_error {
             get {
                 object obj = ResourceManager.GetObject("champ_error", resourceCulture);
